@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMan, IconMap, IconMoodHappy, IconTypography, IconUserPlus
 } from '@tabler/icons-react';
 
 import { uniqueId } from 'lodash';
@@ -34,7 +34,7 @@ const Menuitems = [
   // },
   {
     navlabel: true,
-    subheader: 'Extra',
+    subheader: 'Actions',
   },
   // {
   //   id: uniqueId(),
@@ -44,10 +44,22 @@ const Menuitems = [
   // },
   {
     id: uniqueId(),
-    title: 'Sample Page',
+    title: 'Add Load',
     icon: IconAperture,
-    href: '/sample-page',
+    href: '/createload',
   },
+  {
+    id: uniqueId(),
+    title: 'Add Delivery',
+    icon: IconMap,
+    href: '/adddelivery',
+  },
+  {
+    id: uniqueId(),
+    title: 'Add Partner',
+    icon: IconMan,
+    href: '/addpartner',
+  }
 ];
 
 export default Menuitems;
