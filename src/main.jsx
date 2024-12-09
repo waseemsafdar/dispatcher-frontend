@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Suspense>
-    <BrowserRouter basename="/dispatcher-frontend">
+    <BrowserRouter >
       <App />
     </BrowserRouter>
   </Suspense>,
