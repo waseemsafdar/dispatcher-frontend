@@ -2,7 +2,7 @@
   "name": "modernize-free-react-app-vite",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://waseemsafdar.github.io/dispatcher-frontend",
+  "homepage": "https://waseemsafdar.github.io/",
   "type": "module",
   "scripts": {
     "dev": "vite",
