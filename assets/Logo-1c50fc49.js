@@ -1,0 +1,1 @@
+import{s as t,aG as o,j as s}from"./index-c7d9c33d.js";const e="/dispatcher-frontend/assets/logo-df1ba9f5.png",d=t(o)(()=>({background:"#222629",width:"100%",padding:"10px",overflow:"hidden",display:"block"})),a=({height:i})=>s.jsx(d,{to:"#",width:100,style:{display:"flex",alignItems:"center"},children:s.jsx("img",{style:{width:"100%"},src:e,alt:"Logo"})});export{a as L};
