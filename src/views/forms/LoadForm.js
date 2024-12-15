@@ -5,7 +5,7 @@ import { Grid, Box, Button, MenuItem, FormControl, InputLabel, Select, Typograph
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import DeliveryFormRow from './DeliveryForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPartner } from '../../store/partnerSlice';
+import { fetchPartner, fetchTrailer } from '../../store/partnerSlice';
 import { resetStatus, saveLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
 
@@ -13,7 +13,7 @@ const validationSchema = Yup.object({
   customer_load: Yup.string().required('Required'),
   partner_id: Yup.string().required('Required'),
   expected_dispatcher: Yup.string().required('Required'),
-  trailerType: Yup.string().required('Required'),
+  trailerType: Yup.array().min(1, 'At least one trailer type is required').required('Required'), // Validate as an array
   freight_amount: Yup.number().required('Required').positive('Must be positive'),
   cpm: Yup.number().required('Required').positive('Must be positive'),
   expected_vehicle: Yup.string().required('Required'),
@@ -21,14 +21,16 @@ const validationSchema = Yup.object({
 
 const LoadForm = () => {
   const dispatch = useDispatch();
-  const { partnerData, status, error } = useSelector((state) => state.partners);
+  const {tarilerData, partnerData, status, error } = useSelector((state) => state.partners);
 
   useEffect(() => { 
     if (status === 'idle') { 
       dispatch(fetchPartner()); 
-    } 
-  }, [status, dispatch]);
+      dispatch(fetchTrailer()); 
 
+    } 
+  }, []);
+console.log(tarilerData,'tarilerData')
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
   const deleteDeliveryRow = (id) => setDeliveryForms(deliveryForms.filter(form => form.id !== id));
@@ -42,7 +44,7 @@ const LoadForm = () => {
       customer_load: '',
       partner_id: '',
       expected_dispatcher: '',
-      trailerType: '',
+      trailerType: [],
       freight_amount: '',
       cpm: '',
       expected_vehicle: '',
@@ -114,23 +116,25 @@ const LoadForm = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel id="trailerType-label">Trailer Type</InputLabel>
-            <Select
-              labelId="trailerType-label"
-              id="trailerType"
-              name="trailerType"
-              value={formik.values.trailerType}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.trailerType && Boolean(formik.errors.trailerType)}
-              label="Trailer Type"
-            >
-              <MenuItem value="Reefer">Reefer</MenuItem>
-              <MenuItem value="Dry Van">Dry Van</MenuItem>
-              <MenuItem value="Flatbed">Flatbed</MenuItem>
-            </Select>
-          </FormControl>
+        <FormControl fullWidth variant="outlined">
+  <InputLabel id="trailerType-label">Trailer Type</InputLabel>
+  <Select
+    labelId="trailerType-label"
+    id="trailerType"
+    name="trailerType"
+    value={formik.values.trailerType}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={formik.touched.trailerType && Boolean(formik.errors.trailerType)}
+    label="Trailer Type"
+    multiple  // Enable multi-select
+  >
+    {tarilerData?.map((trailer) => (
+      <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField

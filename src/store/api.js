@@ -19,6 +19,10 @@ export const getPartner = async () => {
   const response = await apiClient.get('/partners');
   return response.data;
 };
+export const getTrailer = async () => {
+  const response = await apiClient.get('/trailer');
+  return response.data;
+};
 
 
 
