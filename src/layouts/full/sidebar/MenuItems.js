@@ -50,9 +50,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Add Delivery',
+    title: 'Add Location',
     icon: IconMap,
-    href: '/adddelivery',
+    href: '/addlocation',
   },
   {
     id: uniqueId(),

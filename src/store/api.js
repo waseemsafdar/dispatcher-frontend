@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://example.com/api';
+const API_BASE_URL = 'http://127.0.0.1:5000/';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -14,6 +14,13 @@ export const login = async (credentials) => {
  // return response.data;
 return true;
 };
+
+export const getPartner = async () => {
+  const response = await apiClient.get('/partners');
+  return response.data;
+};
+
+
 
 // Add other API methods here
 export default apiClient;

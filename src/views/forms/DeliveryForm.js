@@ -1,134 +1,144 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Grid, Box, Button, MenuItem, FormControl, InputLabel, Select, Typography } from '@mui/material';
+import { TableCell, TableRow, MenuItem, FormControl, InputLabel, Select, Button } from '@mui/material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLocations } from '../../store/locationsSlice';
 
 const validationSchema = Yup.object({
   type: Yup.string().required('Required'),
-  deliveryDate: Yup.date().required('Required'),
-  deliveryStartTime: Yup.string().required('Required'),
-  deliveryEndTime: Yup.string().required('Required'),
-  location: Yup.string().required('Required'),
+  delivery_date: Yup.date().required('Required'),
+  delivery_start_time: Yup.string().required('Required'),
+  delivery_end_time: Yup.string().required('Required'),
+  location_id: Yup.string().required('Required'),
 });
+const formData = {
+      type: '',
+      delivery_date : '',
+      delivery_start_time: '',
+      delivery_end_time: '',
+      location_id: '',
+}
+const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
+  const { locationData, status, error } = useSelector((state) => state.locations);
+  const dispatch = useDispatch();
 
-const DeliveryForm = () => {
+  useEffect(() => { 
+     if (status === 'idle') { 
+      dispatch(getLocations()); 
+    } }, [status]);
+
   const formik = useFormik({
     initialValues: {
       type: '',
-      deliveryDate: '',
-      deliveryStartTime: '',
-      deliveryEndTime: '',
-      location: '',
+      delivery_date : '',
+      delivery_start_time: '',
+      delivery_end_time: '',
+      location_id: '',
     },
-    validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      // Handle form submission
-    },
+    validationSchema
   });
 
+  useEffect(() => {
+    if (onChange) {
+      onChange(formik.values);
+    }
+  }, [formik.values]);
+
   return (
-    <Box component="form" onSubmit={formik.handleSubmit} noValidate>
-      <Typography marginBottom={3} variant="h2" gutterBottom>
-        Add Delivery Information 
-      </Typography>
-      <Grid container spacing={3}>
-      
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel id="type-label">Type Selection</InputLabel>
-            <Select
-              labelId="type-label"
-              id="type"
-              name="type"
-              value={formik.values.type}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.type && Boolean(formik.errors.type)}
-              label="Type Selection"
-            >
-              <MenuItem value="Type1">Type 1</MenuItem>
-              <MenuItem value="Type2">Type 2</MenuItem>
-              <MenuItem value="Type3">Type 3</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <CustomTextField
-            id="deliveryDate"
-            name="deliveryDate"
-            label="Delivery Date"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={formik.values.deliveryDate}
+    <TableRow>
+    
+      <TableCell>
+        <FormControl fullWidth variant="outlined">
+          <InputLabel id="type-label">Type</InputLabel>
+          <Select
+            labelId="type-label"
+            id="type"
+            name="type"
+            value={formik.values.type}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.deliveryDate && Boolean(formik.errors.deliveryDate)}
-            helperText={formik.touched.deliveryDate && formik.errors.deliveryDate}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <CustomTextField
-            id="deliveryStartTime"
-            name="deliveryStartTime"
-            label="Delivery Start Time"
-            type="time"
-            InputLabelProps={{ shrink: true }}
-            value={formik.values.deliveryStartTime}
+            error={formik.touched.type && Boolean(formik.errors.type)}
+            label="Type"
+          >
+            <MenuItem value="Type1">Type 1</MenuItem>
+            <MenuItem value="Type2">Type 2</MenuItem>
+            <MenuItem value="Type3">Type 3</MenuItem>
+          </Select>
+        </FormControl>
+      </TableCell>
+      <TableCell>
+        <CustomTextField
+          id="delivery_date"
+          name="delivery_date"
+          label="Delivery Date"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          value={formik.values.delivery_date}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.delivery_date && Boolean(formik.errors.delivery_date)}
+          helperText={formik.touched.delivery_date && formik.errors.delivery_date}
+          fullWidth
+        />
+      </TableCell>
+      <TableCell>
+        <CustomTextField
+          id="delivery_start_time"
+          name="delivery_start_time"
+          label="Start Time"
+          type="time"
+          InputLabelProps={{ shrink: true }}
+          value={formik.values.delivery_start_time}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.delivery_start_time && Boolean(formik.errors.delivery_start_time)}
+          helperText={formik.touched.delivery_start_time && formik.errors.delivery_start_time}
+          fullWidth
+        />
+      </TableCell>
+      <TableCell>
+        <CustomTextField
+          id="delivery_end_time"
+          name="delivery_end_time"
+          label="End Time"
+          type="time"
+          InputLabelProps={{ shrink: true }}
+          value={formik.values.delivery_end_time}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.delivery_end_time && Boolean(formik.errors.delivery_end_time)}
+          helperText={formik.touched.delivery_end_time && formik.errors.delivery_end_time}
+          fullWidth
+        />
+      </TableCell>
+      <TableCell>
+        <FormControl fullWidth variant="outlined">
+          <InputLabel id="location_id-label">location_id</InputLabel>
+          <Select
+            labelId="location_id-label"
+            id="location_id"
+            name="location_id"
+            value={formik.values.location_id}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.deliveryStartTime && Boolean(formik.errors.deliveryStartTime)}
-            helperText={formik.touched.deliveryStartTime && formik.errors.deliveryStartTime}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <CustomTextField
-            id="deliveryEndTime"
-            name="deliveryEndTime"
-            label="Delivery End Time"
-            type="time"
-            InputLabelProps={{ shrink: true }}
-            value={formik.values.deliveryEndTime}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.deliveryEndTime && Boolean(formik.errors.deliveryEndTime)}
-            helperText={formik.touched.deliveryEndTime && formik.errors.deliveryEndTime}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel id="location-label">Location Selection</InputLabel>
-            <Select
-              labelId="location-label"
-              id="location"
-              name="location"
-              value={formik.values.location}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.location && Boolean(formik.errors.location)}
-              label="Location Selection"
-            >
-              <MenuItem value="Location1">Location 1</MenuItem>
-              <MenuItem value="Location2">Location 2</MenuItem>
-              <MenuItem value="Location3">Location 3</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        
-      </Grid>
-      <Grid container xs={12}>
-        <Grid marginTop={3} item xs={3}>
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Save
-          </Button>
-        </Grid>
-        </Grid>
-    </Box>
+            error={formik.touched.location_id && Boolean(formik.errors.location_id)}
+            label="location_id"
+          >
+          {locationData?.map((location) => (
+      <MenuItem key={location?.id} value={location?.id}>{location?.google_query}</MenuItem>
+    ))}
+          </Select>
+        </FormControl>
+      </TableCell>
+      <TableCell>
+        <Button variant="contained" color="secondary" onClick={onDelete}>
+          Delete
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };
 
-export default DeliveryForm;
+export default DeliveryFormRow;

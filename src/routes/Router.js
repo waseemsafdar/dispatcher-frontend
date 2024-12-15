@@ -4,6 +4,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import PrivateRoute from './privateRoute'; // Import your PrivateRoute component
 import DeliveryForm from '../views/forms/DeliveryForm';
 import PartnerForm from '../views/forms/PartnerForm';
+import LocationForm from '../views/forms/LocationForm';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -28,7 +29,7 @@ const Router = [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <PrivateRoute><Dashboard /></PrivateRoute> },
       { path: '/createload', exact: true, element: <PrivateRoute><LoadForm /></PrivateRoute> },
-      { path: '/adddelivery', exact: true, element: <PrivateRoute><DeliveryForm /></PrivateRoute> },
+      { path: '/addlocation', exact: true, element: <PrivateRoute><LocationForm /></PrivateRoute> },
       { path: '/addpartner', exact: true, element: <PrivateRoute><PartnerForm /></PrivateRoute> },
       { path: '/icons', exact: true, element: <PrivateRoute><Icons /></PrivateRoute> },
       { path: '/ui/typography', exact: true, element: <PrivateRoute><TypographyPage /></PrivateRoute> },
