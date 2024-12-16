@@ -29,7 +29,7 @@ const LoadForm = () => {
       dispatch(fetchTrailer()); 
 
     } 
-  }, []);
+  }, [status]);
 console.log(tarilerData,'tarilerData')
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
