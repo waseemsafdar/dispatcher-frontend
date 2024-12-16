@@ -15,11 +15,11 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      username: '',
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
+      username: Yup.string().email('Invalid username address').required('Required'),
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
@@ -49,20 +49,20 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       <form onSubmit={formik.handleSubmit}>
         <Stack>
           <Box>
-            <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email" mb="5px">
-              Email
+            <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="username" mb="5px">
+              User Name
             </Typography>
             <CustomTextField
-              id="email"
-              name="email"
-              type="email"
+              id="username"
+              name="username"
+              type="username"
               variant="outlined"
               fullWidth
-              value={formik.values.email}
+              value={formik.values.username}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
+              error={formik.touched.username && Boolean(formik.errors.username)}
+              helperText={formik.touched.username && formik.errors.username}
             />
           </Box>
           <Box mt="25px">

@@ -10,9 +10,8 @@ const apiClient = axios.create({
 });
 
 export const login = async (credentials) => {
-  //const response = await apiClient.post('/login', credentials);
- // return response.data;
-return true;
+  const response = await apiClient.post('/login', credentials);
+ return response.data;
 };
 
 export const getPartner = async () => {
