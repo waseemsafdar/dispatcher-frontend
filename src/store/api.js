@@ -22,6 +22,10 @@ export const getTrailer = async () => {
   const response = await apiClient.get('/trailer');
   return response.data;
 };
+export const addPartnerdata = async (partner) => {
+  const response = await apiClient.post('/partners', partner);
+  return response.data;
+};
 
 
 

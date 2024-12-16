@@ -1,6 +1,6 @@
 // src/features/partners/partnersSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPartner, getTrailer } from './api'; // Import the getPartner function
+import { addPartnerdata, getPartner, getTrailer } from './api'; // Import the getPartner function
 
 // Create async thunk
 export const fetchPartner = createAsyncThunk('partners/fetchPartner', async (credentials) => {
@@ -12,6 +12,10 @@ export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (cred
   return response;
 });
 
+export const addPartner = createAsyncThunk('partners/addPartner', async (data) => {
+  const response = await addPartnerdata(data);
+  return response;
+});
 // Create slice
 const partnersSlice = createSlice({
   name: 'partners',
@@ -38,6 +42,10 @@ const partnersSlice = createSlice({
       .addCase(fetchTrailer.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.tarilerData = action.payload;
+      })
+      .addCase(addPartner.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.partnerData = action.payload;
       });
   },
 });

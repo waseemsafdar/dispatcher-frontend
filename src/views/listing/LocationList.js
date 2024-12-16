@@ -75,9 +75,7 @@ const navigate = useNavigate();
                 <IconButton onClick={() => handleEdit(location.id)} aria-label="edit">
                   <IconEdit/>
                 </IconButton>
-                <IconButton onClick={() => handleDelete(location.id)} aria-label="delete">
-                  <IconEdit />
-                </IconButton>
+                
               </TableCell>
             </TableRow>
           ))}

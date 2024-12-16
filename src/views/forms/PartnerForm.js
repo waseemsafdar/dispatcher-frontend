@@ -3,31 +3,41 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Grid, Box, Button, Typography } from '@mui/material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { addPartner } from '../../store/partnerSlice';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   city: Yup.string().required('Required'),
   street: Yup.string().required('Required'),
-  zip: Yup.string().required('Required').matches(/^\d{5}$/, 'Must be exactly 5 digits'),
+  zip_code: Yup.string().required('Required').matches(/^\d{5}$/, 'Must be exactly 5 digits'),
   state: Yup.string().required('Required'),
-  mcNumber: Yup.string().required('Required'),
+  mic_number: Yup.string().required('Required'),
 });
 
 const PartnerForm = () => {
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       name: '',
       city: '',
       street: '',
-      zip: '',
+      zip_code: '',
       state: '',
-      mcNumber: '',
+      mic_number: '',
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
-      // Handle form submission
-    },
+      dispatch(addPartner(values))
+      .unwrap()
+      .then(() => { 
+          formik.resetForm();
+          toast.success('patner saved successfully!'); 
+      }).catch((err) => { 
+          toast.error('Failed to save partner'); 
+          }); 
+      },
   });
 
   return (
@@ -77,14 +87,14 @@ const PartnerForm = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField
-            id="zip"
-            name="zip"
+            id="zip_code"
+            name="zip_code"
             label="Zip"
-            value={formik.values.zip}
+            value={formik.values.zip_code}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.zip && Boolean(formik.errors.zip)}
-            helperText={formik.touched.zip && formik.errors.zip}
+            error={formik.touched.zip_code && Boolean(formik.errors.zip_code)}
+            helperText={formik.touched.zip_code && formik.errors.zip_code}
             fullWidth
           />
         </Grid>
@@ -103,14 +113,14 @@ const PartnerForm = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField
-            id="mcNumber"
-            name="mcNumber"
-            label="MC Number"
-            value={formik.values.mcNumber}
+            id="mic_number"
+            name="mic_number"
+            label="MIC Number"
+            value={formik.values.mic_number}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.mcNumber && Boolean(formik.errors.mcNumber)}
-            helperText={formik.touched.mcNumber && formik.errors.mcNumber}
+            error={formik.touched.mic_number && Boolean(formik.errors.mic_number)}
+            helperText={formik.touched.mic_number && formik.errors.mic_number}
             fullWidth
           />
         </Grid>
