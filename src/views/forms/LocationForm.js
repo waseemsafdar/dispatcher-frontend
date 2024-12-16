@@ -1,11 +1,12 @@
 // src/components/LocationForm.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Box, Button, Typography, TextField } from '@mui/material';
-import { saveLocation } from '../../store/locationsSlice';
+import { fetchLocationById, saveLocation } from '../../store/locationsSlice';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   google_query: Yup.string().required('Required'),
@@ -18,8 +19,18 @@ const validationSchema = Yup.object({
 });
 
 const LocationForm = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.locations);
+  const { location, status, error } = useSelector((state) => state.locations);
+  
+  useEffect(() => {
+    if (id) {
+      // Fetch location data if ID is provided (edit mode)
+      dispatch(fetchLocationById(id)).then(action => {
+        formik.setValues(action.payload);
+      });
+    }
+  }, [id, dispatch]);
 
   const formik = useFormik({
     initialValues: {

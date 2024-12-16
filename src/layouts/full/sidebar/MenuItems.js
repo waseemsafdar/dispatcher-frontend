@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMan, IconMap, IconMoodHappy, IconTypography, IconUserPlus
+  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMan, IconMap, IconMap2, IconMoodHappy, IconTypography, IconUserPlus
 } from '@tabler/icons-react';
 
 import { uniqueId } from 'lodash';
@@ -15,6 +15,12 @@ const Menuitems = [
     title: 'List View',
     icon: IconLayoutDashboard,
     href: '/dashboard',
+  },
+  {
+    id: uniqueId(),
+    title: 'Locations',
+    icon: IconMap2,
+    href: '/locations',
   },
   // {
   //   navlabel: true,

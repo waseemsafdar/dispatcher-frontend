@@ -12,10 +12,18 @@ export const getLocations = createAsyncThunk('locations/getAll', async () => {
   const response = await axios.get('http://127.0.0.1:5000/locations');
   return response.data;
 });
+
+export const fetchLocationById = createAsyncThunk('locations/fetchById', async (id) => { 
+  const response = await axios.get(`http://127.0.0.1:5000/locations/${id}`); 
+  return response.data; 
+});
+
+
 const locationsSlice = createSlice({
   name: 'locations',
   initialState: {
     locationData: null,
+    location : null,
     status: 'idle',
     error: null,
   },
@@ -43,6 +51,9 @@ const locationsSlice = createSlice({
       .addCase(getLocations.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      }).addCase(fetchLocationById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.location = action.payload;
       });
   },
 });
