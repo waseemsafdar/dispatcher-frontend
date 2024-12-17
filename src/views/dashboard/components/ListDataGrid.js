@@ -10,10 +10,9 @@ const columns = [
   { field: 'freight_amount', headerName: 'Freight Amount', width: 150 },
   { field: 'expected_dispatcher', headerName: 'Expected Dispatcher', width: 180 },
   { field: 'expected_vehicle', headerName: 'Expected Vehicle', width: 180 },
-  { field: 'id', headerName: 'ID', width: 100 },
-  { field: 'partner_id', headerName: 'Partner ID', width: 130 },
+  { field: 'partner_id', headerName: 'Partner', width: 130 },
   { field: 'trailer_type', headerName: 'Trailer Type', width: 150 },
-  { field: 'delivery_ids', headerName: 'Delivery IDs', width: 200 },
+
 ];
 
 const ListDataGrid = () => {
@@ -36,14 +35,14 @@ const ListDataGrid = () => {
     freight_amount: load.freight_amount,
     expected_dispatcher: load.expected_dispatcher,
     expected_vehicle: load.expected_vehicle,
-    partner_id: load.partner_id,
+    partner_id: load?.partner?.name,
     trailer_type: load.trailer_type.map(type => type.type).join(', '),  // Join trailer types if needed
-    delivery_ids: load.delivery_ids.map(delivery => `${delivery.id}`).join(', '),
+   
   }));
 
   return (
     <div style={{ height: 600, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={10} checkboxSelection />
+      <DataGrid  rows={rows} columns={columns} pageSize={10} />
     </div>
   );
 };

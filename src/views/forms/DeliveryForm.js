@@ -62,9 +62,8 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             error={formik.touched.type && Boolean(formik.errors.type)}
             label="Type"
           >
-            <MenuItem value="Type1">Type 1</MenuItem>
-            <MenuItem value="Type2">Type 2</MenuItem>
-            <MenuItem value="Type3">Type 3</MenuItem>
+            <MenuItem value="Delivery">Delivery</MenuItem>
+            <MenuItem value="Pickup">Pickup</MenuItem>
           </Select>
         </FormControl>
       </TableCell>

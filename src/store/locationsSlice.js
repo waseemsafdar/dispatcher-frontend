@@ -17,6 +17,25 @@ export const fetchLocationById = createAsyncThunk('locations/fetchById', async (
   const response = await axios.get(`http://127.0.0.1:5000/locations/${id}`); 
   return response.data; 
 });
+export const updateLocationById = createAsyncThunk(
+  'locations/updateLocationById', // Action name
+  async ({ id, data }) => {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:5000/locations/${id}`, // URL with ID
+        data, // JSON payload
+        {
+          headers: {
+            'Content-Type': 'application/json', // Ensure proper header
+          },
+        }
+      );
+      return response.data; // Return the API response data
+    } catch (error) {
+      throw error.response ? error.response.data : error.message;
+    }
+  }
+);
 
 
 const locationsSlice = createSlice({
@@ -52,6 +71,10 @@ const locationsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       }).addCase(fetchLocationById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.location = action.payload;
+      })
+      .addCase(updateLocationById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.location = action.payload;
       });

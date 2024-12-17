@@ -179,7 +179,7 @@ console.log(tarilerData,'tarilerData')
         </Grid>
         <Grid item xs={6}>
           <Button variant="contained" color="primary" onClick={addDeliveryRow}>
-            Add Delivery Row
+            Add Stops
           </Button>
         </Grid>
       </Grid>

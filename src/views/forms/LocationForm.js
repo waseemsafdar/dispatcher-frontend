@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Box, Button, Typography, TextField } from '@mui/material';
-import { fetchLocationById, saveLocation } from '../../store/locationsSlice';
+import { fetchLocationById, saveLocation, updateLocationById } from '../../store/locationsSlice';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 
@@ -44,12 +44,23 @@ const LocationForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-        dispatch(saveLocation(values)).unwrap().then(() => { 
+        if(id) {
+            dispatch(updateLocationById({ id, values }))
+            .unwrap().then(() => { 
+              formik.resetForm();
+              toast.success('Location udpated successfully!'); 
+          }).catch((err) => { 
+              toast.error('Failed to update location'); 
+              });
+        }
+        else {
+          dispatch(saveLocation(values)).unwrap().then(() => { 
             formik.resetForm();
             toast.success('Location saved successfully!'); 
         }).catch((err) => { 
             toast.error('Failed to save location'); 
             }); 
+        }
         }, 
     });
 
