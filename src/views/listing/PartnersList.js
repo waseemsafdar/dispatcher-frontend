@@ -1,24 +1,26 @@
-// src/components/LocationList.js
+// src/components/PartnerList.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLocations } from '../../store/locationsSlice';
+import { getpartners } from '../../store/partnerSlice'; // Replace with the actual path
 import { DataGrid } from '@mui/x-data-grid';
 import { CircularProgress, Typography, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
 import { IconEdit } from '@tabler/icons-react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
-const LocationList = () => {
+const PartnerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { locationData, status, error } = useSelector((state) => state.locations);
+  const { partnersData, status, error } = useSelector((state) => state.partners);
 
   useEffect(() => {
-    dispatch(getLocations());
+    dispatch(getpartners())
+      .unwrap()
+      .catch(() => toast.error('Failed to load partner data'));
   }, [dispatch]);
 
   const handleEdit = (id) => {
-    navigate(`/edit-location/${id}`);
+    navigate(`/edit-partner/${id}`);
   };
 
   if (status === 'loading') {
@@ -31,13 +33,12 @@ const LocationList = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'google_query', headerName: 'Google Query', width: 200 },
-    { field: 'street', headerName: 'Street', width: 150 },
+    { field: 'name', headerName: 'Name', width: 200 },
     { field: 'city', headerName: 'City', width: 150 },
-    { field: 'zip_code', headerName: 'Zip Code', width: 110 },
+    { field: 'street', headerName: 'Street', width: 150 },
+    { field: 'zip_code', headerName: 'ZIP Code', width: 110 },
     { field: 'state', headerName: 'State', width: 150 },
-    { field: 'longitude', headerName: 'Longitude', width: 150 },
-    { field: 'latitude', headerName: 'Latitude', width: 150 },
+    { field: 'mic_number', headerName: 'MIC Number', width: 150 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -50,21 +51,20 @@ const LocationList = () => {
     },
   ];
 
-  const rows = locationData?.map((location) => ({
-    id: location.id,
-    google_query: location.google_query,
-    street: location.street,
-    city: location.city,
-    zip_code: location.zip_code,
-    state: location.state,
-    longitude: location.longitude,
-    latitude: location.latitude,
+  const rows = partnersData?.map((partner) => ({
+    id: partner.id,
+    name: partner.name,
+    city: partner.city,
+    street: partner.street,
+    zip_code: partner.zip_code,
+    state: partner.state,
+    mic_number: partner.mic_number,
   }));
 
   return (
     <div style={{ height: 600, width: '100%' }}>
       <Typography marginBottom={3} variant="h4" gutterBottom>
-        Location List
+        Partner List
       </Typography>
       <DataGrid
         rows={rows}
@@ -78,4 +78,4 @@ const LocationList = () => {
   );
 };
 
-export default LocationList;
+export default PartnerList;

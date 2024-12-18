@@ -17,13 +17,14 @@ export const fetchLocationById = createAsyncThunk('locations/fetchById', async (
   const response = await axios.get(`http://127.0.0.1:5000/locations/${id}`); 
   return response.data; 
 });
+
 export const updateLocationById = createAsyncThunk(
   'locations/updateLocationById', // Action name
-  async ({ id, data }) => {
+  async ({ id, values }) => {
     try {
       const response = await axios.put(
         `http://127.0.0.1:5000/locations/${id}`, // URL with ID
-        data, // JSON payload
+        JSON.stringify(values), // JSON payload
         {
           headers: {
             'Content-Type': 'application/json', // Ensure proper header

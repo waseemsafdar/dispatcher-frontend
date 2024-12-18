@@ -23,18 +23,16 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
-      dispatch(login(values));
+      dispatch(login(values))
+      .unwrap().then(() => { 
+          toast.success('Login successful!');
+          navigate('/'); // Redirect to the home page
+             })
+      ;
     },
   });
 
-  React.useEffect(() => {
-    if (status === 'succeeded') {
-      toast.success('Login successful!');
-      navigate('/'); // Redirect to the home page
-    } else if (status === 'failed') {
-      toast.error(`Login failed: ${error}`);
-    }
-  }, [status, error, navigate]);
+
 
   return (
     <>

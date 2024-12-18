@@ -6,14 +6,22 @@ const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    
   },
+  withCredentials: true,
+
 });
 
 export const login = async (credentials) => {
-  const response = await apiClient.post('/login', credentials);
+  const response = await apiClient.post('/login', credentials, { withCredentials: true });
+
  return response.data;
 };
+export const logout = async () => {
+  const response = await apiClient.post('/logout');
 
+ return response.data;
+};
 export const getPartner = async () => {
   const response = await apiClient.get('/partners');
   return response.data;

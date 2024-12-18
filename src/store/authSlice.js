@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { login as loginApi } from './api';
+import { login as loginApi, logout } from './api';
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
   const response = await loginApi(credentials);
@@ -7,9 +7,13 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
   localStorage.setItem('user', JSON.stringify(response));
   return response;
 });
+export const logoutuser = createAsyncThunk('auth/logout', async () => {
+  const response = await logout();
+  return response;
+});
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null, // Load user from local storage
+  user: localStorage?.getItem('user')? JSON.parse(localStorage?.getItem('user')) : null,
   status: 'idle',
   error: null,
 };
@@ -18,12 +22,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.status = 'idle';
-      state.error = null;
-      localStorage.removeItem('user'); // Remove user from local storage on logout
-    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -34,6 +33,12 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
       })
+      .addCase(logoutuser.fulfilled, (state, action) => {
+        state.status = 'idle';
+        localStorage.removeItem('user');
+
+        state.user = null;
+      })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
@@ -41,5 +46,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

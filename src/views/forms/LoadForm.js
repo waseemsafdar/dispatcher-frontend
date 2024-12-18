@@ -24,13 +24,13 @@ const LoadForm = () => {
   const {tarilerData, partnerData, status, error } = useSelector((state) => state.partners);
 
   useEffect(() => { 
-    if (status === 'idle') { 
+   
       dispatch(fetchPartner()); 
       dispatch(fetchTrailer()); 
 
-    } 
-  }, [status]);
-console.log(tarilerData,'tarilerData')
+     
+  }, [dispatch]);
+
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
   const deleteDeliveryRow = (id) => setDeliveryForms(deliveryForms.filter(form => form.id !== id));

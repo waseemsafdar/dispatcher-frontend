@@ -15,16 +15,17 @@ import { IconListCheck, IconMail, IconUser } from '@tabler/icons-react';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../../store/authSlice';
+import {  logoutuser } from '../../../store/authSlice';
 
 const Profile = () => {
   const dispatch = useDispatch(); 
   const navigate = useNavigate(); 
 
   const handleLogout = (event) => { 
-    navigate('/auth/login'); 
     console.log('aaaaaaa')
-    dispatch(logout()); 
+    dispatch(logoutuser()); 
+    navigate('/auth/login'); 
+
   };
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {

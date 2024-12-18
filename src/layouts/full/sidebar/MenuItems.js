@@ -7,20 +7,35 @@ import { uniqueId } from 'lodash';
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'Loads',
   },
-
   {
     id: uniqueId(),
-    title: 'List View',
+    title: 'Load Listing',
     icon: IconLayoutDashboard,
     href: '/dashboard',
   },
   {
     id: uniqueId(),
-    title: 'Locations',
+    title: 'Add Load',
+    icon: IconAperture,
+    href: '/createload',
+  },
+  {
+    navlabel: true,
+    subheader: 'Locations',
+  },
+  {
+    id: uniqueId(),
+    title: 'All Locations',
     icon: IconMap2,
     href: '/locations',
+  },
+  {
+    id: uniqueId(),
+    title: 'Add Location',
+    icon: IconMap,
+    href: '/addlocation',
   },
   // {
   //   navlabel: true,
@@ -40,7 +55,7 @@ const Menuitems = [
   // },
   {
     navlabel: true,
-    subheader: 'Actions',
+    subheader: 'Partners',
   },
   // {
   //   id: uniqueId(),
@@ -50,15 +65,9 @@ const Menuitems = [
   // },
   {
     id: uniqueId(),
-    title: 'Add Load',
-    icon: IconAperture,
-    href: '/createload',
-  },
-  {
-    id: uniqueId(),
-    title: 'Add Location',
-    icon: IconMap,
-    href: '/addlocation',
+    title: 'Partners Listing',
+    icon: IconMan,
+    href: '/partners',
   },
   {
     id: uniqueId(),

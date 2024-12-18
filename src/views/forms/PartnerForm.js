@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Grid, Box, Button, Typography } from '@mui/material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addPartner } from '../../store/partnerSlice';
+import { addPartner, fetchPartnerById, updatePartnerById } from '../../store/partnerSlice';
+import { useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
@@ -17,7 +18,17 @@ const validationSchema = Yup.object({
 });
 
 const PartnerForm = () => {
+    const { id } = useParams();
+  
   const dispatch = useDispatch()
+  useEffect(() => {
+      if (id) {
+        // Fetch location data if ID is provided (edit mode)
+        dispatch(fetchPartnerById(id)).then(action => {
+          formik.setValues(action.payload);
+        });
+      }
+    }, [id, dispatch]);
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -29,6 +40,17 @@ const PartnerForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
+     if(id) {
+      dispatch(updatePartnerById({ id, values }))
+      .unwrap()
+      .then(() => { 
+          formik.resetForm();
+          toast.success('patner saved successfully!'); 
+      }).catch((err) => { 
+          toast.error('Failed to save partner'); 
+          });
+     }
+     else {
       dispatch(addPartner(values))
       .unwrap()
       .then(() => { 
@@ -36,7 +58,8 @@ const PartnerForm = () => {
           toast.success('patner saved successfully!'); 
       }).catch((err) => { 
           toast.error('Failed to save partner'); 
-          }); 
+          });
+     } 
       },
   });
 
