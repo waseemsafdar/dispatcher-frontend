@@ -34,6 +34,8 @@ const Router = [
       { path: '/addlocation', exact: true, element: <PrivateRoute><LocationForm /></PrivateRoute> },
       { path: '/edit-location/:id', element: <PrivateRoute><LocationForm /></PrivateRoute> },
       { path: '/edit-partner/:id', element: <PrivateRoute><PartnerForm /></PrivateRoute> },
+      { path: '/edit-load/:id', element: <PrivateRoute><LoadForm /></PrivateRoute> },
+
       { path: '/locations', exact: true, element: <PrivateRoute><LocationList /></PrivateRoute> },
       { path: '/partners', exact: true, element: <PrivateRoute><PartnerList /></PrivateRoute> },
       { path: '/addpartner', exact: true, element: <PrivateRoute><PartnerForm /></PrivateRoute> },

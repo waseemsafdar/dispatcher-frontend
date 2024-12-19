@@ -63,7 +63,7 @@ const PartnerList = () => {
 
   return (
     <div style={{ height: 600, width: '100%' }}>
-      <Typography marginBottom={3} variant="h4" gutterBottom>
+      <Typography marginBottom={3} variant="h2" gutterBottom>
         Partner List
       </Typography>
       <DataGrid

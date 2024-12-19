@@ -6,8 +6,10 @@ import CustomTextField from '../../components/forms/theme-elements/CustomTextFie
 import DeliveryFormRow from './DeliveryForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPartner, fetchTrailer } from '../../store/partnerSlice';
-import { resetStatus, saveLoad } from '../../store/loadSlice';
+import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
+import { update } from 'lodash';
+import { useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   customer_load: Yup.string().required('Required'),
@@ -20,8 +22,12 @@ const validationSchema = Yup.object({
 });
 
 const LoadForm = () => {
+    const { id } = useParams();
+  
   const dispatch = useDispatch();
   const {tarilerData, partnerData, status, error } = useSelector((state) => state.partners);
+  const {loadData} = useSelector((state) => state.load);
+
 
   useEffect(() => { 
    
@@ -30,6 +36,28 @@ const LoadForm = () => {
 
      
   }, [dispatch]);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchloadById(id)).then((action) => {
+        const data = action.payload;
+        formik.setValues({
+          customer_load: data?.customer_load || '',
+          partner_id: data?.partner.id || '',
+          expected_dispatcher: data?.expected_dispatcher || '',
+          trailerType: data?.trailer_type.map(t => t.id) || [],
+          freight_amount: data?.freight_amount || '',
+          cpm: data?.cpm || '',
+          expected_vehicle: data?.expected_vehicle || '',
+        });
+        setDeliveryForms(
+          data?.delivery_ids?.map((delivery, index) => ({
+            id: index + 1,
+            data: delivery,
+          }))
+        );
+      });
+    }
+  }, [id, dispatch]);
 
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
@@ -53,6 +81,17 @@ const LoadForm = () => {
     onSubmit: (values) => {
       const loadData = { ...values, delivery_info: deliveryForms.map(form => form.data), };
       console.log('Load Form Data:', loadData);
+      if(id) {
+                  dispatch(updateLoad({ id, loadData }))
+                  .unwrap().then(() => { 
+                    formik.resetForm();
+                    toast.success('udpated successfully!'); 
+                }).catch((err) => { 
+                    toast.error('Failed to update'); 
+                    });
+              }
+        else 
+      {
       dispatch(saveLoad(loadData))
       .unwrap().then(() => { 
         toast('Load saved successfully'); 
@@ -63,6 +102,7 @@ const LoadForm = () => {
           toast('Failed to save load', err); 
           dispatch(resetStatus()); 
         });
+      }
     },
   });
 

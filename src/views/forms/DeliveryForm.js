@@ -13,42 +13,42 @@ const validationSchema = Yup.object({
   delivery_end_time: Yup.string().required('Required'),
   location_id: Yup.string().required('Required'),
 });
-const formData = {
-      type: '',
-      delivery_date : '',
-      delivery_start_time: '',
-      delivery_end_time: '',
-      location_id: '',
-}
+
 const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
   const { locationData, status, error } = useSelector((state) => state.locations);
   const dispatch = useDispatch();
 
-  useEffect(() => { 
-     if (status === 'idle') { 
-      dispatch(getLocations()); 
-    } }, [status]);
+  useEffect(() => {
+    dispatch(getLocations());
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
       type: '',
-      delivery_date : '',
+      delivery_date: '',
       delivery_start_time: '',
       delivery_end_time: '',
       location_id: '',
     },
-    validationSchema
+    validationSchema,
   });
 
   useEffect(() => {
-    if (onChange) {
-      onChange(formik.values);
-    }
-  }, [formik.values]);
+    formik.setValues(formData);
+  }, [formData]);
+
+  // useEffect(() => {
+  //   if (onChange) {
+  //     onChange(formik.values);
+  //   }
+  // }, []);
+
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  const formattedTime = today.toTimeString().split(' ')[0];
 
   return (
     <TableRow>
-    
       <TableCell>
         <FormControl fullWidth variant="outlined">
           <InputLabel id="type-label">Type</InputLabel>
@@ -80,6 +80,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           error={formik.touched.delivery_date && Boolean(formik.errors.delivery_date)}
           helperText={formik.touched.delivery_date && formik.errors.delivery_date}
           fullWidth
+          inputProps={{ min: formattedDate }}  // Disable past dates
         />
       </TableCell>
       <TableCell>
@@ -95,6 +96,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           error={formik.touched.delivery_start_time && Boolean(formik.errors.delivery_start_time)}
           helperText={formik.touched.delivery_start_time && formik.errors.delivery_start_time}
           fullWidth
+          inputProps={{ min: formattedTime }}  // Disable past times
         />
       </TableCell>
       <TableCell>
@@ -110,24 +112,25 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           error={formik.touched.delivery_end_time && Boolean(formik.errors.delivery_end_time)}
           helperText={formik.touched.delivery_end_time && formik.errors.delivery_end_time}
           fullWidth
+          inputProps={{ min: formattedTime }}  // Disable past times
         />
       </TableCell>
       <TableCell>
         <FormControl fullWidth variant="outlined">
-          <InputLabel id="location_id-label">location_id</InputLabel>
+          <InputLabel id="location_id-label">Location</InputLabel>
           <Select
             labelId="location_id-label"
             id="location_id"
             name="location_id"
-            value={formik.values.location_id}
-            onChange={formik.handleChange}
+            value={formik?.values.location_id}
+            onChange={formik?.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.location_id && Boolean(formik.errors.location_id)}
-            label="location_id"
+            label="Location"
           >
-          {locationData?.map((location) => (
-      <MenuItem key={location?.id} value={location?.id}>{location?.google_query}</MenuItem>
-    ))}
+            {locationData?.map((location) => (
+              <MenuItem key={location?.id} value={location?.id}>{location?.google_query}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </TableCell>
