@@ -37,11 +37,11 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
     formik.setValues(formData);
   }, [formData]);
 
-  // useEffect(() => {
-  //   if (onChange) {
-  //     onChange(formik.values);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (onChange) {
+      onChange(formik.values);
+    }
+  }, [formik.values]);
 
   const today = new Date();
   const formattedDate = today.toISOString().split('T')[0];

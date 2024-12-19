@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Async thunk for saving load data
 export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
-  const response = await axios.post('http://127.0.0.1:5000/load/', loadData);
+  const response = await axios.post('http://127.0.0.1:5000/load', loadData);
   return response.data;
 });
 export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => {
