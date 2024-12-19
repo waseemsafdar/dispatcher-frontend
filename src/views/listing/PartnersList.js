@@ -7,6 +7,7 @@ import { CircularProgress, Typography, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
 import { IconEdit } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import SyncButton from '../dashboard/components/syncbutton';
 
 const PartnerList = () => {
   const dispatch = useDispatch();
@@ -66,6 +67,8 @@ const PartnerList = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Partner List
       </Typography>
+      <SyncButton url={'odoo_partnersync'} />
+
       <DataGrid
         rows={rows}
         columns={columns}

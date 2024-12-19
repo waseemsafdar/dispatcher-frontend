@@ -7,6 +7,7 @@ import { CircularProgress, Typography, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
 import { IconEdit } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
+import SyncButton from '../dashboard/components/syncbutton';
 
 const LocationList = () => {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ const LocationList = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Location List
       </Typography>
+      <SyncButton url={'odoo_locationsync'} />
       <DataGrid
         rows={rows}
         columns={columns}

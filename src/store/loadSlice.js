@@ -7,6 +7,8 @@ export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
   const response = await axios.post('http://127.0.0.1:5000/load', loadData);
   return response.data;
 });
+
+
 export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
   const cleanedFilters = Object.keys(filters).reduce((acc, key) => {
@@ -31,6 +33,11 @@ export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadD
     }
   });
   return response.data;
+});
+
+export const syncData = createAsyncThunk('load/syncData', async (url) => { 
+  const response = await axios.get(`http://127.0.0.1:5000/${url}`); 
+  return response.data; 
 });
 
 export const fetchloadById = createAsyncThunk('load/fetchloadById', async (id) => { 
@@ -83,6 +90,10 @@ const loadSlice = createSlice({
         state.loadData = action.payload;
       })
       .addCase(deleteLoadById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        
+      })
+      .addCase(syncData.fulfilled, (state, action) => {
         state.status = 'succeeded';
         
       })
