@@ -63,7 +63,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
               onChange={(e) => setValue('trailer_type', e.target.value)}
               label="Trailer Type"
             >
-              {tarilerData?.map((trailer) => (
+              {tarilerData && tarilerData?.map((trailer) => (
                 <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
               ))}
             </Select>
@@ -97,9 +97,10 @@ const FilterForm = ({ onSubmit, onClear }) => {
               onChange={(e) => setValue('partner_id', e.target.value)}
               label="Partner"
             >
-              {partnerData?.map((partner) => (
-                <MenuItem key={partner.id} value={partner.id}>{partner.name}</MenuItem>
-              ))}
+              {Array.isArray(partnerData) && partnerData.map((partner) => (
+  <MenuItem key={partner.id} value={partner.id}>{partner.name}</MenuItem>
+))}
+
             </Select>
           </FormControl>
         </Grid>

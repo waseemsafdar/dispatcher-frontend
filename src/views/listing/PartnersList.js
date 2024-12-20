@@ -5,7 +5,7 @@ import { getpartners } from '../../store/partnerSlice'; // Replace with the actu
 import { DataGrid } from '@mui/x-data-grid';
 import { CircularProgress, Typography, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
-import { IconEdit } from '@tabler/icons-react';
+import { IconEdit, IconEye } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import SyncButton from '../dashboard/components/syncbutton';
 
@@ -45,9 +45,14 @@ const PartnerList = () => {
       headerName: 'Actions',
       width: 150,
       renderCell: (params) => (
+        <>
         <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
           <IconEdit />
         </IconButton>
+        <IconButton onClick={() => handleRowClick(params.id)} aria-label="detail">
+          <IconEye />
+        </IconButton>
+        </>
       ),
     },
   ];
@@ -61,7 +66,9 @@ const PartnerList = () => {
     state: partner.state,
     mic_number: partner.mic_number,
   }));
-
+  const handleRowClick = (id) => { 
+    navigate(`/partner-detail/${id}`); 
+  }
   return (
     <div style={{ height: 600, width: '100%' }}>
       <Typography marginBottom={3} variant="h2" gutterBottom>
@@ -75,8 +82,8 @@ const PartnerList = () => {
         pageSize={10}
         rowsPerPageOptions={[5, 10, 20]}
         pagination
-        disableSelectionOnClick
-      />
+      disableRowSelectionOnClick
+/>
     </div>
   );
 };

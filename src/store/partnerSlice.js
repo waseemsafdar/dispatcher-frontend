@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { addPartnerdata, getPartner, getTrailer } from './api'; // Import the getPartner function
 import axios from 'axios';
-
+axios.defaults.withCredentials = true;
 // Create async thunk
 export const fetchPartner = createAsyncThunk('partners/fetchPartner', async (credentials) => {
   const response = await getPartner(credentials);
@@ -13,7 +13,7 @@ export const fetchPartnerById = createAsyncThunk('partner/fetchById', async (id)
   return response.data; 
 });
 export const getpartners = createAsyncThunk('partners/getAll', async () => {
-  const response = await axios.get('http://127.0.0.1:5000/partners');
+  const response = await axios.get('http://127.0.0.1:5000/partners', {withCredentials: true});
   return response.data;
 });
 export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (credentials) => {

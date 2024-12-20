@@ -5,7 +5,7 @@ import { getLocations } from '../../store/locationsSlice';
 import { DataGrid } from '@mui/x-data-grid';
 import { CircularProgress, Typography, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
-import { IconEdit } from '@tabler/icons-react';
+import { IconEdit, IconEye } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import SyncButton from '../dashboard/components/syncbutton';
 
@@ -44,13 +44,21 @@ const LocationList = () => {
       headerName: 'Actions',
       width: 150,
       renderCell: (params) => (
+        <>
         <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
           <IconEdit />
         </IconButton>
+        <IconButton onClick={() => handleRowClick(params.id)} aria-label="edit">
+        <IconEye />
+      </IconButton>
+      </>
+        
       ),
     },
   ];
-
+  const handleRowClick = (id) => { 
+    navigate(`/location-detail/${id}`); 
+  }
   const rows = locationData?.map((location) => ({
     id: location.id,
     google_query: location.google_query,
@@ -74,7 +82,7 @@ const LocationList = () => {
         pageSize={10}
         rowsPerPageOptions={[5, 10, 20]}
         pagination
-        disableSelectionOnClick
+        disableRowSelectionOnClick
       />
     </div>
   );

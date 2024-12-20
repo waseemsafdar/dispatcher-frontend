@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { login as loginApi, logout } from './api';
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await loginApi(credentials);
+  const response = await loginApi(credentials, { withCredentials: true });
   // Save user data to local storage
   localStorage.setItem('user', JSON.stringify(response));
   return response;

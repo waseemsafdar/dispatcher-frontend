@@ -29,7 +29,6 @@ const Dashboard = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
                 Load List
               </Typography>
-              <SyncButton url={'odoo_loadsync'} />
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FilterForm onSubmit={handleFilterSubmit} onClear={handleClearFilters}/>

@@ -2,23 +2,19 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
 import { deleteLoadById, getLoad } from '../../../store/loadSlice';
-import { IconButton, Typography } from '@mui/material';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconButton } from '@mui/material';
+import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
-
-// Column definitions based on the data structure
-
 const ListDataGrid = () => {
   const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   
   const { loadList, status, error } = useSelector((state) => state.load);
 
   const handleEdit = (id) => {
     navigate(`/edit-load/${id}`);
-   
   };
 
   const handleDelete = (id) => {
@@ -30,8 +26,12 @@ const ListDataGrid = () => {
       .catch((err) => {
         toast('Failed to delete load:', err);
       });
-    
   };
+
+  const handleRowClick = (id) => {
+    navigate(`/load-detail/${id}`);
+  };
+
   const columns = [
     { field: 'cpm', headerName: 'CPM', width: 90 },
     { field: 'customer_load', headerName: 'Customer Load', width: 180 },
@@ -47,18 +47,29 @@ const ListDataGrid = () => {
       width: 150,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
+          <IconButton
+            onClick={() => handleEdit(params.id)}
+            aria-label="edit"
+          >
             <IconEdit />
           </IconButton>
-          <IconButton onClick={() => handleDelete(params.id)} aria-label="delete">
+          <IconButton
+            onClick={() => handleDelete(params.id)}
+            aria-label="delete"
+          >
             <IconTrash />
+          </IconButton>
+          <IconButton
+            onClick={() => handleRowClick(params.id)}
+            aria-label="detail"
+          >
+            <IconEye />
           </IconButton>
         </>
       ),
     },
-  
   ];
-  
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getLoad());
@@ -76,15 +87,20 @@ const ListDataGrid = () => {
     expected_dispatcher: load.expected_dispatcher,
     expected_vehicle: load.expected_vehicle,
     partner_id: load?.partner?.name,
-    is_archived: load?.is_archived?'Active':'InActive',
-    trailer_type: load.trailer_type.map(type => type.type).join(', '),  // Join trailer types if needed
-   
+    is_archived: load?.is_archived ? 'InActive' : 'Active',
+    trailer_type: load.trailer_type.map(type => type.type).join(', '),
   }));
 
   return (
     <div style={{ height: 600, width: '100%' }}>
-      
-      <DataGrid  rows={rows} columns={columns} pageSize={10} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[5, 10, 20]}
+        pagination
+        disableSelectionOnClick
+      />
     </div>
   );
 };

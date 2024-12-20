@@ -61,7 +61,7 @@ const LoadForm = () => {
 
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
-  const deleteDeliveryRow = (id) => setDeliveryForms(deliveryForms.filter(form => form.id !== id));
+  const deleteDeliveryRow = (id) => setDeliveryForms(deliveryForms?.filter(form => form.id !== id));
   
   const handleFormChange = (id, updatedData) => {
     setDeliveryForms(deliveryForms.map(form => (form.id === id ? { ...form, data: updatedData } : form)));
@@ -79,7 +79,7 @@ const LoadForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      const loadData = { ...values, delivery_info: deliveryForms.map(form => form.data), };
+      const loadData = { ...values, delivery_info: deliveryForms?.map(form => form.data), };
       console.log('Load Form Data:', loadData);
       if(id) {
                   dispatch(updateLoad({ id, loadData }))
@@ -238,7 +238,7 @@ const LoadForm = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {deliveryForms.map((form) => (
+            {deliveryForms?.map((form) => (
               <DeliveryFormRow
                 key={form.id}
                 formData={form.data}

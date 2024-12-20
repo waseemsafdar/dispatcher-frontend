@@ -7,6 +7,9 @@ import PartnerForm from '../views/forms/PartnerForm';
 import LocationForm from '../views/forms/LocationForm';
 import LocationList from '../views/listing/LocationList';
 import PartnerList from '../views/listing/PartnersList';
+import LoadDetail from '../views/dashboard/components/LoadDetail';
+import LocationDetail from '../views/listing/LocationDetail';
+import PartnerDetail from '../views/listing/PartnerDetail';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -35,7 +38,9 @@ const Router = [
       { path: '/edit-location/:id', element: <PrivateRoute><LocationForm /></PrivateRoute> },
       { path: '/edit-partner/:id', element: <PrivateRoute><PartnerForm /></PrivateRoute> },
       { path: '/edit-load/:id', element: <PrivateRoute><LoadForm /></PrivateRoute> },
-
+      { path: '/load-detail/:id', element: <PrivateRoute><LoadDetail /></PrivateRoute> },
+      { path: '/location-detail/:id', element: <PrivateRoute><LocationDetail /></PrivateRoute> },
+      { path: '/partner-detail/:id', element: <PrivateRoute><PartnerDetail /></PrivateRoute> },
       { path: '/locations', exact: true, element: <PrivateRoute><LocationList /></PrivateRoute> },
       { path: '/partners', exact: true, element: <PrivateRoute><PartnerList /></PrivateRoute> },
       { path: '/addpartner', exact: true, element: <PrivateRoute><PartnerForm /></PrivateRoute> },
