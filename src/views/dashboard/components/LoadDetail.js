@@ -25,7 +25,7 @@ const LoadDetail = () => {
         <Typography marginBottom={3} variant="h4" gutterBottom>
           Load Details
         </Typography>
-                      <SyncButton url={'odoo_loadsync'} />
+                      <SyncButton url={`syncload/${id}`} />
         
         {loadData && (
           <>

@@ -75,7 +75,8 @@ const LocationList = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Location List
       </Typography>
-      <SyncButton url={'odoo_locationsync'} />
+      <SyncButton url={`synclocation`} />
+      
       <DataGrid
         rows={rows}
         columns={columns}
