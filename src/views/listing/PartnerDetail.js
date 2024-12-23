@@ -25,6 +25,7 @@ const PartnerDetail = () => {
         <Typography variant="h4" gutterBottom>
           Partner Details
         </Typography>
+                        <SyncButton url={`syncpartner/${id}`} />
     
         {partnerData && (
           <Grid container spacing={2}>

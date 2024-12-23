@@ -75,7 +75,7 @@ const LocationList = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Location List
       </Typography>
-      <SyncButton url={`synclocation`} />
+      
       
       <DataGrid
         rows={rows}

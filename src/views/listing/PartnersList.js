@@ -74,7 +74,6 @@ const PartnerList = () => {
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Partner List
       </Typography>
-      <SyncButton url={`syncpartner`} />
 
 
       <DataGrid
