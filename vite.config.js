@@ -7,7 +7,7 @@ import svgr from '@svgr/rollup';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    build: { chunkSizeWarningLimit: 600, },
+    build: { chunkSizeWarningLimit: 1000, },
     resolve: {
         alias: {
             src: resolve(__dirname, 'src'),
