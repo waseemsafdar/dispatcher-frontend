@@ -24,7 +24,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
 
   const formik = useFormik({
     initialValues: {
-      type: '',
+      type: '',  // Make sure the initial value is an empty string to avoid undefined
       delivery_date: '',
       delivery_start_time: '',
       delivery_end_time: '',
@@ -56,7 +56,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             labelId="type-label"
             id="type"
             name="type"
-            value={formik.values.type}
+            value={formik.values.type || ''} // Default to an empty string if undefined
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.type && Boolean(formik.errors.type)}
@@ -74,7 +74,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           label="Delivery Date"
           type="date"
           InputLabelProps={{ shrink: true }}
-          value={formik.values.delivery_date}
+          value={formik.values.delivery_date || ''} // Ensure it's never undefined
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.delivery_date && Boolean(formik.errors.delivery_date)}
@@ -90,7 +90,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           label="Start Time"
           type="time"
           InputLabelProps={{ shrink: true }}
-          value={formik.values.delivery_start_time}
+          value={formik.values.delivery_start_time || ''} // Ensure it's never undefined
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.delivery_start_time && Boolean(formik.errors.delivery_start_time)}
@@ -106,7 +106,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           label="End Time"
           type="time"
           InputLabelProps={{ shrink: true }}
-          value={formik.values.delivery_end_time}
+          value={formik.values.delivery_end_time || ''} // Ensure it's never undefined
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.delivery_end_time && Boolean(formik.errors.delivery_end_time)}
@@ -122,8 +122,8 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             labelId="location_id-label"
             id="location_id"
             name="location_id"
-            value={formik?.values.location_id}
-            onChange={formik?.handleChange}
+            value={formik.values.location_id || ''} // Ensure it's never undefined
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.location_id && Boolean(formik.errors.location_id)}
             label="Location"
