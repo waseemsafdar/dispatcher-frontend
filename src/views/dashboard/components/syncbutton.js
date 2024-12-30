@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const SyncButton = ({ url }) => {
   const dispatch = useDispatch();
   const handleSyncClick = () => {
-    dispatch(syncData(url))
+    dispatch(syncData({url}))
       .unwrap()
       .then(() => {
         toast.success('Data synced successfully!');

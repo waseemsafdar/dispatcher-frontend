@@ -52,7 +52,7 @@ const LoadDetail = () => {
                 <Typography variant="h6">Trailer Type: {loadData.trailer_type.map(type => type.type).join(', ')}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Status: {loadData.is_archived ? 'Active' : 'InActive'}</Typography>
+                <Typography variant="h6">Status: {loadData.is_archived ? 'InActive' : 'Active'}</Typography>
               </Grid>
             </Grid>
             
