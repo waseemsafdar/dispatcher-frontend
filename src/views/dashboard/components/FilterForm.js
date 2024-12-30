@@ -4,11 +4,15 @@ import { Grid, TextField, MenuItem, Select, InputLabel, FormControl, Button, Box
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPartner, fetchTrailer } from '../../../store/partnerSlice';
 
+
 const FilterForm = ({ onSubmit, onClear }) => {
   const dispatch = useDispatch();
   const { tarilerData, partnerData } = useSelector((state) => state.partners);
   const { isClearFilter } = useSelector((state) => state.load);
-
+  const deliveryTypeOptions = [
+    { value: 'Delivery', label: 'Delivery' },
+    { value: 'Pickup', label: 'Pickup' },
+  ];
   useEffect(() => {
     dispatch(fetchPartner());
     dispatch(fetchTrailer());
@@ -29,91 +33,51 @@ const FilterForm = ({ onSubmit, onClear }) => {
       city: '',
       state: '',
       zip_code: '',
-    },
+    }
   });
 
   useEffect(() => {
     if (isClearFilter) {
       reset();
+    
     }
   }, [isClearFilter]);
 
-  const deliveryTypeOptions = [
-    { value: 'Delivery', label: 'Delivery' },
-    { value: 'Pickup', label: 'Pickup' },
-  ];
+  const customerLoadValue = watch('customer_load');
+  const expectedDispatcher = watch('expected_dispatcher');
+  const expectedVehicle = watch('expected_vehicle');
+
+  const deliveryDate = watch('delivery_date');
+  const deliveryStartTime = watch('delivery_start_time');
+  const deliveryEndTime = watch('delivery_end_time');
+  const deliveryType = watch('delivery_type');
+  const trailerTypeValue = watch('trailer_type');
+  const partnerIdValue = watch('partner_id');
+  const isarchivedValue = watch('is_archived');
+
+  
 
   return (
     <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
-        {/* Existing Filters */}
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="customer_load"
             label="Customer Load"
             variant="outlined"
+            value={customerLoadValue}
             {...register('customer_load')}
             placeholder="Customer Load"
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="trailer-label">Trailer Type</InputLabel>
-            <Select
-              labelId="trailerType-label"
-              id="trailer_type"
-              {...register('trailer_type')}
-              onChange={(e) => setValue('trailer_type', e.target.value)}
-              label="Trailer Type"
-            >
-              {tarilerData?.map((trailer) => (
-                <MenuItem key={trailer.id} value={trailer.id}>
-                  {trailer.type}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="status-label">Status</InputLabel>
-            <Select
-              labelId="status-label"
-              id="is_archived"
-              {...register('is_archived')}
-              label="Status"
-            >
-              <MenuItem value={true}>Active</MenuItem>
-              <MenuItem value={false}>Inactive</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="partner-label">Partner</InputLabel>
-            <Select
-              labelId="partner-label"
-              id="partner_id"
-              {...register('partner_id')}
-              onChange={(e) => setValue('partner_id', e.target.value)}
-              label="Partner"
-            >
-              {partnerData?.map((partner) => (
-                <MenuItem key={partner.id} value={partner.id}>
-                  {partner.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
 
-        {/* New Filters */}
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="expected_dispatcher"
             label="Expected Dispatcher"
             variant="outlined"
+            value={expectedDispatcher}
             {...register('expected_dispatcher')}
             placeholder="Expected Dispatcher"
             fullWidth
@@ -124,17 +88,20 @@ const FilterForm = ({ onSubmit, onClear }) => {
             id="expected_vehicle"
             label="Expected Vehicle"
             variant="outlined"
+            value={expectedVehicle}
             {...register('expected_vehicle')}
             placeholder="Expected Vehicle"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
+          
           <TextField
             id="delivery_date"
             label="Delivery Date"
             type="date"
             variant="outlined"
+            value={deliveryDate}
             {...register('delivery_date')}
             InputLabelProps={{ shrink: true }}
             fullWidth
@@ -144,30 +111,22 @@ const FilterForm = ({ onSubmit, onClear }) => {
           <TextField
             id="delivery_start_time"
             label="Delivery Start Time"
-            type="time"
             variant="outlined"
+            type="time"
+            value={deliveryStartTime}
             {...register('delivery_start_time')}
+            placeholder="Delivery Start Time"
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="delivery_end_time"
-            label="Delivery End Time"
-            type="time"
-            variant="outlined"
-            {...register('delivery_end_time')}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
+        <FormControl variant="outlined" fullWidth>
             <InputLabel id="deliveryType-label">Delivery Type</InputLabel>
             <Select
               labelId="deliveryType-label"
               id="delivery_type"
+            value={deliveryType}
               {...register('delivery_type')}
               label="Delivery Type"
             >
@@ -179,38 +138,72 @@ const FilterForm = ({ onSubmit, onClear }) => {
             </Select>
           </FormControl>
         </Grid>
+        
         <Grid item xs={12} sm={6} md={3}>
           <TextField
-            id="city"
-            label="City"
+            id="delivery_end_time"
+            label="Delivery End Time"
             variant="outlined"
-            {...register('city')}
-            placeholder="City"
+            type="time"
+            value={deliveryEndTime}
+            {...register('delivery_end_time')}
+            placeholder="Delivery End Time"
+            InputLabelProps={{ shrink: true }}
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="state"
-            label="State"
-            variant="outlined"
-            {...register('state')}
-            placeholder="State"
-            fullWidth
-          />
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="trailer-label">Trailer Type</InputLabel>
+            <Select
+              labelId="trailerType-label"
+              id="trailer_type"
+              value={trailerTypeValue}
+              {...register('trailer_type')}
+              onChange={(e) => setValue('trailer_type', e.target.value)}
+              label="Trailer Type"
+            >
+              {tarilerData && tarilerData?.map((trailer) => (
+                <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="zip_code"
-            label="Zip Code"
-            variant="outlined"
-            {...register('zip_code')}
-            placeholder="Zip Code"
-            fullWidth
-          />
-        </Grid>
+        <FormControl variant="outlined" fullWidth>
+  <InputLabel id="status-label">Status</InputLabel>
+  <Select
+    labelId="status-label"
+    id="is_archived"
+    {...register('is_archived')}
+    label="Status"
+    value={isarchivedValue}
 
-        {/* Submit and Clear Buttons */}
+  >
+    <MenuItem value={false}>Active</MenuItem>
+    <MenuItem value={true}>Inactive</MenuItem>
+  </Select>
+</FormControl>
+
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="partner-label">Partner</InputLabel>
+            <Select
+              labelId="partner-label"
+              id="partner_id"
+              value={partnerIdValue}
+              {...register('partner_id')}
+              onChange={(e) => setValue('partner_id', e.target.value)}
+              label="Partner"
+            >
+              {Array.isArray(partnerData) && partnerData.map((partner) => (
+  <MenuItem key={partner.id} value={partner.id}>{partner.name}</MenuItem>
+))}
+
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid item xs={6} sm={3}>
           <Button variant="contained" type="submit" color="primary" fullWidth>
             Apply Filters
