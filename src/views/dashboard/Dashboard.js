@@ -18,10 +18,7 @@ const Dashboard = () => {
     console.log(filters);
     dispatch(getLoad(filters));
   };
-  const handleSyncClick = () => {
-    // Dispatch the action when the button is clicked
-    dispatch(syncData('sycnhere')); // Dispatch sync action
-  };
+ 
 
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">

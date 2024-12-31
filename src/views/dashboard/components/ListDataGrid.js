@@ -6,11 +6,12 @@ import { IconButton } from '@mui/material';
 import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { height } from '@mui/system';
 
 const ListDataGrid = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const { loadList, status, error } = useSelector((state) => state.load);
 
   const handleEdit = (id) => {
@@ -92,7 +93,7 @@ const ListDataGrid = () => {
   }));
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ overscrollBehaviorInline: true, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -100,7 +101,11 @@ const ListDataGrid = () => {
         rowsPerPageOptions={[5, 10, 20]}
         pagination
         disableSelectionOnClick
+        autoHeight
+        scrollbarSize={10}
+        style={{ overflowX: 'auto' }}
       />
+
     </div>
   );
 };
