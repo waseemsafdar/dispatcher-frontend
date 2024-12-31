@@ -92,7 +92,7 @@ const LoadForm = () => {
       const validForms = deliveryForms.filter((form) => isValidForm(form));
       
       if (validForms.length < 2) {
-        toast.error("Please Fill all fields with valid data");
+        toast.error("Please Fill all Delivery fields with valid data");
         return false
       } else if (!isValidType(validForms)) {
         toast.error("Delivery forms must include both 'delivery' and 'pickup' types");
