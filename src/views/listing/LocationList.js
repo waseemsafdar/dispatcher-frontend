@@ -71,7 +71,7 @@ const LocationList = () => {
   }));
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ maxheight: 400, width: '100%' }}>
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Location List
       </Typography>

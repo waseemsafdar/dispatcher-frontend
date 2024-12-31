@@ -71,6 +71,7 @@ const ListDataGrid = () => {
     },
   ];
 
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getLoad());
@@ -93,7 +94,7 @@ const ListDataGrid = () => {
   }));
 
   return (
-    <div style={{ overscrollBehaviorInline: true, width: '100%' }}>
+    <div style={{ height:"400px", width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -101,7 +102,6 @@ const ListDataGrid = () => {
         rowsPerPageOptions={[5, 10, 20]}
         pagination
         disableSelectionOnClick
-        autoHeight
         scrollbarSize={10}
         style={{ overflowX: 'auto' }}
       />

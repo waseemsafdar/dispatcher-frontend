@@ -70,7 +70,7 @@ const PartnerList = () => {
     navigate(`/partner-detail/${id}`); 
   }
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ height: 400, width: '100%' }}>
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Partner List
       </Typography>
