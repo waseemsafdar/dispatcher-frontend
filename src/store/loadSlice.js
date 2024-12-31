@@ -42,7 +42,7 @@ export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadD
 
 
 export const syncData = createAsyncThunk('load/syncData', async ({ url }) => {
-  const dynamicUrl = `http://18.118.168.39:5000/${url}}`;
+  const dynamicUrl = `http://18.118.168.39:5000/${url}`;
   const response = await axios.get(dynamicUrl);
   return response.data;
 });
