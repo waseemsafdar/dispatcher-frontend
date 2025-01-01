@@ -79,26 +79,16 @@ const LoadForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-    
-      // const isValidForm = (form) => {
-      //   console.log(form);
-      //   return form.data && Object.values(form.data).every((value) => value !== null && value !== undefined && value !== '');
-      // };
+   
       
-      // const isValidType = (forms) => {
-      //   const types = forms.map((form) => form.data.type);
-      //   return types.includes('Delivery') && types.includes('Pickup');
-      // };
-      
-      // const validForms = deliveryForms.filter((form) => isValidForm(form));
-      
-      // if (validForms.length < 2) {
-      //   toast.error("Please Fill all Delivery fields with valid data");
-      //   return false
-      // } else if (!isValidType(validForms)) {
-      //   toast.error("Delivery forms must include both 'delivery' and 'pickup' types");
-      //   return false
-      // } 
+      const isValidType = (forms) => {
+        const types = forms.map((form) => form.data.type);
+        return types.includes('Delivery') && types.includes('Pickup');
+      };
+     if(!isValidType(deliveryForms)) {
+        toast.error("Delivery forms must include both 'delivery' and 'pickup' types");
+        return false
+      } 
       const loadData = { ...values, delivery_info: deliveryForms?.map(form => form.data), };
       console.log('Load Form Data:', loadData);
       if(id) {
