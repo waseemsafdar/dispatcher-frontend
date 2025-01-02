@@ -26,7 +26,6 @@ const FilterForm = ({ onSubmit, onClear }) => {
       is_archived: '',
       expected_dispatcher: '',
       expected_vehicle: '',
-      delivery_date: '',
       planned_start_time: '',
       planned_end_time: '',
       delivery_type: '',
@@ -50,7 +49,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const customerLoadValue = watch('customer_load');
   const expectedDispatcher = watch('expected_dispatcher');
   const expectedVehicle = watch('expected_vehicle');
-  const deliveryDate = watch('delivery_date');
+ // const deliveryDate = watch('delivery_date');
   const plannedStartTime = watch('planned_start_time');
   const plannedEndTime = watch('planned_end_time');
   const deliveryType = watch('delivery_type');
@@ -85,22 +84,22 @@ const FilterForm = ({ onSubmit, onClear }) => {
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="expected_dispatcher"
-            label="Expected Dispatcher"
+            label="Planned Dispatcher"
             variant="outlined"
             value={expectedDispatcher}
             {...register('expected_dispatcher')}
-            placeholder="Expected Dispatcher"
+            placeholder="Planned Dispatcher"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="expected_vehicle"
-            label="Expected Vehicle"
+            label="Planned Vehicle"
             variant="outlined"
             value={expectedVehicle}
             {...register('expected_vehicle')}
-            placeholder="Expected Vehicle"
+            placeholder="Planned Vehicle"
             fullWidth
           />
         </Grid>
@@ -129,7 +128,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="delivery_city"
-            label="delivery City"
+            label="Delivery City"
             variant="outlined"
             value={deliveryCity}
             {...register('delivery_city')}
@@ -140,7 +139,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="delivery_state"
-            label="delivery State"
+            label="Delivery State"
             variant="outlined"
             value={deliveryState}
             {...register('delivery_state')}
@@ -151,26 +150,16 @@ const FilterForm = ({ onSubmit, onClear }) => {
         
         <Grid item xs={12} sm={6} md={3}>
           
-          <TextField
-            id="delivery_date"
-            label="Delivery Date"
-            type="date"
-            variant="outlined"
-            value={deliveryDate}
-            {...register('delivery_date')}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-        </Grid>
+          
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="planned_start_time"
-            label="planned Start Time"
+            label="Planned Start Time"
             variant="outlined"
             type="time"
             value={plannedStartTime}
             {...register('planned_start_time')}
-            placeholder="planned Start Time"
+            placeholder="Planned Start Time"
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
@@ -197,12 +186,12 @@ const FilterForm = ({ onSubmit, onClear }) => {
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="planned_end_time"
-            label="planned End Time"
+            label="Planned End Time"
             variant="outlined"
             type="time"
             value={plannedEndTime}
             {...register('planned_end_time')}
-            placeholder="planned End Time"
+            placeholder="Planned End Time"
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
