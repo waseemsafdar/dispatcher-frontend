@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Async thunk for saving location data
 export const saveLocation = createAsyncThunk('locations/saveLocation', async (locationData) => {
-  const response = await axios.post('http://18.118.168.39:5000/locations', locationData);
+  const response = await axios.post('http://18.118.168.39:5000/locations/', locationData);
   return response.data;
 });
 
