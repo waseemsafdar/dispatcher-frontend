@@ -9,7 +9,7 @@ import { fetchPartner, fetchTrailer } from '../../store/partnerSlice';
 import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
 import { update } from 'lodash';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   customer_load: Yup.string().required('Required'),
@@ -23,11 +23,10 @@ const validationSchema = Yup.object({
 
 const LoadForm = () => {
     const { id } = useParams();
-  
   const dispatch = useDispatch();
   const {tarilerData, partnerData, status, error } = useSelector((state) => state.partners);
   const {loadData} = useSelector((state) => state.load);
-
+  const navigate = useNavigate();
 
   useEffect(() => { 
    
@@ -96,6 +95,7 @@ const LoadForm = () => {
                   .unwrap().then(() => { 
                     formik.resetForm();
                     toast.success('udpated successfully!'); 
+                    navigate('/dashboard')
                 }).catch((err) => { 
                     toast.error('Failed to update'); 
                     });
@@ -106,6 +106,7 @@ const LoadForm = () => {
       .unwrap().then(() => { 
         toast('Load saved successfully'); 
         formik.resetForm();
+        navigate('/dashboard')
         setDeliveryForms([{ id: 1, data: {} }]); 
         dispatch(resetStatus()); })
         .catch((err) => { 
