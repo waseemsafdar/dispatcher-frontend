@@ -9,11 +9,11 @@ export const fetchPartner = createAsyncThunk('partners/fetchPartner', async (cre
   return response;
 });
 export const fetchPartnerById = createAsyncThunk('partner/fetchById', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/partners/${id}`,{ withCredentials: true }); 
+  const response = await axios.get(`http://127.0.0.1:5000/partners/${id}`,{ withCredentials: true }); 
   return response.data; 
 });
 export const getpartners = createAsyncThunk('partners/getAll', async () => {
-  const response = await axios.get('http://18.118.168.39:5000/partners', {withCredentials: true});
+  const response = await axios.get('http://127.0.0.1:5000/partners', {withCredentials: true});
   return response.data;
 });
 export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (credentials) => {
@@ -30,7 +30,7 @@ export const updatePartnerById = createAsyncThunk(
   async ({ id, values }) => {
     try {
       const response = await axios.put(
-        `http://18.118.168.39:5000/partners/${id}`, // URL with ID
+        `http://127.0.0.1:5000/partners/${id}`, // URL with ID
         JSON.stringify(values), // JSON payload
         {
           headers: {

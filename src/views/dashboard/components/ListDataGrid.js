@@ -37,11 +37,23 @@ const ListDataGrid = () => {
     { field: 'cpm', headerName: 'CPM', width: 90 },
     { field: 'customer_load', headerName: 'Customer Load', width: 180 },
     { field: 'freight_amount', headerName: 'Freight Amount', width: 150 },
-    { field: 'expected_dispatcher', headerName: 'Expected Dispatcher', width: 180 },
-    { field: 'expected_vehicle', headerName: 'Expected Vehicle', width: 180 },
+    { field: 'expected_dispatcher', headerName: 'Planned Dispatcher', width: 180 },
+    { field: 'expected_vehicle', headerName: 'Planned Vehicle', width: 180 },
     { field: 'partner_id', headerName: 'Partner', width: 130 },
     { field: 'trailer_type', headerName: 'Trailer Type', width: 150 },
+    { field: 'pickup_city', headerName: 'Pickup City', width: 150 },
+
+    { field: 'pickup_state', headerName: 'Pickup State', width: 150 },
+
+    { field: 'delivery_city', headerName: 'Delivery City', width: 150 },
+
+    { field: 'delivery_state', headerName: 'Delivery State', width: 150 },
+    { field: 'planned_start_time', headerName: 'Planned Start Time', width: 150 },
+
+    { field: 'planned_end_time', headerName: 'Planned End Time', width: 150 },
     { field: 'is_archived', headerName: 'Status', width: 150 },
+
+
     {
       field: 'actions',
       headerName: 'Actions',
@@ -54,12 +66,12 @@ const ListDataGrid = () => {
           >
             <IconEdit />
           </IconButton>
-          <IconButton
+          {/* <IconButton
             onClick={() => handleDelete(params.id)}
             aria-label="delete"
           >
             <IconTrash />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             onClick={() => handleRowClick(params.id)}
             aria-label="detail"
@@ -94,7 +106,7 @@ const ListDataGrid = () => {
   }));
 
   return (
-    <div style={{ height:"400px", width: '100%' }}>
+    <div style={{ height: "400px", width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -15,12 +15,12 @@ const Menuitems = [
     icon: IconLayoutDashboard,
     href: '/dashboard',
   },
-  {
-    id: uniqueId(),
-    title: 'Add Load',
-    icon: IconAperture,
-    href: '/createload',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Add Load',
+  //   icon: IconAperture,
+  //   href: '/createload',
+  // },
   {
     navlabel: true,
     subheader: 'Locations',
@@ -31,12 +31,12 @@ const Menuitems = [
     icon: IconMap2,
     href: '/locations',
   },
-  {
-    id: uniqueId(),
-    title: 'Add Location',
-    icon: IconMap,
-    href: '/addlocation',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Add Location',
+  //   icon: IconMap,
+  //   href: '/addlocation',
+  // },
   // {
   //   navlabel: true,
   //   subheader: 'Utilities',
@@ -69,12 +69,12 @@ const Menuitems = [
     icon: IconMan,
     href: '/partners',
   },
-  {
-    id: uniqueId(),
-    title: 'Add Partner',
-    icon: IconMan,
-    href: '/addpartner',
-  }
+  // {
+  //   id: uniqueId(),
+  //   title: 'Add Partner',
+  //   icon: IconMan,
+  //   href: '/addpartner',
+  // }
 ];
 
 export default Menuitems;

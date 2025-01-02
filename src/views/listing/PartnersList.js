@@ -46,9 +46,9 @@ const PartnerList = () => {
       width: 150,
       renderCell: (params) => (
         <>
-        <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
+        {/* <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
           <IconEdit />
-        </IconButton>
+        </IconButton> */}
         <IconButton onClick={() => handleRowClick(params.id)} aria-label="detail">
           <IconEye />
         </IconButton>

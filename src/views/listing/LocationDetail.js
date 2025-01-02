@@ -25,7 +25,7 @@ const LocationDetail = () => {
         <Typography marginBottom={3}  variant="h4" gutterBottom>
           Location Details
         </Typography>
-        <SyncButton url={`synclocation/${id}`} />
+        {/* <SyncButton url={`synclocation/${id}`} /> */}
 
         {location && (
           <Grid container spacing={2}>

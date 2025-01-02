@@ -27,12 +27,16 @@ const FilterForm = ({ onSubmit, onClear }) => {
       expected_dispatcher: '',
       expected_vehicle: '',
       delivery_date: '',
-      delivery_start_time: '',
-      delivery_end_time: '',
+      planned_start_time: '',
+      planned_end_time: '',
       delivery_type: '',
       city: '',
       state: '',
       zip_code: '',
+      pickup_city: '',
+      pickup_state: '',
+      delivery_city: '',
+      delivery_state: '',
     }
   });
 
@@ -46,14 +50,20 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const customerLoadValue = watch('customer_load');
   const expectedDispatcher = watch('expected_dispatcher');
   const expectedVehicle = watch('expected_vehicle');
-
   const deliveryDate = watch('delivery_date');
-  const deliveryStartTime = watch('delivery_start_time');
-  const deliveryEndTime = watch('delivery_end_time');
+  const plannedStartTime = watch('planned_start_time');
+  const plannedEndTime = watch('planned_end_time');
   const deliveryType = watch('delivery_type');
   const trailerTypeValue = watch('trailer_type');
-  const partnerIdValue = watch('partner_id');
   const isarchivedValue = watch('is_archived');
+
+  const partnerIdValue = watch('partner_id');
+  const pickupCity = watch('pickup_city');
+  const pickupState = watch('pickup_state');
+
+  const deliveryCity = watch('delivery_city');
+  const deliveryState = watch('delivery_state');
+
 
   
 
@@ -95,6 +105,51 @@ const FilterForm = ({ onSubmit, onClear }) => {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="pickup_city"
+            label="Pickup City"
+            variant="outlined"
+            value={pickupCity}
+            {...register('pickup_city')}
+            placeholder="Pickup City"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="pickup_state"
+            label="Pickup State"
+            variant="outlined"
+            value={pickupState}
+            {...register('pickup_state')}
+            placeholder="Pickup State"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="delivery_city"
+            label="delivery City"
+            variant="outlined"
+            value={deliveryCity}
+            {...register('delivery_city')}
+            placeholder="delivery City"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="delivery_state"
+            label="delivery State"
+            variant="outlined"
+            value={deliveryState}
+            {...register('delivery_state')}
+            placeholder="delivery State"
+            fullWidth
+          />
+        </Grid>
+        
+        <Grid item xs={12} sm={6} md={3}>
           
           <TextField
             id="delivery_date"
@@ -109,13 +164,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <TextField
-            id="delivery_start_time"
-            label="Delivery Start Time"
+            id="planned_start_time"
+            label="planned Start Time"
             variant="outlined"
             type="time"
-            value={deliveryStartTime}
-            {...register('delivery_start_time')}
-            placeholder="Delivery Start Time"
+            value={plannedStartTime}
+            {...register('planned_start_time')}
+            placeholder="planned Start Time"
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
@@ -141,13 +196,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
         
         <Grid item xs={12} sm={6} md={3}>
           <TextField
-            id="delivery_end_time"
-            label="Delivery End Time"
+            id="planned_end_time"
+            label="planned End Time"
             variant="outlined"
             type="time"
-            value={deliveryEndTime}
-            {...register('delivery_end_time')}
-            placeholder="Delivery End Time"
+            value={plannedEndTime}
+            {...register('planned_end_time')}
+            placeholder="planned End Time"
             InputLabelProps={{ shrink: true }}
             fullWidth
           />

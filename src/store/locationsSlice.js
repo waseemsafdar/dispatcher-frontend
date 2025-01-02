@@ -4,17 +4,17 @@ import axios from 'axios';
 
 // Async thunk for saving location data
 export const saveLocation = createAsyncThunk('locations/saveLocation', async (locationData) => {
-  const response = await axios.post('http://18.118.168.39:5000/locations/', locationData);
+  const response = await axios.post('http://127.0.0.1:5000/locations/', locationData);
   return response.data;
 });
 
 export const getLocations = createAsyncThunk('locations/getAll', async () => {
-  const response = await axios.get('http://18.118.168.39:5000/locations');
+  const response = await axios.get('http://127.0.0.1:5000/locations');
   return response.data;
 });
 
 export const fetchLocationById = createAsyncThunk('locations/fetchById', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/locations/${id}`); 
+  const response = await axios.get(`http://127.0.0.1:5000/locations/${id}`); 
   return response.data; 
 });
 
@@ -23,7 +23,7 @@ export const updateLocationById = createAsyncThunk(
   async ({ id, values }) => {
     try {
       const response = await axios.put(
-        `http://18.118.168.39:5000/locations/${id}`, // URL with ID
+        `http://127.0.0.1:5000/locations/${id}`, // URL with ID
         JSON.stringify(values), // JSON payload
         {
           headers: {

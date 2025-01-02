@@ -61,6 +61,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             onBlur={formik.handleBlur}
             error={formik.touched.type && Boolean(formik.errors.type)}
             label="Type"
+            disabled={true}
           >
             <MenuItem value="Delivery">Delivery</MenuItem>
             <MenuItem value="Pickup">Pickup</MenuItem>
@@ -81,6 +82,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           helperText={formik.touched.delivery_date && formik.errors.delivery_date}
           fullWidth
           inputProps={{ min: formattedDate }}  // Disable past dates
+          disabled={true}
         />
       </TableCell>
       <TableCell>
@@ -97,6 +99,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           helperText={formik.touched.delivery_start_time && formik.errors.delivery_start_time}
           fullWidth
           inputProps={{ min: formattedTime }}  // Disable past times
+          disabled={true}
         />
       </TableCell>
       <TableCell>
@@ -113,6 +116,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           helperText={formik.touched.delivery_end_time && formik.errors.delivery_end_time}
           fullWidth
           inputProps={{ min: formattedTime }}  // Disable past times
+          disabled={true}
         />
       </TableCell>
       <TableCell>
@@ -127,6 +131,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             onBlur={formik.handleBlur}
             error={formik.touched.location_id && Boolean(formik.errors.location_id)}
             label="Location"
+            disabled={true}
           >
             {locationData?.map((location) => (
               <MenuItem key={location?.id} value={location?.id}>{location?.google_query}</MenuItem>
@@ -134,11 +139,11 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           </Select>
         </FormControl>
       </TableCell>
-      <TableCell>
+      {/* <TableCell>
         <Button variant="contained" color="secondary" onClick={onDelete}>
           Delete
         </Button>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };

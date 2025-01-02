@@ -25,7 +25,7 @@ const LoadDetail = () => {
         <Typography marginBottom={3} variant="h4" gutterBottom>
           Load Details
         </Typography>
-                      <SyncButton url={`syncload/${id}`} />
+                      {/* <SyncButton url={`syncload/${id}`} /> */}
         
         {loadData && (
           <>
