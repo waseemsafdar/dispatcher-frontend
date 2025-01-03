@@ -31,8 +31,8 @@ const LocationList = () => {
   }
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'google_query', headerName: 'Google Query', width: 200 },
+    // { field: 'id', headerName: 'ID', width: 90 },
+    // { field: 'google_query', headerName: 'Google Query', width: 200 },
     { field: 'street', headerName: 'Street', width: 150 },
     { field: 'city', headerName: 'City', width: 150 },
     { field: 'zip_code', headerName: 'Zip Code', width: 110 },
@@ -48,9 +48,9 @@ const LocationList = () => {
         {/* <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
           <IconEdit />
         </IconButton> */}
-        <IconButton onClick={() => handleRowClick(params.id)} aria-label="edit">
+        {/* <IconButton onClick={() => handleRowClick(params.id)} aria-label="edit">
         <IconEye />
-      </IconButton>
+      </IconButton> */}
       </>
         
       ),
@@ -60,8 +60,8 @@ const LocationList = () => {
     navigate(`/location-detail/${id}`); 
   }
   const rows = locationData?.map((location) => ({
-    id: location.id,
-    google_query: location.google_query,
+    // id: location.id,
+    // google_query: location.google_query,
     street: location.street,
     city: location.city,
     zip_code: location.zip_code,

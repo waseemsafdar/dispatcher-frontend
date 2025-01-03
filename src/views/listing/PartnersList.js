@@ -33,7 +33,7 @@ const PartnerList = () => {
   }
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    // { field: 'id', headerName: 'ID', width: 90 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'city', headerName: 'City', width: 150 },
     { field: 'street', headerName: 'Street', width: 150 },
@@ -58,7 +58,7 @@ const PartnerList = () => {
   ];
 
   const rows = partnersData?.map((partner) => ({
-    id: partner.id,
+    // id: partner.id,
     name: partner.name,
     city: partner.city,
     street: partner.street,
