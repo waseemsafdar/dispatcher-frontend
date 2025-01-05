@@ -19,7 +19,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().email('Invalid username address').required('Required'),
+      username: Yup.string().required('Required'),
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
