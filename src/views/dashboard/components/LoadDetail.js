@@ -82,19 +82,19 @@ const LoadDetail = () => {
                 <Typography marginBottom={3} variant="h6">Delivery # {index + 1}</Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">Type: {delivery.type}</Typography>
+                    <Typography variant="body1">Type: {delivery?.type}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">Date: {delivery.delivery_date}</Typography>
+                    <Typography variant="body1">Date: {delivery?.delivery_date}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">Start Time: {delivery.delivery_start_time}</Typography>
+                    <Typography variant="body1">Start Time: {delivery?.delivery_start_time}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">End Time: {delivery.delivery_end_time}</Typography>
+                    <Typography variant="body1">End Time: {delivery?.delivery_end_time}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">Location ID: {delivery.location_id}</Typography>
+                    <Typography variant="body1">Location ID: {delivery?.location_id}</Typography>
                   </Grid>
                 </Grid>
                 <Divider sx={{ my: 2 }} />
