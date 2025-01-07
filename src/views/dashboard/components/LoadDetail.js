@@ -40,26 +40,30 @@ const LoadDetail = () => {
                 <Typography variant="h6">Freight Amount: {loadData?.freight_amount}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Dispatcher: {loadData?.expected_dispatcher}</Typography>
+                <Typography variant="h6">Planned Dispatcher: {loadData?.expected_dispatcher}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData?.pickup_city}</Typography>
+                <Typography variant="h6">Planned Vehicle: {loadData?.expected_vehicle}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData?.pickup_state}</Typography>
+                <Typography variant="h6">Pickup State: {loadData?.pickup_state}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Pickup City: {loadData?.pickup_city}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Delivery State: {loadData?.delivery_state}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
 
-                <Typography variant="h6">Expected Vehicle: {loadData?.delivery_city}</Typography>
+                <Typography variant="h6">Delivery City: {loadData?.delivery_city}</Typography>
+              </Grid>
+              
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Planned Start Time: {loadData?.planned_start_time}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData?.delivery_state}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData?.planned_start_time}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData?.planned_end_time}</Typography>
+                <Typography variant="h6">Planned End Time: {loadData?.planned_end_time}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Partner: {loadData?.partner?.name}</Typography>
