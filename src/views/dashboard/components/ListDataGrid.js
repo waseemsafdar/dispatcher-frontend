@@ -101,6 +101,12 @@ const ListDataGrid = () => {
     expected_dispatcher: load.expected_dispatcher,
     expected_vehicle: load.expected_vehicle,
     partner_id: load?.partner?.name,
+    pickup_city: load?.pickup_city,
+    pickup_state:  load?.pickup_state,
+    delivery_city:  load?.delivery_city,
+    delivery_state:  load?.delivery_state,
+    planned_start_time:  load?.planned_start_time,
+    planned_end_time:  load?.planned_end_time,
     is_archived: load?.is_archived ? 'InActive' : 'Active',
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
   }));
