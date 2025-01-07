@@ -60,7 +60,7 @@ const LocationList = () => {
     navigate(`/location-detail/${id}`); 
   }
   const rows = locationData?.map((location) => ({
-    // id: location.id,
+     id: location.id,
     // google_query: location.google_query,
     street: location.street,
     city: location.city,
