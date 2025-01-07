@@ -96,7 +96,6 @@ const LoadForm = () => {
       planned_start_time: '',
       planned_end_time: '',
     },
-    validationSchema,
     onSubmit: (values) => {
 
 

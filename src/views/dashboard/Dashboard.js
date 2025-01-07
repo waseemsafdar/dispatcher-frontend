@@ -25,7 +25,7 @@ const Dashboard = () => {
       <Box >
       
         <Grid container spacing={3}>
-          <Grid style={{background:"white", zIndex:2, position:"sticky", top: 0,}} item xs={12}>
+          <Grid  item xs={12}>
           <Typography marginBottom={3} variant="h2" gutterBottom>
                 Load List
               </Typography>
