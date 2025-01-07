@@ -58,7 +58,7 @@ const PartnerList = () => {
   ];
 
   const rows = partnersData?.map((partner) => ({
-    // id: partner.id,
+    id: partner.id,
     name: partner.name,
     city: partner.city,
     street: partner.street,
