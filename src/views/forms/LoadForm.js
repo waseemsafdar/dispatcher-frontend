@@ -49,16 +49,16 @@ const LoadForm = () => {
           freight_amount: data?.freight_amount || '',
           cpm: data?.cpm || '',
           expected_vehicle: data?.expected_vehicle || '',
-          pickup_city: data?.expected_vehicle || '',
+          pickup_city: data?.pickup_city || '',
 
-          pickup_state: data?.expected_vehicle || '',
+          pickup_state: data?.pickup_state || '',
 
-          delivery_city: data?.expected_vehicle || '',
+          delivery_city: data?.delivery_city || '',
 
-          delivery_state: data?.expected_vehicle || '',
-          planned_end_time: data?.expected_vehicle || '',
+          delivery_state: data?.delivery_state || '',
+          planned_end_time: data?.planned_end_time || '',
 
-          planned_start_time: data?.expected_vehicle || '',
+          planned_start_time: data?.planned_start_time || '',
 
 
         });
