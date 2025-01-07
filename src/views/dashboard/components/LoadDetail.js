@@ -31,28 +31,44 @@ const LoadDetail = () => {
           <>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Customer Load: {loadData.customer_load}</Typography>
+                <Typography variant="h6">Customer Load: {loadData?.customer_load}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">CPM: {loadData.cpm}</Typography>
+                <Typography variant="h6">CPM: {loadData?.cpm}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Freight Amount: {loadData.freight_amount}</Typography>
+                <Typography variant="h6">Freight Amount: {loadData?.freight_amount}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Dispatcher: {loadData.expected_dispatcher}</Typography>
+                <Typography variant="h6">Expected Dispatcher: {loadData?.expected_dispatcher}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Expected Vehicle: {loadData.expected_vehicle}</Typography>
+                <Typography variant="h6">Expected Vehicle: {loadData?.pickup_city}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Partner: {loadData.partner?.name}</Typography>
+                <Typography variant="h6">Expected Vehicle: {loadData?.pickup_state}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Trailer Type: {loadData.trailer_type.map(type => type.type).join(', ')}</Typography>
+
+                <Typography variant="h6">Expected Vehicle: {loadData?.delivery_city}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Status: {loadData.is_archived ? 'InActive' : 'Active'}</Typography>
+                <Typography variant="h6">Expected Vehicle: {loadData?.delivery_state}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Expected Vehicle: {loadData?.planned_start_time}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Expected Vehicle: {loadData?.planned_end_time}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Partner: {loadData?.partner?.name}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Trailer Type: {loadData?.trailer_type.map(type => type.type).join(', ')}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Status: {loadData?.is_archived ? 'InActive' : 'Active'}</Typography>
               </Grid>
             </Grid>
             
