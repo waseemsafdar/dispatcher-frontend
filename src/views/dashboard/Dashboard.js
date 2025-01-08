@@ -6,6 +6,7 @@ import ListDataGrid from './components/ListDataGrid';
 import { useDispatch } from 'react-redux';
 import { clearFilters, getLoad, syncData } from '../../store/loadSlice';
 import SyncButton from './components/syncbutton';
+import dayjs from 'dayjs';
 
 
 const Dashboard = () => {
@@ -15,8 +16,17 @@ const Dashboard = () => {
     dispatch(getLoad());
   };
   const handleFilterSubmit = (filters) => {
-    console.log(filters);
-    dispatch(getLoad(filters));
+    const formattedData = {
+      ...filters,
+      planned_start_time: filters.planned_start_time 
+        ? dayjs(filters.planned_start_time).format('YYYY-MM-DD HH:mm:ss')
+        : null,
+      planned_end_time: filters.planned_end_time 
+        ? dayjs(filters.planned_end_time).format('YYYY-MM-DD HH:mm:ss')
+        : null
+    };
+    console.log(formattedData);
+    dispatch(getLoad(formattedData));
   };
  
 

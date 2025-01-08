@@ -220,7 +220,6 @@ const LoadForm = () => {
             id="planned_start_time"
             name="planned_start_time"
             label="Planned Start Time"
-            type="time"
             InputLabelProps={{ shrink: true }}
             value={formik.values.planned_start_time || ''} // Ensure it's never undefined
             onChange={formik.handleChange}
@@ -237,7 +236,6 @@ const LoadForm = () => {
             id="planned_end_time"
             name="planned_end_time"
             label="Planned End Time"
-            type="time"
             InputLabelProps={{ shrink: true }}
             value={formik.values.planned_end_time || ''} // Ensure it's never undefined
             onChange={formik.handleChange}
