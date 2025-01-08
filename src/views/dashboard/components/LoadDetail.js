@@ -98,7 +98,7 @@ const LoadDetail = () => {
                     <Typography variant="body1">End Time: {delivery?.delivery_end_time}</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Typography variant="body1">Location ID: {delivery?.location_id}</Typography>
+                    <Typography variant="body1">Location: {delivery?.location_id}</Typography>
                   </Grid>
                 </Grid>
                 <Divider sx={{ my: 2 }} />
