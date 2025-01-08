@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteLoadById, getLoad } from '../../../store/loadSlice';
-import { 
-  IconButton, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
+import {
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
   TableRow,
   Paper,
   TablePagination,
@@ -25,7 +25,7 @@ const ListDataGrid = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('cpm');
+  const [orderBy, setOrderBy] = useState('');
 
   const { loadList, status, error } = useSelector((state) => state.load);
 
@@ -87,7 +87,7 @@ const ListDataGrid = () => {
 
   useEffect(() => {
     //if (status === 'idle') {
-      dispatch(getLoad());
+    dispatch(getLoad());
     //}
   }, [dispatch]);
 
@@ -146,7 +146,7 @@ const ListDataGrid = () => {
                     color: 'white !important',
                     fontWeight: 'bold',
                     padding: '5px',
-                    lineHeight:'20px'
+                    lineHeight: '20px'
                   }}
                   sortDirection={orderBy === column.id ? order : false}
                 >
@@ -154,7 +154,18 @@ const ListDataGrid = () => {
                     active={orderBy === column.id}
                     direction={orderBy === column.id ? order : 'asc'}
                     onClick={() => handleRequestSort(column.id)}
-                    sx={{ color: 'white', '&.MuiTableSortLabel-root.MuiTableSortLabel-active': { color: 'white' } }}
+                    sx={{
+                      color: 'white',
+                      '&.MuiTableSortLabel-root:hover': {
+                        color: 'white',
+                      },
+                      '&.MuiTableSortLabel-root.Mui-active': {
+                        color: 'white',
+                      },
+                      '& .MuiTableSortLabel-icon': {
+                        color: 'white !important',
+                      },
+                    }}
                   >
                     {column.label}
                     {orderBy === column.id ? (
