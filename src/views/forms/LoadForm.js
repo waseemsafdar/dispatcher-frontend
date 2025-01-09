@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPartner, fetchTrailer } from '../../store/partnerSlice';
 import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
-import { update } from 'lodash';
 import { useNavigate, useParams } from 'react-router';
 
 const validationSchema = Yup.object({
@@ -24,19 +23,15 @@ const validationSchema = Yup.object({
 const LoadForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { tarilerData, partnerData, status, error } = useSelector((state) => state.partners);
+  const { tarilerData, partnerData } = useSelector((state) => state.partners);
   const { loadData } = useSelector((state) => state.load);
   const navigate = useNavigate();
 
   useEffect(() => {
-
     dispatch(fetchPartner());
     dispatch(fetchTrailer());
-
-
   }, [dispatch]);
-  const today = new Date();
-  const formattedTime = today.toTimeString().split(' ')[0];
+
   useEffect(() => {
     if (id) {
       dispatch(fetchloadById(id)).then((action) => {
@@ -50,17 +45,15 @@ const LoadForm = () => {
           cpm: data?.cpm || '',
           expected_vehicle: data?.expected_vehicle || '',
           pickup_city: data?.pickup_city || '',
-
           pickup_state: data?.pickup_state || '',
-
           delivery_city: data?.delivery_city || '',
-
           delivery_state: data?.delivery_state || '',
-          planned_end_time: data?.planned_end_time || '',
-
           planned_start_time: data?.planned_start_time || '',
-
-
+          planned_end_time: data?.planned_end_time || '',
+          load_type: data?.load_type || '',
+          temperature: data?.temperature || '',
+          weight: data?.weight || '',
+          length: data?.length || '',
         });
         setDeliveryForms(
           data?.delivery_ids?.map((delivery, index) => ({
@@ -95,36 +88,30 @@ const LoadForm = () => {
       delivery_state: '',
       planned_start_time: '',
       planned_end_time: '',
+      load_type: '',
+      temperature: '',
+      weight: '',
+      length: '',
     },
+    //validationSchema: validationSchema,
     onSubmit: (values) => {
-
-
-      //   const isValidType = (forms) => {
-      //     const types = forms.map((form) => form.data.type);
-      //     return types.includes('Delivery') && types.includes('Pickup');
-      //   };
-      //  if(!isValidType(deliveryForms)) {
-      //     toast.error("Delivery forms must include both 'delivery' and 'pickup' types");
-      //     return false
-      //   } 
-      const loadData = { ...values, delivery_info: deliveryForms?.map(form => form.data), };
+      const loadData = { ...values, delivery_info: deliveryForms?.map(form => form.data) };
       console.log('Load Form Data:', loadData);
       if (id) {
         dispatch(updateLoad({ id, loadData }))
           .unwrap().then(() => {
             formik.resetForm();
-            toast.success('udpated successfully!');
-            navigate('/dashboard')
+            toast.success('Updated successfully!');
+            navigate('/dashboard');
           }).catch((err) => {
             toast.error('Failed to update');
           });
-      }
-      else {
+      } else {
         dispatch(saveLoad(loadData))
           .unwrap().then(() => {
             toast('Load saved successfully');
             formik.resetForm();
-            navigate('/dashboard')
+            navigate('/dashboard');
             setDeliveryForms([{ id: 1, data: {} }]);
             dispatch(resetStatus());
           })
@@ -145,7 +132,6 @@ const LoadForm = () => {
             id="customer_load"
             name="customer_load"
             disabled={true}
-
             label="Customer Load Number"
             value={formik.values.customer_load}
             onChange={formik.handleChange}
@@ -161,7 +147,6 @@ const LoadForm = () => {
             name="pickup_state"
             label="Pickup State"
             disabled={true}
-
             value={formik.values.pickup_state}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -174,7 +159,7 @@ const LoadForm = () => {
           <CustomTextField
             id="pickup_city"
             name="pickup_city"
-            label="Pickup City"
+            label="Origin (Pickup City)"
             value={formik.values.pickup_city}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -182,7 +167,6 @@ const LoadForm = () => {
             helperText={formik.touched.pickup_city && formik.errors.pickup_city}
             fullWidth
             disabled={true}
-
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -199,13 +183,11 @@ const LoadForm = () => {
             disabled={true}
           />
         </Grid>
-
-
         <Grid item xs={12} sm={6}>
           <CustomTextField
             id="delivery_city"
             name="delivery_city"
-            label="Delivery City"
+            label="Destination (Delivery City)"
             value={formik.values.delivery_city}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -219,7 +201,7 @@ const LoadForm = () => {
           <CustomTextField
             id="planned_start_time"
             name="planned_start_time"
-            label="Planned Start Time"
+            label="Planned DateTime Start"
             InputLabelProps={{ shrink: true }}
             value={formik.values.planned_start_time || ''} // Ensure it's never undefined
             onChange={formik.handleChange}
@@ -227,7 +209,6 @@ const LoadForm = () => {
             error={formik.touched.planned_start_time && Boolean(formik.errors.planned_start_time)}
             helperText={formik.touched.planned_start_time && formik.errors.planned_start_time}
             fullWidth
-            inputProps={{ min: formattedTime }}  // Disable past times
             disabled={true}
           />
         </Grid>
@@ -235,7 +216,7 @@ const LoadForm = () => {
           <CustomTextField
             id="planned_end_time"
             name="planned_end_time"
-            label="Planned End Time"
+            label="Planned DateTime End"
             InputLabelProps={{ shrink: true }}
             value={formik.values.planned_end_time || ''} // Ensure it's never undefined
             onChange={formik.handleChange}
@@ -243,7 +224,6 @@ const LoadForm = () => {
             error={formik.touched.planned_end_time && Boolean(formik.errors.planned_end_time)}
             helperText={formik.touched.planned_end_time && formik.errors.planned_end_time}
             fullWidth
-            inputProps={{ min: formattedTime }}  // Disable past times
             disabled={true}
           />
         </Grid>
@@ -300,7 +280,6 @@ const LoadForm = () => {
               ))}
             </Select>
           </FormControl>
-
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField
@@ -345,6 +324,65 @@ const LoadForm = () => {
             fullWidth
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="load_type"
+            name="load_type"
+            label="Load Type"
+            value={formik.values.load_type}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.load_type && Boolean(formik.errors.load_type)}
+            helperText={formik.touched.load_type && formik.errors.load_type}
+            fullWidth
+            disabled={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="temperature"
+            name="temperature"
+            label="Temperature"
+            type="number"
+            value={formik.values.temperature}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.temperature && Boolean(formik.errors.temperature)}
+            helperText={formik.touched.temperature && formik.errors.temperature}
+            fullWidth
+            disabled={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="weight"
+            name="weight"
+            label="Weight (lbs)"
+            type="number"
+            value={formik.values.weight}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.weight && Boolean(formik.errors.weight)}
+            helperText={formik.touched.weight && formik.errors.weight}
+            fullWidth
+            disabled={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="length"
+            name="length"
+            label="Length (Feet)"
+            type="number"
+            value={formik.values.length}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.length && Boolean(formik.errors.length)}
+            helperText={formik.touched.length && formik.errors.length}
+            fullWidth
+            disabled={true}
+          />
+        </Grid>
         <Grid item xs={6}>
           {/* <Button variant="contained" color="primary" onClick={addDeliveryRow}>
             Add Stops
@@ -362,7 +400,6 @@ const LoadForm = () => {
                 <TableCell>End Time</TableCell>
                 <TableCell>Location</TableCell>
                 {/* <TableCell>Action</TableCell> */}
-
               </TableRow>
             </TableHead>
             <TableBody>
@@ -378,9 +415,7 @@ const LoadForm = () => {
           </Table>
         </TableContainer>
       </Grid>
-
       <Grid container spacing={3}>
-
         <Grid item xs={3} marginTop={3}>
           <Button color="primary" variant="contained" fullWidth type="submit">
             Save Load

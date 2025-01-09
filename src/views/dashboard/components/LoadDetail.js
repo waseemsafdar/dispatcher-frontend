@@ -25,8 +25,8 @@ const LoadDetail = () => {
         <Typography marginBottom={3} variant="h4" gutterBottom>
           Load Details
         </Typography>
-                      {/* <SyncButton url={`syncload/${id}`} /> */}
-        
+        {/* <SyncButton url={`syncload/${id}`} /> */}
+
         {loadData && (
           <>
             <Grid container spacing={2}>
@@ -49,16 +49,14 @@ const LoadDetail = () => {
                 <Typography variant="h6">Pickup State: {loadData?.pickup_state}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Pickup City: {loadData?.pickup_city}</Typography>
+                <Typography variant="h6">Origin (Pickup City): {loadData?.pickup_city}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Delivery State: {loadData?.delivery_state}</Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-
-                <Typography variant="h6">Delivery City: {loadData?.delivery_city}</Typography>
+                <Typography variant="h6">Destination (Delivery City): {loadData?.delivery_city}</Typography>
               </Grid>
-              
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Planned Start Time: {loadData?.planned_start_time}</Typography>
               </Grid>
@@ -74,10 +72,22 @@ const LoadDetail = () => {
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Status: {loadData?.is_archived ? 'InActive' : 'Active'}</Typography>
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Load Type: {loadData?.load_type}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Temperature: {loadData?.temperature}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Weight (lbs): {loadData?.weight}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Length (Feet): {loadData?.length}</Typography>
+              </Grid>
             </Grid>
-            
+
             <Divider sx={{ my: 2 }} />
-            
+
             <Typography marginBottom={3} variant="h5" gutterBottom>
               Deliveries
             </Typography>

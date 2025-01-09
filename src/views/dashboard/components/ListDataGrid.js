@@ -17,7 +17,6 @@ import {
 import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { textAlign } from '@mui/system';
 
 const ListDataGrid = () => {
   const dispatch = useDispatch();
@@ -86,9 +85,7 @@ const ListDataGrid = () => {
   };
 
   useEffect(() => {
-    //if (status === 'idle') {
     dispatch(getLoad());
-    //}
   }, [dispatch]);
 
   if (status === 'loading') return <div>Loading...</div>;
@@ -110,6 +107,10 @@ const ListDataGrid = () => {
     planned_end_time: load?.planned_end_time,
     is_archived: load?.is_archived ? 'InActive' : 'Active',
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
+    load_type: load.load_type,
+    temperature: load.temperature,
+    weight: load.weight,
+    length: load.length,
   })) || []; // Ensure rows is an empty array if loadList is undefined
 
   const columns = [
@@ -125,9 +126,13 @@ const ListDataGrid = () => {
     { id: 'pickup_state', label: 'Pickup State', minWidth: 120 },
     { id: 'delivery_city', label: 'Delivery City', minWidth: 120 },
     { id: 'delivery_state', label: 'Delivery State', minWidth: 120 },
-    { id: 'planned_start_time', label: 'Planned Start Time', minWidth: 120 },
-    { id: 'planned_end_time', label: 'Planned End Time', minWidth: 120 },
-    { id: 'is_archived', label: 'Status', minWidth: 100 }
+    { id: 'planned_start_time', label: 'Planned DateTime Start', minWidth: 120 },
+    { id: 'planned_end_time', label: 'Planned DateTime End', minWidth: 120 },
+    { id: 'is_archived', label: 'Status', minWidth: 100 },
+    { id: 'load_type', label: 'Load Type', minWidth: 120 },
+    { id: 'temperature', label: 'Temperature', minWidth: 120 },
+    { id: 'weight', label: 'Weight', minWidth: 120 },
+    { id: 'length', label: 'Length', minWidth: 120 },
   ];
 
   return (

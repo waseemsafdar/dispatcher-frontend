@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Grid, TextField, MenuItem, Select, InputLabel, FormControl, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPartner, fetchTrailer } from '../../../store/partnerSlice';
+import { fetchTrailer } from '../../../store/partnerSlice';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,150 +10,132 @@ import dayjs from 'dayjs';
 
 const FilterForm = ({ onSubmit, onClear }) => {
   const dispatch = useDispatch();
-  const { tarilerData, partnerData } = useSelector((state) => state.partners);
+  const { tarilerData } = useSelector((state) => state.partners);
   const { isClearFilter } = useSelector((state) => state.load);
-  const deliveryTypeOptions = [
-    { value: 'Delivery', label: 'Delivery' },
-    { value: 'Pickup', label: 'Pickup' },
-  ];
+
   useEffect(() => {
-    dispatch(fetchPartner());
     dispatch(fetchTrailer());
   }, [dispatch]);
 
   const { register, handleSubmit, reset, watch, setValue, control } = useForm({
     defaultValues: {
-      customer_load: '',
+      pickup_city: '',
+      delivery_city: '',
       trailer_type: '',
-      partner_id: '',
-      is_archived: '',
-      expected_dispatcher: '',
-      expected_vehicle: '',
+      load_type: '',
+      temperature: '',
+      weight: '',
+      length: '',
       planned_start_time: null,
       planned_end_time: null,
-      delivery_type: '',
-      city: '',
-      state: '',
-      zip_code: '',
-      pickup_city: '',
-      pickup_state: '',
-      delivery_city: '',
-      delivery_state: '',
     }
   });
 
   useEffect(() => {
     if (isClearFilter) {
       reset();
-
     }
   }, [isClearFilter]);
 
-  const customerLoadValue = watch('customer_load');
-  const expectedDispatcher = watch('expected_dispatcher');
-  const expectedVehicle = watch('expected_vehicle');
-  // const deliveryDate = watch('delivery_date');
+  const pickupCity = watch('pickup_city');
+  const deliveryCity = watch('delivery_city');
+  const trailerTypeValue = watch('trailer_type');
+  const loadType = watch('load_type');
+  const temperature = watch('temperature');
+  const weight = watch('weight');
+  const length = watch('length');
   const plannedStartTime = watch('planned_start_time');
   const plannedEndTime = watch('planned_end_time');
-  const deliveryType = watch('delivery_type');
-  const trailerTypeValue = watch('trailer_type');
-  const isarchivedValue = watch('is_archived');
-
-  const partnerIdValue = watch('partner_id');
-  const pickupCity = watch('pickup_city');
-  const pickupState = watch('pickup_state');
-
-  const deliveryCity = watch('delivery_city');
-  const deliveryState = watch('delivery_state');
-
-
-
 
   return (
     <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <TextField
-            id="customer_load"
-            label="Customer Load"
-            variant="outlined"
-            value={customerLoadValue}
-            {...register('customer_load')}
-            placeholder="Customer Load"
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="expected_dispatcher"
-            label="Planned Dispatcher"
-            variant="outlined"
-            value={expectedDispatcher}
-            {...register('expected_dispatcher')}
-            placeholder="Planned Dispatcher"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="expected_vehicle"
-            label="Planned Vehicle"
-            variant="outlined"
-            value={expectedVehicle}
-            {...register('expected_vehicle')}
-            placeholder="Planned Vehicle"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
             id="pickup_city"
-            label="Pickup City"
+            label="Origin (Pickup city)"
             variant="outlined"
             value={pickupCity}
             {...register('pickup_city')}
-            placeholder="Pickup City"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="pickup_state"
-            label="Pickup State"
-            variant="outlined"
-            value={pickupState}
-            {...register('pickup_state')}
-            placeholder="Pickup State"
+            placeholder="Origin"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <TextField
             id="delivery_city"
-            label="Delivery City"
+            label="Destination (Delivery City)"
             variant="outlined"
             value={deliveryCity}
             {...register('delivery_city')}
-            placeholder="delivery City"
+            placeholder="Destination"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="trailer-label">Equipment Type</InputLabel>
+            <Select
+              labelId="trailerType-label"
+              id="trailer_type"
+              value={trailerTypeValue}
+              {...register('trailer_type')}
+              onChange={(e) => setValue('trailer_type', e.target.value)}
+              label="Equipment Type"
+            >
+              {tarilerData && tarilerData.map((trailer) => (
+                <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="load_type"
+            label="Load Type"
+            variant="outlined"
+            value={loadType}
+            {...register('load_type')}
+            placeholder="Load Type"
             fullWidth
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <TextField
-            id="delivery_state"
-            label="Delivery State"
+            id="temperature"
+            label="Temperature"
             variant="outlined"
-            value={deliveryState}
-            {...register('delivery_state')}
-            placeholder="delivery State"
+            type="number"
+            value={temperature}
+            {...register('temperature')}
+            placeholder="Temperature"
             fullWidth
           />
         </Grid>
-
-
-
-
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="weight"
+            label="Weight (lbs)"
+            variant="outlined"
+            type="number"
+            value={weight}
+            {...register('weight')}
+            placeholder="Weight"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="length"
+            label="Length (Feet)"
+            variant="outlined"
+            type="number"
+            value={length}
+            {...register('length')}
+            placeholder="Length"
+            fullWidth
+          />
+        </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Controller
@@ -162,7 +144,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
               render={({ field }) => (
                 <DateTimePicker
                   {...field}
-                  label="Planned Start Time"
+                  label="Planned Datetime Start"
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -175,26 +157,6 @@ const FilterForm = ({ onSubmit, onClear }) => {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="deliveryType-label">Delivery Type</InputLabel>
-            <Select
-              labelId="deliveryType-label"
-              id="delivery_type"
-              value={deliveryType}
-              {...register('delivery_type')}
-              label="Delivery Type"
-            >
-              {deliveryTypeOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Controller
               name="planned_end_time"
@@ -202,7 +164,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
               render={({ field }) => (
                 <DateTimePicker
                   {...field}
-                  label="Planned End Time"
+                  label="Planned Datetime End"
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -213,58 +175,6 @@ const FilterForm = ({ onSubmit, onClear }) => {
               )}
             />
           </LocalizationProvider>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="trailer-label">Trailer Type</InputLabel>
-            <Select
-              labelId="trailerType-label"
-              id="trailer_type"
-              value={trailerTypeValue}
-              {...register('trailer_type')}
-              onChange={(e) => setValue('trailer_type', e.target.value)}
-              label="Trailer Type"
-            >
-              {tarilerData && tarilerData?.map((trailer) => (
-                <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="status-label">Status</InputLabel>
-            <Select
-              labelId="status-label"
-              id="is_archived"
-              {...register('is_archived')}
-              label="Status"
-              value={isarchivedValue}
-
-            >
-              <MenuItem value={false}>Active</MenuItem>
-              <MenuItem value={true}>Inactive</MenuItem>
-            </Select>
-          </FormControl>
-
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="partner-label">Partner</InputLabel>
-            <Select
-              labelId="partner-label"
-              id="partner_id"
-              value={partnerIdValue}
-              {...register('partner_id')}
-              onChange={(e) => setValue('partner_id', e.target.value)}
-              label="Partner"
-            >
-              {Array.isArray(partnerData) && partnerData.map((partner) => (
-                <MenuItem key={partner.id} value={partner.id}>{partner.name}</MenuItem>
-              ))}
-
-            </Select>
-          </FormControl>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Button variant="contained" type="submit" color="primary" fullWidth>
@@ -285,10 +195,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           </Button>
         </Grid>
       </Grid>
-
-
     </Box>
-
   );
 };
 
