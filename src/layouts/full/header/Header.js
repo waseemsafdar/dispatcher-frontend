@@ -1,16 +1,13 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge, Button } from '@mui/material';
+import { Box, AppBar, Toolbar, styled, Stack, IconButton, Badge } from '@mui/material';
 import PropTypes from 'prop-types';
 
-// components
-import Profile from './Profile';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
+import SidebarItems from '../sidebar/SidebarItems';
+import Profile from '../header/Profile';
+import Logo from '../shared/logo/Logo';
 
 const Header = (props) => {
-
-  // const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-  // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
-
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     boxShadow: 'none',
@@ -21,39 +18,52 @@ const Header = (props) => {
       minHeight: '70px',
     },
   }));
+
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
     width: '100%',
     color: theme.palette.text.secondary,
   }));
 
   return (
-    <AppBarStyled style={{background:"#fbfbfb"}} position="sticky" color="default">
+    <AppBarStyled style={{ paddingTop: '20px', paddingBottom: '20px', background: "#fbfbfb" }} position="sticky" color="default">
       <ToolbarStyled>
-       
 
-
-        <IconButton
+        {/* Menu Button for Mobile */}
+        {/* <IconButton
           size="large"
-          aria-label="show 11 new notifications"
+          edge="start"
           color="inherit"
-          aria-controls="msgs-menu"
-          aria-haspopup="true"
-          sx={{
-            ...(typeof anchorEl2 === 'object' && {
-              color: 'primary.main',
-            }),
-          }}
+          aria-label="menu"
+          sx={{ mr: 2 }}
         >
-          {/* <Badge variant="dot" color="primary">
-            <IconBellRinging size="21" stroke="1.5" />
-          </Badge> */}
+          <IconMenu />
+        </IconButton> */}
 
-        </IconButton>
-        <Box flexGrow={1} />
+        {/* Logo or Title */}
+        <Box display="flex" alignItems="center" flexGrow={1}>
+          <Logo />
+          <Box display="flex" flexDirection="row" width="auto" justifyContent="flex-end">
+            <SidebarItems direction="horizontal" />
+          </Box>
+        </Box>
+
         <Stack spacing={1} direction="row" alignItems="center">
-          {/* <Button variant="contained" color="primary"  target="_blank" href="https://adminmart.com/product/modernize-react-mui-dashboard-template/">
-            Upgrade to Pro
-          </Button> */}
+          <IconButton
+            size="large"
+            aria-label="show 11 new notifications"
+            color="inherit"
+            aria-controls="msgs-menu"
+            aria-haspopup="true"
+            sx={{
+              ...(typeof anchorEl2 === 'object' && {
+                color: 'primary.main',
+              }),
+            }}
+          >
+            {/* <Badge variant="dot" color="primary">
+              <IconBellRinging size="21" stroke="1.5" />
+            </Badge> */}
+          </IconButton>
           <Profile />
         </Stack>
       </ToolbarStyled>

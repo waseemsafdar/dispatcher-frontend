@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import { styled, Container, Box } from '@mui/material';
+import { styled, Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-
 
 import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
+import { padding } from "@mui/system";
+import { pad } from "lodash";
 
-const MainWrapper = styled('div')(() => ({
+const MainWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   width: '100%',
+  padding: theme.spacing(2), // Add padding here
 }));
 
-const PageWrapper = styled('div')(() => ({
+const PageWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexGrow: 1,
   paddingBottom: '60px',
   flexDirection: 'column',
   zIndex: 1,
   backgroundColor: 'transparent',
+  padding: theme.spacing(2), // Add padding here
 }));
 
 const FullLayout = () => {
@@ -28,45 +31,22 @@ const FullLayout = () => {
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   return (
-    <MainWrapper
-      className='mainwrapper'
-    >
-      {/* ------------------------------------------- */}
-      {/* Sidebar */}
-      {/* ------------------------------------------- */}
-      <Sidebar isSidebarOpen={isSidebarOpen}
-        isMobileSidebarOpen={isMobileSidebarOpen}
-        onSidebarClose={() => setMobileSidebarOpen(false)} />
-      {/* ------------------------------------------- */}
-      {/* Main Wrapper */}
-      {/* ------------------------------------------- */}
-      <PageWrapper
-        className="page-wrapper"
-      >
-        {/* ------------------------------------------- */}
-        {/* Header */}
-        {/* ------------------------------------------- */}
-        <Header toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
-        {/* ------------------------------------------- */}
-        {/* PageContent */}
-        {/* ------------------------------------------- */}
-        <Container sx={{
-          paddingTop: "20px",
-          maxWidth: '1200px',
-        }}
-        >
-          {/* ------------------------------------------- */}
-          {/* Page Route */}
-          {/* ------------------------------------------- */}
-          <Box sx={{ minHeight: 'calc(100vh - 170px)' }}>
-            <Outlet />
-          </Box>
-          {/* ------------------------------------------- */}
-          {/* End Page */}
-          {/* ------------------------------------------- */}
-        </Container>
-      </PageWrapper>
-    </MainWrapper>
+    <Box
+    className='mainwrapper'
+    sx={{  }} // Add padding here
+  >
+    <Header  
+          // Pass any props needed by Header
+        />    
+      
+       
+    <Box style={{padding:'20px'}}>
+    <Outlet  />
+    </Box>
+  </Box>
+   
+        
+      
   );
 };
 

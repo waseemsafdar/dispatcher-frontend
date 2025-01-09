@@ -5,10 +5,10 @@ import {
 import { uniqueId } from 'lodash';
 
 const Menuitems = [
-  {
-    navlabel: true,
-    subheader: 'Loads',
-  },
+  // {
+  //   navlabel: true,
+  //   subheader: 'Loads',
+  // },
   {
     id: uniqueId(),
     title: 'Load Listing',
@@ -21,10 +21,10 @@ const Menuitems = [
   //   icon: IconAperture,
   //   href: '/createload',
   // },
-  {
-    navlabel: true,
-    subheader: 'Locations',
-  },
+  // {
+  //   navlabel: true,
+  //   subheader: 'Locations',
+  // },
   {
     id: uniqueId(),
     title: 'All Locations',
@@ -53,10 +53,10 @@ const Menuitems = [
   //   icon: IconUserPlus,
   //   href: '/auth/register',
   // },
-  {
-    navlabel: true,
-    subheader: 'Partners',
-  },
+  // {
+  //   navlabel: true,
+  //   subheader: 'Partners',
+  // },
   // {
   //   id: uniqueId(),
   //   title: 'Icons',
