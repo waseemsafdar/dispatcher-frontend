@@ -52,7 +52,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const plannedEndTime = watch('planned_end_time');
 
   return (
-    <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box className='filterform-box' mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
       <Box display="flex" flexWrap="" flexDirection="row" gap={1}>
         <TextField
           id="pickup_city"
