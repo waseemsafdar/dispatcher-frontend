@@ -50,150 +50,155 @@ const FilterForm = ({ onSubmit, onClear }) => {
   return (
     <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="pickup_city"
-            label="Origin (Pickup city)"
-            variant="outlined"
-            value={pickupCity}
-            {...register('pickup_city')}
-            placeholder="Origin"
-            fullWidth
-          />
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="pickup_city"
+              label="Origin"
+              variant="outlined"
+              value={pickupCity}
+              {...register('pickup_city')}
+              placeholder="Origin"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="delivery_city"
+              label="Destination"
+              variant="outlined"
+              value={deliveryCity}
+              {...register('delivery_city')}
+              placeholder="Destination"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="trailer-label">Equipment</InputLabel>
+              <Select
+                labelId="trailerType-label"
+                id="trailer_type"
+                value={trailerTypeValue}
+                {...register('trailer_type')}
+                onChange={(e) => setValue('trailer_type', e.target.value)}
+                label="Equipment"
+              >
+                {tarilerData && tarilerData.map((trailer) => (
+                  <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="load_type"
+              label="Load Type"
+              variant="outlined"
+              value={loadType}
+              {...register('load_type')}
+              placeholder="Load Type"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="temperature"
+              label="Temp"
+              variant="outlined"
+              type="number"
+              value={temperature}
+              {...register('temperature')}
+              placeholder="Temperature"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="weight"
+              label="Weight (lbs)"
+              variant="outlined"
+              type="number"
+              value={weight}
+              {...register('weight')}
+              placeholder="Weight"
+              fullWidth
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="delivery_city"
-            label="Destination (Delivery City)"
-            variant="outlined"
-            value={deliveryCity}
-            {...register('delivery_city')}
-            placeholder="Destination"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="trailer-label">Equipment Type</InputLabel>
-            <Select
-              labelId="trailerType-label"
-              id="trailer_type"
-              value={trailerTypeValue}
-              {...register('trailer_type')}
-              onChange={(e) => setValue('trailer_type', e.target.value)}
-              label="Equipment Type"
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={12} sm={6} md={2}>
+            <TextField
+              id="length"
+              label="Length (Ft)"
+              variant="outlined"
+              type="number"
+              value={length}
+              {...register('length')}
+              placeholder="Length"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Controller
+                name="planned_start_time"
+                control={control}
+                render={({ field }) => (
+                  <DateTimePicker
+                    {...field}
+                    label="Planned Start"
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        variant: "outlined"
+                      }
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Controller
+                name="planned_end_time"
+                control={control}
+                render={({ field }) => (
+                  <DateTimePicker
+                    {...field}
+                    label="Planned End"
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        variant: "outlined"
+                      }
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <Button variant="contained" type="submit" color="primary" fullWidth>
+              Apply Filters
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={() => {
+                reset();
+                onClear();
+              }}
             >
-              {tarilerData && tarilerData.map((trailer) => (
-                <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              Clear Filters
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="load_type"
-            label="Load Type"
-            variant="outlined"
-            value={loadType}
-            {...register('load_type')}
-            placeholder="Load Type"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="temperature"
-            label="Temperature"
-            variant="outlined"
-            type="number"
-            value={temperature}
-            {...register('temperature')}
-            placeholder="Temperature"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="weight"
-            label="Weight (lbs)"
-            variant="outlined"
-            type="number"
-            value={weight}
-            {...register('weight')}
-            placeholder="Weight"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField
-            id="length"
-            label="Length (Feet)"
-            variant="outlined"
-            type="number"
-            value={length}
-            {...register('length')}
-            placeholder="Length"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Controller
-              name="planned_start_time"
-              control={control} // Add control to your useForm hook destructuring
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  label="Planned Datetime Start"
-                  slotProps={{
-                    textField: {
-                      fullWidth: true,
-                      variant: "outlined"
-                    }
-                  }}
-                />
-              )}
-            />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Controller
-              name="planned_end_time"
-              control={control} // Add control to your useForm hook destructuring
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  label="Planned Datetime End"
-                  slotProps={{
-                    textField: {
-                      fullWidth: true,
-                      variant: "outlined"
-                    }
-                  }}
-                />
-              )}
-            />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Button variant="contained" type="submit" color="primary" fullWidth>
-            Apply Filters
-          </Button>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            onClick={() => {
-              reset();
-              onClear();
-            }}
-          >
-            Clear Filters
-          </Button>
-        </Grid>
+        
       </Grid>
     </Box>
   );

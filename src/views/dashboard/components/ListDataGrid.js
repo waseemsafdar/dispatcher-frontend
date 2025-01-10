@@ -109,8 +109,8 @@ const ListDataGrid = () => {
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
     load_type: load.load_type,
     temperature: load.temperature,
-    weight: load.weight,
-    length: load.length,
+    //weight: load.weight,
+    //length: load.length,
   })) || []; // Ensure rows is an empty array if loadList is undefined
 
   const columns = [
@@ -130,9 +130,9 @@ const ListDataGrid = () => {
     { id: 'planned_end_time', label: 'Planned DateTime End', minWidth: 120 },
     { id: 'is_archived', label: 'Status', minWidth: 100 },
     { id: 'load_type', label: 'Load Type', minWidth: 120 },
-    { id: 'temperature', label: 'Temperature', minWidth: 120 },
-    { id: 'weight', label: 'Weight', minWidth: 120 },
-    { id: 'length', label: 'Length', minWidth: 120 },
+    //{ id: 'temperature', label: 'Temperature', minWidth: 120 },
+   // { id: 'weight', label: 'Weight', minWidth: 120 },
+    //{ id: 'length', label: 'Length', minWidth: 120 },
   ];
 
   return (
