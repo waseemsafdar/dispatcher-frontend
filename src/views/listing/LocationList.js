@@ -1,13 +1,9 @@
-// src/components/LocationList.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLocations } from '../../store/locationsSlice';
 import { DataGrid } from '@mui/x-data-grid';
-import { CircularProgress, Typography, IconButton } from '@mui/material';
-import { toast } from 'react-toastify';
-import { IconEdit, IconEye } from '@tabler/icons-react';
+import { CircularProgress, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router';
-import SyncButton from '../dashboard/components/syncbutton';
 
 const LocationList = () => {
   const dispatch = useDispatch();
@@ -31,37 +27,30 @@ const LocationList = () => {
   }
 
   const columns = [
-    // { field: 'id', headerName: 'ID', width: 90 },
-    // { field: 'google_query', headerName: 'Google Query', width: 200 },
-    { field: 'street', headerName: 'Street', width: 150 },
-    { field: 'city', headerName: 'City', width: 150 },
-    { field: 'zip_code', headerName: 'Zip Code', width: 110 },
-    { field: 'state', headerName: 'State', width: 150 },
-    { field: 'longitude', headerName: 'Longitude', width: 150 },
-    { field: 'latitude', headerName: 'Latitude', width: 150 },
+    { field: 'street', headerName: 'Street', flex: 1 },
+    { field: 'city', headerName: 'City', flex: 1 },
+    { field: 'zip_code', headerName: 'Zip Code', flex: 1 },
+    { field: 'state', headerName: 'State', flex: 1 },
+    { field: 'longitude', headerName: 'Longitude', flex: 1 },
+    { field: 'latitude', headerName: 'Latitude', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      flex: 1,
       renderCell: (params) => (
         <>
-        {/* <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
-          <IconEdit />
-        </IconButton> */}
-        {/* <IconButton onClick={() => handleRowClick(params.id)} aria-label="edit">
-        <IconEye />
-      </IconButton> */}
-      </>
-        
+          {/* Add action buttons here */}
+        </>
       ),
     },
   ];
+
   const handleRowClick = (id) => { 
     navigate(`/location-detail/${id}`); 
-  }
+  };
+
   const rows = locationData?.map((location) => ({
-     id: location.id,
-    // google_query: location.google_query,
+    id: location.id,
     street: location.street,
     city: location.city,
     zip_code: location.zip_code,
@@ -71,21 +60,47 @@ const LocationList = () => {
   }));
 
   return (
-    <div style={{ maxheight: 400, width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Location List
       </Typography>
-      
-      
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5, 10, 20]}
-        pagination
-        disableRowSelectionOnClick
-      />
-    </div>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            '& .MuiDataGrid-root': {
+              border: '1px solid #ddd',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: '1px solid #ddd',
+              borderRight: '1px solid #ddd',  // Vertical border
+
+            },
+            
+            '& .MuiDataGrid-columnHeaders': {
+              borderBottom: '1px solid #ddd',
+              backgroundColor: '#f5f5f5',
+            },
+            '& .MuiDataGrid-columnSeparator': {
+              display: 'none',
+            },
+            '& .MuiDataGrid-row': {
+              borderBottom: '1px solid #ddd',
+            },
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
+            pagination
+            disableRowSelectionOnClick
+            autoHeight
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

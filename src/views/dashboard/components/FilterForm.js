@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Grid, TextField, MenuItem, Select, InputLabel, FormControl, Button, Box } from '@mui/material';
+import { TextField, MenuItem, Select, InputLabel, FormControl, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTrailer } from '../../../store/partnerSlice';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -21,6 +21,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
     defaultValues: {
       pickup_city: '',
       delivery_city: '',
+      pickup_state: '', // Added default value for pickup_state
+      delivery_state: '', // Added default value for delivery_state
       trailer_type: '',
       load_type: '',
       temperature: '',
@@ -39,6 +41,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
   const pickupCity = watch('pickup_city');
   const deliveryCity = watch('delivery_city');
+  const pickupState = watch('pickup_state'); // Added watch for pickup_state
+  const deliveryState = watch('delivery_state'); // Added watch for delivery_state
   const trailerTypeValue = watch('trailer_type');
   const loadType = watch('load_type');
   const temperature = watch('temperature');
@@ -49,157 +53,149 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
   return (
     <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid container item xs={12} spacing={2}>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="pickup_city"
-              label="Origin"
-              variant="outlined"
-              value={pickupCity}
-              {...register('pickup_city')}
-              placeholder="Origin"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="delivery_city"
-              label="Destination"
-              variant="outlined"
-              value={deliveryCity}
-              {...register('delivery_city')}
-              placeholder="Destination"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel id="trailer-label">Equipment</InputLabel>
-              <Select
-                labelId="trailerType-label"
-                id="trailer_type"
-                value={trailerTypeValue}
-                {...register('trailer_type')}
-                onChange={(e) => setValue('trailer_type', e.target.value)}
-                label="Equipment"
-              >
-                {tarilerData && tarilerData.map((trailer) => (
-                  <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="load_type"
-              label="Load Type"
-              variant="outlined"
-              value={loadType}
-              {...register('load_type')}
-              placeholder="Load Type"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="temperature"
-              label="Temp"
-              variant="outlined"
-              type="number"
-              value={temperature}
-              {...register('temperature')}
-              placeholder="Temperature"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="weight"
-              label="Weight (lbs)"
-              variant="outlined"
-              type="number"
-              value={weight}
-              {...register('weight')}
-              placeholder="Weight"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container item xs={12} spacing={2}>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              id="length"
-              label="Length (Ft)"
-              variant="outlined"
-              type="number"
-              value={length}
-              {...register('length')}
-              placeholder="Length"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Controller
-                name="planned_start_time"
-                control={control}
-                render={({ field }) => (
-                  <DateTimePicker
-                    {...field}
-                    label="Planned Start"
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        variant: "outlined"
-                      }
-                    }}
-                  />
-                )}
+      <Box display="flex" flexWrap="" flexDirection="row" gap={1}>
+        <TextField
+          id="pickup_city"
+          label="Origin (City)"
+          variant="outlined"
+          value={pickupCity}
+          {...register('pickup_city')}
+          placeholder="Origin"
+          fullWidth
+        />
+        <TextField
+          id="pickup_state"
+          label="Origin (State)"
+          variant="outlined"
+          value={pickupState}
+          {...register('pickup_state')}
+          placeholder="Origin (State)"
+          fullWidth
+        />
+        <TextField
+          id="delivery_city"
+          label="Delivery (City)"
+          variant="outlined"
+          value={deliveryCity}
+          {...register('delivery_city')}
+          placeholder="Delivery"
+          fullWidth
+        />
+        <TextField
+          id="delivery_state"
+          label="Delivery (State)"
+          variant="outlined"
+          value={deliveryState}
+          {...register('delivery_state')}
+          placeholder="Delivery (State)"
+          fullWidth
+        />
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel id="trailer-label">Equipment</InputLabel>
+          <Select
+            labelId="trailerType-label"
+            id="trailer_type"
+            value={trailerTypeValue}
+            {...register('trailer_type')}
+            onChange={(e) => setValue('trailer_type', e.target.value)}
+            label="Equipment"
+          >
+            {tarilerData && tarilerData.map((trailer) => (
+              <MenuItem key={trailer.id} value={trailer.id}>{trailer.type}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          id="load_type"
+          label="Load Type"
+          variant="outlined"
+          value={loadType}
+          {...register('load_type')}
+          placeholder="Load Type"
+          fullWidth
+        />
+        <TextField
+          id="temperature"
+          label="Temp"
+          variant="outlined"
+          type="number"
+          value={temperature}
+          {...register('temperature')}
+          placeholder="Temperature"
+          fullWidth
+        />
+        <TextField
+          id="weight"
+          label="Weight (lbs)"
+          variant="outlined"
+          type="number"
+          value={weight}
+          {...register('weight')}
+          placeholder="Weight"
+          fullWidth
+        />
+        <TextField
+          id="length"
+          label="Length (Ft)"
+          variant="outlined"
+          type="number"
+          value={length}
+          {...register('length')}
+          placeholder="Length"
+          fullWidth
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Controller
+            name="planned_start_time"
+            control={control}
+            render={({ field }) => (
+              <DateTimePicker
+                {...field}
+                label="Planned Start"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: "outlined"
+                  }
+                }}
               />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Controller
-                name="planned_end_time"
-                control={control}
-                render={({ field }) => (
-                  <DateTimePicker
-                    {...field}
-                    label="Planned End"
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        variant: "outlined"
-                      }
-                    }}
-                  />
-                )}
+            )}
+          />
+        </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Controller
+            name="planned_end_time"
+            control={control}
+            render={({ field }) => (
+              <DateTimePicker
+                {...field}
+                label="Planned End"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: "outlined"
+                  }
+                }}
               />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <Button variant="contained" type="submit" color="primary" fullWidth>
-              Apply Filters
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              onClick={() => {
-                reset();
-                onClear();
-              }}
-            >
-              Clear Filters
-            </Button>
-          </Grid>
-        </Grid>
-        
-      </Grid>
+            )}
+          />
+        </LocalizationProvider>
+      </Box>
+      <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
+        <Button variant="contained" type="submit" color="primary">
+          Apply Filters
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => {
+            reset();
+            onClear();
+          }}
+        >
+          Clear Filters
+        </Button>
+      </Box>
     </Box>
   );
 };

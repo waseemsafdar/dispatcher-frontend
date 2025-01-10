@@ -1,13 +1,11 @@
-// src/components/PartnerList.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getpartners } from '../../store/partnerSlice'; // Replace with the actual path
 import { DataGrid } from '@mui/x-data-grid';
-import { CircularProgress, Typography, IconButton } from '@mui/material';
+import { CircularProgress, Typography, IconButton, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import { IconEdit, IconEye } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import SyncButton from '../dashboard/components/syncbutton';
 
 const PartnerList = () => {
   const dispatch = useDispatch();
@@ -33,25 +31,24 @@ const PartnerList = () => {
   }
 
   const columns = [
-    // { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'name', headerName: 'Name', width: 200 },
-    { field: 'city', headerName: 'City', width: 150 },
-    { field: 'street', headerName: 'Street', width: 150 },
-    { field: 'zip_code', headerName: 'ZIP Code', width: 110 },
-    { field: 'state', headerName: 'State', width: 150 },
-    { field: 'mic_number', headerName: 'MIC Number', width: 150 },
+    { field: 'name', headerName: 'Name', flex: 1 },
+    { field: 'city', headerName: 'City', flex: 1 },
+    { field: 'street', headerName: 'Street', flex: 1 },
+    { field: 'zip_code', headerName: 'ZIP Code', flex: 1 },
+    { field: 'state', headerName: 'State', flex: 1 },
+    { field: 'mic_number', headerName: 'MIC Number', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      flex: 1,
       renderCell: (params) => (
         <>
-        {/* <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
-          <IconEdit />
-        </IconButton> */}
-        <IconButton onClick={() => handleRowClick(params.id)} aria-label="detail">
-          <IconEye />
-        </IconButton>
+          {/* <IconButton onClick={() => handleEdit(params.id)} aria-label="edit">
+            <IconEdit />
+          </IconButton> */}
+          <IconButton onClick={() => handleRowClick(params.id)} aria-label="detail">
+            <IconEye />
+          </IconButton>
         </>
       ),
     },
@@ -66,25 +63,51 @@ const PartnerList = () => {
     state: partner.state,
     mic_number: partner.mic_number,
   }));
-  const handleRowClick = (id) => { 
-    navigate(`/partner-detail/${id}`); 
-  }
+
+  const handleRowClick = (id) => {
+    navigate(`/partner-detail/${id}`);
+  };
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       <Typography marginBottom={3} variant="h2" gutterBottom>
         Partner List
       </Typography>
-
-
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5, 10, 20]}
-        pagination
-      disableRowSelectionOnClick
-/>
-    </div>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            '& .MuiDataGrid-root': {
+              border: '1px solid #ddd',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: '1px solid #ddd',
+              borderRight: '1px solid #ddd',  // Vertical border
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              borderBottom: '1px solid #ddd',
+              backgroundColor: '#f5f5f5',
+            },
+            '& .MuiDataGrid-columnSeparator': {
+              display: 'none',
+            },
+            '& .MuiDataGrid-row': {
+              borderBottom: '1px solid #ddd',
+            },
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
+            pagination
+            disableRowSelectionOnClick
+            autoHeight
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
