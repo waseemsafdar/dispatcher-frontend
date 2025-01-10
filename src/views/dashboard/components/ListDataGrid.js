@@ -121,7 +121,7 @@ const ListDataGrid = () => {
     { id: 'expected_dispatcher', label: 'Planned Dispatcher', minWidth: 120 },
     { id: 'expected_vehicle', label: 'Planned Vehicle', minWidth: 120 },
     { id: 'partner_id', label: 'Partner', minWidth: 100 },
-    { id: 'trailer_type', label: 'Trailer Type', minWidth: 120 },
+    { id: 'trailer_type', label: 'Equipment Type', minWidth: 120 },
     { id: 'pickup_city', label: 'Pickup City', minWidth: 120 },
     { id: 'pickup_state', label: 'Pickup State', minWidth: 120 },
     { id: 'delivery_city', label: 'Delivery City', minWidth: 120 },
