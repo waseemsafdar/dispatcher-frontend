@@ -21,8 +21,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
     defaultValues: {
       pickup_city: '',
       delivery_city: '',
-      pickup_state: '', // Added default value for pickup_state
-      delivery_state: '', // Added default value for delivery_state
+      pickup_state: '',
+      delivery_state: '',
       trailer_type: '',
       load_type: '',
       temperature: '',
@@ -41,8 +41,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
   const pickupCity = watch('pickup_city');
   const deliveryCity = watch('delivery_city');
-  const pickupState = watch('pickup_state'); // Added watch for pickup_state
-  const deliveryState = watch('delivery_state'); // Added watch for delivery_state
+  const pickupState = watch('pickup_state');
+  const deliveryState = watch('delivery_state');
   const trailerTypeValue = watch('trailer_type');
   const loadType = watch('load_type');
   const temperature = watch('temperature');
@@ -105,15 +105,20 @@ const FilterForm = ({ onSubmit, onClear }) => {
             ))}
           </Select>
         </FormControl>
-        <TextField
-          id="load_type"
-          label="Load Type"
-          variant="outlined"
-          value={loadType}
-          {...register('load_type')}
-          placeholder="Load Type"
-          fullWidth
-        />
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel id="load-type-label">Load Type</InputLabel>
+          <Select
+            labelId="load-type-label"
+            id="load_type"
+            value={loadType}
+            {...register('load_type')}
+            onChange={(e) => setValue('load_type', e.target.value)}
+            label="Load Type"
+          >
+            <MenuItem value="FTL">FTL</MenuItem>
+            <MenuItem value="LTL">LTL</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           id="temperature"
           label="Temp"

@@ -105,7 +105,7 @@ const ListDataGrid = () => {
     delivery_state: load?.delivery_state,
     planned_start_time: load?.planned_start_time,
     planned_end_time: load?.planned_end_time,
-    is_archived: load?.is_archived ? 'InActive' : 'Active',
+    is_archived: load?.is_archived ? 'Covered' : 'Open',
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
     load_type: load.load_type,
     temperature: load.temperature,
