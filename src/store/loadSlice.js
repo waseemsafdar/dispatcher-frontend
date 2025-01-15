@@ -66,7 +66,9 @@ const loadSlice = createSlice({
     loadList: null,
     status: 'idle',
     error: null,
+    filters: {},
     isClearFilter: false,
+    isBackFromDetail : false,
   },
   reducers: {
     resetStatus(state) {
@@ -74,6 +76,12 @@ const loadSlice = createSlice({
     },
     clearFilters(state) {
       state.isClearFilter = true;
+    },
+    setFilters(state, action) {
+      state.filters = action.payload;
+    },
+    setBackFromDetail(state, action) {
+      state.isBackFromDetail = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -112,5 +120,5 @@ const loadSlice = createSlice({
   },
 });
 
-export const { clearFilters, resetStatus } = loadSlice.actions;
+export const { clearFilters, resetStatus, setFilters , setBackFromDetail} = loadSlice.actions;
 export default loadSlice.reducer;

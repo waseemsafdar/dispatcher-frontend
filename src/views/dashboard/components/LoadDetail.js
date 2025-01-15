@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { fetchloadById } from '../../../store/loadSlice';
-import { Typography, Box, Grid, Paper, Divider } from '@mui/material';
-import SyncButton from './syncbutton';
+import { Typography, Box, Grid, Paper, Divider, Button } from '@mui/material';
+import { setBackFromDetail } from '../../../store/loadSlice';
 
 const LoadDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { loadData, status, error } = useSelector((state) => state.load);
 
   useEffect(() => {
@@ -18,13 +20,26 @@ const LoadDetail = () => {
 
   if (status === 'loading') return <div>Loading...</div>;
   if (status === 'failed') return <div>Error: {error}</div>;
-
+  const handleClick = () => {
+    // Dispatch your action here
+    dispatch(setBackFromDetail(true));
+    // Navigate to the /dashboard route
+    navigate('/dashboard');
+  };
   return (
     <Paper>
       <Box p={3}>
         <Typography marginBottom={3} variant="h4" gutterBottom>
           Load Details
         </Typography>
+        <Button
+      variant="contained"  // or "outlined" or "text" based on your styling preference
+      color="primary"
+      onClick={handleClick}
+      sx={{ textDecoration: 'none' }}  // Ensure no underline for the link
+    >
+      Back
+    </Button>
         {/* <SyncButton url={`syncload/${id}`} /> */}
 
         {loadData && (

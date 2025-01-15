@@ -26,8 +26,8 @@ const PageWrapper = styled('div')(({ theme }) => ({
 
 const FullLayout = () => {
 
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setSidebarOpen] = useState(true);
+  // const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   return (

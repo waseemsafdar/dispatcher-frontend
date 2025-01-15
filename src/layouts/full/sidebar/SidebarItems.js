@@ -23,7 +23,7 @@ const SidebarItems = ({ direction = 'vertical' }) => {
       >
         {MenuItems.map((item) => {
           if (item.subheader) {
-            return <NavGroup item={item} key={item.subheader} />;
+            //return <NavGroup item={item} key={item.subheader} />;
           } else {
             return (
               <ListItem key={item.id} sx={{ display: 'inline-flex' }}>

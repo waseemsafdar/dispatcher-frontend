@@ -4,7 +4,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import FilterForm from './components/FilterForm';
 import ListDataGrid from './components/ListDataGrid';
 import { useDispatch } from 'react-redux';
-import { clearFilters, getLoad, syncData } from '../../store/loadSlice';
+import { clearFilters, getLoad, syncData, setFilters } from '../../store/loadSlice';
 import SyncButton from './components/syncbutton';
 import dayjs from 'dayjs';
 
@@ -27,6 +27,8 @@ const Dashboard = () => {
     };
     console.log(formattedData);
     dispatch(getLoad(formattedData));
+    dispatch(setFilters(formattedData))
+    
   };
  
 

@@ -26,7 +26,7 @@ const ListDataGrid = () => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
 
-  const { loadList, status, error } = useSelector((state) => state.load);
+  const { loadList, status, error , filters} = useSelector((state) => state.load);
 
   const handleEdit = (id) => {
     navigate(`/edit-load/${id}`);
@@ -85,7 +85,7 @@ const ListDataGrid = () => {
   };
 
   useEffect(() => {
-    dispatch(getLoad());
+    dispatch(getLoad(filters));
   }, [dispatch]);
 
   if (status === 'loading') return <div>Loading...</div>;
