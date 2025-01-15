@@ -29,17 +29,18 @@ const LoadDetail = () => {
   return (
     <Paper>
       <Box p={3}>
-        <Typography marginBottom={3} variant="h4" gutterBottom>
-          Load Details
-        </Typography>
-        <Button
+      <Button
       variant="contained"  // or "outlined" or "text" based on your styling preference
       color="primary"
       onClick={handleClick}
-      sx={{ textDecoration: 'none' }}  // Ensure no underline for the link
+      sx={{marginBottom:'20px', textDecoration: 'none' }}  // Ensure no underline for the link
     >
       Back
     </Button>
+        <Typography marginBottom={3} variant="h4" gutterBottom>
+          Load Details
+        </Typography>
+      
         {/* <SyncButton url={`syncload/${id}`} /> */}
 
         {loadData && (
