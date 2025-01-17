@@ -10,6 +10,9 @@ import PartnerList from '../views/listing/PartnersList';
 import LoadDetail from '../views/dashboard/components/LoadDetail';
 import LocationDetail from '../views/listing/LocationDetail';
 import PartnerDetail from '../views/listing/PartnerDetail';
+import UserList from '../views/UserList';
+import UserDetail from '../views/listing/UserDetail';
+import VistaappUserForm from '../views/VistaappUserForm';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -40,6 +43,10 @@ const Router = [
       { path: '/edit-load/:id', element: <PrivateRoute><LoadForm /></PrivateRoute> },
       { path: '/load-detail/:id', element: <PrivateRoute><LoadDetail /></PrivateRoute> },
       { path: '/location-detail/:id', element: <PrivateRoute><LocationDetail /></PrivateRoute> },
+      { path: '/user-detail/:id', element: <PrivateRoute><UserDetail /></PrivateRoute> },
+      { path: '/edit-user/:id', element: <PrivateRoute><VistaappUserForm /></PrivateRoute> },
+      { path: '/create-user/', element: <PrivateRoute><VistaappUserForm /></PrivateRoute> },
+      { path: '/users', exact: true, element: <PrivateRoute><UserList /></PrivateRoute> },
       { path: '/partner-detail/:id', element: <PrivateRoute><PartnerDetail /></PrivateRoute> },
       { path: '/locations', exact: true, element: <PrivateRoute><LocationList /></PrivateRoute> },
       { path: '/partners', exact: true, element: <PrivateRoute><PartnerList /></PrivateRoute> },

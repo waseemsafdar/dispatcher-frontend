@@ -69,6 +69,12 @@ const Menuitems = [
     icon: IconMan,
     href: '/partners',
   },
+  {
+    id: uniqueId(),
+    title: 'Users',
+    icon: IconMan,
+    href: '/users',
+  },
   // {
   //   id: uniqueId(),
   //   title: 'Add Partner',

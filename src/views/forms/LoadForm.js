@@ -383,6 +383,21 @@ const LoadForm = () => {
             disabled={true}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="load_comments"
+            name="load_comments"
+            label="Load Comments (Feet)"
+            type="textarea"
+            value={formik.values.length}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.length && Boolean(formik.errors.length)}
+            helperText={formik.touched.length && formik.errors.length}
+            fullWidth
+            disabled={false}
+          />
+        </Grid>
         <Grid item xs={6}>
           {/* <Button variant="contained" color="primary" onClick={addDeliveryRow}>
             Add Stops
