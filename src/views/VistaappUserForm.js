@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Box, Button, Typography, TextField, FormControlLabel, Checkbox } from '@mui/material';
 import { fetchUserById, saveUser, updateUserById } from '../store/usersSlice';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
@@ -20,6 +20,8 @@ const validationSchema = Yup.object({
 const VistaappUserForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { user, status, error } = useSelector((state) => state.users);
   
   useEffect(() => {
@@ -43,11 +45,13 @@ const VistaappUserForm = () => {
     validationSchema,
     onSubmit: (values) => {
       if (id) {
+        console.log(id,'id')
         dispatch(updateUserById({ id, values }))
           .unwrap()
           .then(() => {
             formik.resetForm();
             toast.success('User updated successfully!');
+            navigate('/users')
           })
           .catch((err) => {
             toast.error('Failed to update user');

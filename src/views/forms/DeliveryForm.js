@@ -7,11 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLocations } from '../../store/locationsSlice';
 
 const validationSchema = Yup.object({
-  type: Yup.string().required('Required'),
-  delivery_date: Yup.date().required('Required'),
-  delivery_start_time: Yup.string().required('Required'),
-  delivery_end_time: Yup.string().required('Required'),
-  location_id: Yup.string().required('Required'),
+  type: Yup.string(),
+  delivery_date: Yup.date(),
+  delivery_start_time: Yup.string(),
+  delivery_end_time: Yup.string(),
+
 });
 
 const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
@@ -28,7 +28,9 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
       delivery_date: '',
       delivery_start_time: '',
       delivery_end_time: '',
+      location_name: '',
       location_id: '',
+
     },
     validationSchema,
   });
@@ -122,7 +124,7 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
       <TableCell>
         <FormControl fullWidth variant="outlined">
           <InputLabel id="location_id-label">Location</InputLabel>
-          <Select
+          {/* <Select
             labelId="location_id-label"
             id="location_id"
             name="location_id"
@@ -136,7 +138,18 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
             {locationData?.map((location) => (
               <MenuItem key={location?.id} value={location?.id}>{location?.google_query}</MenuItem>
             ))}
-          </Select>
+          </Select> */}
+          <CustomTextField
+          id="location_name"
+          name="location_name"
+          label="Location"
+          type="text"
+          value={formik.values.location_name || ''} // Ensure it's never undefined
+          
+          error={formik.touched.location_name && Boolean(formik.errors.location_name)}
+          
+          disabled={true}
+        />
         </FormControl>
       </TableCell>
       {/* <TableCell>

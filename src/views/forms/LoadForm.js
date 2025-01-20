@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import { FastField, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Grid, Box, Button, MenuItem, FormControl, InputLabel, Select, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router';
 
 const validationSchema = Yup.object({
   customer_load: Yup.string().required('Required'),
-  partner_id: Yup.string().required('Required'),
+  partner_name: Yup.string(),
   expected_dispatcher: Yup.string().required('Required'),
   trailerType: Yup.array().min(1, 'At least one trailer type is required').required('Required'), // Validate as an array
   freight_amount: Yup.number().required('Required').positive('Must be positive'),
@@ -32,6 +32,7 @@ const LoadForm = () => {
     dispatch(fetchTrailer());
   }, [dispatch]);
 
+
   useEffect(() => {
     if (id) {
       dispatch(fetchloadById(id)).then((action) => {
@@ -39,6 +40,7 @@ const LoadForm = () => {
         formik.setValues({
           customer_load: data?.customer_load || '',
           partner_id: data?.partner.id || '',
+          partner_name: data?.partner.name || '',
           expected_dispatcher: data?.expected_dispatcher || '',
           trailerType: data?.trailer_type.map(t => t.id) || [],
           freight_amount: data?.freight_amount || '',
@@ -54,6 +56,8 @@ const LoadForm = () => {
           temperature: data?.temperature || '',
           weight: data?.weight || '',
           length: data?.length || '',
+          load_comments: data?.load_comments || '',
+
         });
         setDeliveryForms(
           data?.delivery_ids?.map((delivery, index) => ({
@@ -72,11 +76,12 @@ const LoadForm = () => {
   const handleFormChange = (id, updatedData) => {
     setDeliveryForms(deliveryForms.map(form => (form.id === id ? { ...form, data: updatedData } : form)));
   };
+  console.log('aaaaaa')
 
   const formik = useFormik({
     initialValues: {
       customer_load: '',
-      partner_id: '',
+      partner_name: '',
       expected_dispatcher: '',
       trailerType: [],
       freight_amount: '',
@@ -92,6 +97,7 @@ const LoadForm = () => {
       temperature: '',
       weight: '',
       length: '',
+      load_comments :''
     },
     //validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -228,7 +234,7 @@ const LoadForm = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth variant="outlined">
+          {/* <FormControl fullWidth variant="outlined">
             <InputLabel id="partner_id-label">Customer / Broker</InputLabel>
             <Select
               labelId="partner_id-label"
@@ -245,7 +251,19 @@ const LoadForm = () => {
                 <MenuItem key={partner.id} value={partner.id}>{partner.name}</MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
+          <CustomTextField
+            id="partner_name"
+            name="partner_name"
+            label="Partner"
+            value={formik.values.partner_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.partner_name && Boolean(formik.errors.partner_name)}
+            helperText={formik.touched.partner_name && formik.errors.partner_name}
+            fullWidth
+            disabled
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField
@@ -387,16 +405,17 @@ const LoadForm = () => {
           <CustomTextField
             id="load_comments"
             name="load_comments"
-            label="Load Comments (Feet)"
+            label="Load Comments"
             type="textarea"
-            value={formik.values.length}
+            value={formik.values.load_comments}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.length && Boolean(formik.errors.length)}
-            helperText={formik.touched.length && formik.errors.length}
+            error={formik.touched.load_comments && Boolean(formik.errors.load_comments)}
+            helperText={formik.touched.load_comments && formik.errors.load_comments}
             fullWidth
             disabled={false}
           />
+          
         </Grid>
         <Grid item xs={6}>
           {/* <Button variant="contained" color="primary" onClick={addDeliveryRow}>
