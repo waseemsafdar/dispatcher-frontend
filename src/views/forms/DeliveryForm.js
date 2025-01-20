@@ -143,10 +143,10 @@ const DeliveryFormRow = ({ formData, onChange, onDelete }) => {
           id="location_name"
           name="location_name"
           label="Location"
-          type="text"
-          value={formik.values.location_name || ''} // Ensure it's never undefined
-          
-          error={formik.touched.location_name && Boolean(formik.errors.location_name)}
+         
+          value={formik.values.location_id || ''} // Ensure it's never undefined
+          onBlur={formik.handleBlur}
+          error={formik.touched.location_id && Boolean(formik.errors.location_id)}
           
           disabled={true}
         />

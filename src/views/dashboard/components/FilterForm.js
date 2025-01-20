@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TextField, MenuItem, Select, InputLabel, FormControl, Button, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTrailer } from '../../../store/partnerSlice';
+import { fetchDispatchers, fetchTrailer } from '../../../store/partnerSlice';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,7 +12,7 @@ import { setFilters , setBackFromDetail} from '../../../store/loadSlice';
 
 const FilterForm = ({ onSubmit, onClear }) => {
   const dispatch = useDispatch();
-  const { tarilerData } = useSelector((state) => state.partners);
+  const { tarilerData, dispatchersData } = useSelector((state) => state.partners);
   const { isClearFilter } = useSelector((state) => state.load);
   const { filters,isBackFromDetail } = useSelector((state) => state.load);
   const [activeFilter, setActiveFilter] = useState(null);
@@ -21,6 +21,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
   useEffect(() => {
     dispatch(fetchTrailer());
+    dispatch(fetchDispatchers());
   }, [dispatch]);
 
   const { register, handleSubmit, reset, watch, setValue, control } = useForm({
@@ -36,6 +37,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
       length: '',
       planned_start_time: null,
       planned_end_time: null,
+      expected_dispatcher:'',
       customer_load: '', // Added default value for customer load
     }
   });
@@ -95,10 +97,17 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const plannedStartTime = watch('planned_start_time');
   const plannedEndTime = watch('planned_end_time');
   const customerLoad = watch('customer_load'); // Added watch for customer load
+  const expectedDispatcher = watch('expected_dispatcher'); // Added watch for customer load
+
 
   return (
     <Box className='filterform-box' mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Box display="flex" flexWrap="" flexDirection="row" gap={1}>
+      <Box 
+      display="grid" 
+      gridTemplateColumns="repeat(8, 1fr)" 
+      gridTemplateRows="repeat(2, auto)" 
+      gap={1}
+    >
         <TextField
           id="pickup_city"
           label="Origin (City)"
@@ -135,6 +144,22 @@ const FilterForm = ({ onSubmit, onClear }) => {
           placeholder="Delivery (State)"
           fullWidth
         />
+        <FormControl fullWidth variant="outlined">
+                    <InputLabel id="expected_dispatcher-label">Planned Dispatcher</InputLabel>
+                    <Select
+                      labelId="expected_dispatcher-label"
+                      id="expected_dispatcher"
+                      name="expected_dispatcher"
+                      value={expectedDispatcher}
+                      label="Planned Dispatcher"
+                     {...register('expected_dispatcher')}
+                     onChange={(e) => setValue('expected_dispatcher', e.target.value)}  
+                    >
+                      {dispatchersData?.map((dispachter) => (
+                        <MenuItem key={dispachter?.id} value={dispachter?.name}>{dispachter?.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl> 
         <FormControl variant="outlined" fullWidth>
           <InputLabel id="trailer-label">Equipment</InputLabel>
           <Select

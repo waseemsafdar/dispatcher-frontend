@@ -21,6 +21,14 @@ export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (cred
   return response;
 });
 
+export const fetchDispatchers = createAsyncThunk('dispatchers/fetchDispatchers', async () => {
+  const response = await axios.get('http://18.118.168.39:5000/dispatchers',{
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  return response.data;
+});
 export const addPartner = createAsyncThunk('partners/addPartner', async (data) => {
   const response = await addPartnerdata(data);
   return response;
@@ -50,6 +58,7 @@ const partnersSlice = createSlice({
   initialState: {
     partnerData: null,
     partnersData: null,
+    dispatchersData:[],
     tarilerData: null,
     status: 'idle',
     error: null,
@@ -75,6 +84,10 @@ const partnersSlice = createSlice({
       .addCase(getpartners.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.partnersData = action.payload;
+      })
+      .addCase(fetchDispatchers.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.dispatchersData = action.payload;
       })
       .addCase(fetchPartnerById.fulfilled, (state, action) => {
         state.status = 'succeeded';

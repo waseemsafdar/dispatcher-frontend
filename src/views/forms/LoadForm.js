@@ -5,7 +5,7 @@ import { Grid, Box, Button, MenuItem, FormControl, InputLabel, Select, Typograph
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import DeliveryFormRow from './DeliveryForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPartner, fetchTrailer } from '../../store/partnerSlice';
+import { fetchDispatchers, fetchPartner, fetchTrailer } from '../../store/partnerSlice';
 import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router';
@@ -23,13 +23,15 @@ const validationSchema = Yup.object({
 const LoadForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { tarilerData, partnerData } = useSelector((state) => state.partners);
+  const { tarilerData, partnerData, dispatchersData } = useSelector((state) => state.partners);
   const { loadData } = useSelector((state) => state.load);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchPartner());
     dispatch(fetchTrailer());
+    dispatch(fetchDispatchers());
+
   }, [dispatch]);
 
 
@@ -266,18 +268,25 @@ const LoadForm = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CustomTextField
-            id="expected_dispatcher"
-            name="expected_dispatcher"
-            label="Planned Dispatcher"
-            value={formik.values.expected_dispatcher}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.expected_dispatcher && Boolean(formik.errors.expected_dispatcher)}
-            helperText={formik.touched.expected_dispatcher && formik.errors.expected_dispatcher}
-            fullWidth
-          />
-        </Grid>
+           <FormControl fullWidth variant="outlined">
+            <InputLabel id="expected_dispatcher-label">Planned Dispatcher</InputLabel>
+            <Select
+              labelId="expected_dispatcher-label"
+              id="expected_dispatcher"
+              name="expected_dispatcher"
+              value={formik.values.expected_dispatcher}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.expected_dispatcher && Boolean(formik.errors.expected_dispatcher)}
+              label="Planned Dispatcher"
+              
+            >
+              {dispatchersData?.map((dispachter) => (
+                <MenuItem key={dispachter?.id} value={dispachter?.name}>{dispachter?.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl> 
+          </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth variant="outlined">
             <InputLabel id="trailerType-label">Trailer Type</InputLabel>
