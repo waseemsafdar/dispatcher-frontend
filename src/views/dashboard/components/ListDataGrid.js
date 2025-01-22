@@ -136,7 +136,7 @@ const ListDataGrid = () => {
     { id: 'load_type', label: 'Load Type', minWidth: 120 },
     { id: 'late_delivery', label: 'Late Delivery', minWidth: 120 },
     { id: 'late_pickup', label: 'Late PickUp', minWidth: 120 },
-    { id: 'odoo_load_stage', label: 'Load Staged', minWidth: 120 },
+    { id: 'odoo_load_stage', label: 'Load Stage', minWidth: 120 },
 
     //{ id: 'temperature', label: 'Temperature', minWidth: 120 },
    // { id: 'weight', label: 'Weight', minWidth: 120 },
