@@ -107,8 +107,12 @@ const ListDataGrid = () => {
     planned_end_time: load?.planned_end_time,
     is_archived: load?.is_archived ? 'Covered' : 'Open',
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
-    load_type: load.load_type,
-    temperature: load.temperature,
+    load_type: load?.load_type,
+    temperature: load?.temperature,
+    odoo_load_stage: load?.odoo_load_stage,
+    late_delivery: load?.late_delivery ? <span style={{ color: 'red' }}>Late</span> : <span style={{ color: 'green' }}>On Time</span>,
+    late_pickup: load?.late_pickup ? <span style={{ color: 'red' }}>Late</span> : <span style={{ color: 'green' }}>On Time</span>,
+
     //weight: load.weight,
     //length: load.length,
   })) || []; // Ensure rows is an empty array if loadList is undefined
@@ -130,6 +134,10 @@ const ListDataGrid = () => {
     { id: 'planned_end_time', label: 'Planned DateTime End', minWidth: 120 },
     { id: 'is_archived', label: 'Status', minWidth: 100 },
     { id: 'load_type', label: 'Load Type', minWidth: 120 },
+    { id: 'late_delivery', label: 'Late Delivery', minWidth: 120 },
+    { id: 'late_pickup', label: 'Late PickUp', minWidth: 120 },
+    { id: 'odoo_load_stage', label: 'Load Staged', minWidth: 120 },
+
     //{ id: 'temperature', label: 'Temperature', minWidth: 120 },
    // { id: 'weight', label: 'Weight', minWidth: 120 },
     //{ id: 'length', label: 'Length', minWidth: 120 },

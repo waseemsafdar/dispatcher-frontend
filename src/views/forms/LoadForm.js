@@ -59,6 +59,9 @@ const LoadForm = () => {
           weight: data?.weight || '',
           length: data?.length || '',
           load_comments: data?.load_comments || '',
+          owner_operator_rate: data?.owner_operator_rate || 0,
+          company_driver_rate: data?.company_driver_rate || 0,
+
 
         });
         setDeliveryForms(
@@ -99,7 +102,9 @@ const LoadForm = () => {
       temperature: '',
       weight: '',
       length: '',
-      load_comments :''
+      load_comments :'',
+      company_driver_rate:0,
+      owner_operator_rate:0
     },
     //validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -393,6 +398,36 @@ const LoadForm = () => {
             helperText={formik.touched.weight && formik.errors.weight}
             fullWidth
             disabled={true}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="owner_operator_rate"
+            name="owner_operator_rate"
+            label="Rate For Owner Operator"
+            type="number"
+            value={formik.values.owner_operator_rate}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.owner_operator_rate && Boolean(formik.errors.owner_operator_rate)}
+            helperText={formik.touched.owner_operator_rate && formik.errors.owner_operator_rate}
+            fullWidth
+            
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <CustomTextField
+            id="company_driver_rate"
+            name="company_driver_rate"
+            label="Rate For Company Driver"
+            type="number"
+            value={formik.values.company_driver_rate}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.company_driver_rate && Boolean(formik.errors.company_driver_rate)}
+            helperText={formik.touched.company_driver_rate && formik.errors.company_driver_rate}
+            fullWidth
+            
           />
         </Grid>
         <Grid item xs={12} sm={6}>

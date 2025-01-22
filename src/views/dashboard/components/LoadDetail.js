@@ -100,6 +100,9 @@ const LoadDetail = () => {
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6">Length (Feet): {loadData?.length}</Typography>
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Comments: {loadData?.load_comments}</Typography>
+              </Grid>
             </Grid>
 
             <Divider sx={{ my: 2 }} />
