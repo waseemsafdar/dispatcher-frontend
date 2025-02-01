@@ -1,6 +1,7 @@
 // src/store/loadSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import RecommendedLoadForm from '../views/dashboard/components/RecommendedLoadForm';
 
 // Async thunk for saving load data
 export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
@@ -8,6 +9,20 @@ export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
   return response.data;
 });
 
+
+export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', async (filters = {}) => {
+  // Clean the filters object to remove any entries with no value
+  const cleanedFilters = Object.keys(filters).reduce((acc, key) => {
+    if (filters[key] !== null && filters[key] !== '' && filters[key] !== undefined) {
+      acc[key] = filters[key];
+    }
+    return acc;
+  }, {});
+
+  const params = new URLSearchParams(cleanedFilters).toString();
+  const response = await axios.get(`http://18.118.168.39:5000/rec_load?${params}`);
+  return response.data;
+});
 
 export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
@@ -64,6 +79,7 @@ const loadSlice = createSlice({
   initialState: {
     loadData: null,
     loadList: null,
+    RecommendedLoadList: null,
     status: 'idle',
     error: null,
     filters: {},
@@ -116,6 +132,10 @@ const loadSlice = createSlice({
       .addCase(getLoad.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.loadList = action.payload;
+      })
+      .addCase(getRecomendedLoads.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.RecommendedLoadList = action.payload;
       });
   },
 });

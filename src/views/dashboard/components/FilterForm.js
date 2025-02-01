@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { setFilters , setBackFromDetail} from '../../../store/loadSlice';
+import RadiusSearchForm from './RadiusSearchForm';
 
 
 const FilterForm = ({ onSubmit, onClear }) => {
@@ -16,8 +17,28 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const { isClearFilter } = useSelector((state) => state.load);
   const { filters,isBackFromDetail } = useSelector((state) => state.load);
   const [activeFilter, setActiveFilter] = useState(null);
+  const [openRadiusSearch, setOpenRadiusSearch] = useState(false);
 
-
+  const handleRadiusSearchSubmit = (data) => {
+    const { delivery_radius, pickup_radius, radius_city } = data;
+  
+    // Set the values only if they exist in the data object
+    if (delivery_radius !== undefined) {
+      setValue('delivery_radius', delivery_radius);
+    }
+    if (pickup_radius !== undefined) {
+      setValue('pickup_radius', pickup_radius);
+    }
+    if (radius_city !== undefined && radius_city != "") {
+      setValue('radius_city', radius_city);
+    }
+  
+    // Submit the form
+    handleSubmit(onSubmit)();
+  
+    // Close the popup
+    setOpenRadiusSearch(false);
+  };
 
   useEffect(() => {
     dispatch(fetchTrailer());
@@ -56,12 +77,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
     handleSubmit(onSubmit)();
   };
   useEffect(() => {
-    // Set form values from Redux state
-    console.log(filters,'filters')
-    console.log(filters.is_archived,'filters.is_archived')
-
     setActiveFilter(filters.is_archived !== undefined ? (filters.is_archived == true ? "Covered" : "Open") : null);
-
     const parsedFilters = {
       ...filters,
       planned_start_time: filters.planned_start_time 
@@ -266,6 +282,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
         </LocalizationProvider>
       </Box>
       <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
+      <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={() => setOpenRadiusSearch(true)}
+        >
+          Search by Radius
+        </Button>
       <Button
           variant="contained"
           color="primary"
@@ -297,6 +320,11 @@ const FilterForm = ({ onSubmit, onClear }) => {
           Clear Filters
         </Button>
       </Box>
+      <RadiusSearchForm
+        open={openRadiusSearch}
+        onClose={() => setOpenRadiusSearch(false)}
+        onSubmit={handleRadiusSearchSubmit}
+      />
     </Box>
   );
 };
