@@ -20,7 +20,7 @@ export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', as
   }, {});
 
   const params = new URLSearchParams(cleanedFilters).toString();
-  const response = await axios.get(`http://18.118.168.39:5000/rec_load?${params}`);
+  const response = await axios.get(`http://18.118.168.39:5000/rec_loads?${params}`);
   return response.data;
 });
 

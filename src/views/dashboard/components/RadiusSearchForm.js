@@ -1,8 +1,6 @@
-// RadiusSearchForm.js
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Box } from '@mui/material';
-import { Slider } from '@mui/material';
 
 const RadiusSearchForm = ({ open, onClose, onSubmit }) => {
   const { register, handleSubmit, control } = useForm({
@@ -15,9 +13,11 @@ const RadiusSearchForm = ({ open, onClose, onSubmit }) => {
 
   return (
     <Dialog
-    maxWidth="md" // Adjust this value to your desired width ('xs', 'sm', 'md', 'lg', 'xl')
+      maxWidth="md" // Adjust this value to your desired width ('xs', 'sm', 'md', 'lg', 'xl')
       fullWidth
-    open={open} onClose={onClose}>
+      open={open}
+      onClose={onClose}
+    >
       <DialogTitle>Search by Radius</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} display="grid" gap={2} mt={2}>
@@ -32,32 +32,26 @@ const RadiusSearchForm = ({ open, onClose, onSubmit }) => {
             name="pickup_radius"
             control={control}
             render={({ field }) => (
-              <Box>
-                <label>Pickup Radius</label>
-                <Slider
-                  {...field}
-                  valueLabelDisplay="auto"
-                  step={0.1}
-                  min={0}
-                  max={1000}
-                />
-              </Box>
+              <TextField
+                {...field}
+                label="Pickup Radius (miles)"
+                type="number"
+                inputProps={{ min: 0, max: 1000, step: 0.1 }}
+                fullWidth
+              />
             )}
           />
           <Controller
             name="delivery_radius"
             control={control}
             render={({ field }) => (
-              <Box>
-                <label>Delivery Radius</label>
-                <Slider
-                  {...field}
-                  valueLabelDisplay="auto"
-                  step={0.1}
-                  min={0}
-                  max={1000}
-                />
-              </Box>
+              <TextField
+                {...field}
+                label="Delivery Radius (miles)"
+                type="number"
+                inputProps={{ min: 0, max: 1000, step: 0.1 }}
+                fullWidth
+              />
             )}
           />
         </Box>

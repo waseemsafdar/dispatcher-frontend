@@ -151,7 +151,7 @@ const LoadDetail = () => {
             <Typography variant="h4" gutterBottom>
               Recommend Load
             </Typography>
-            <RecommendedLoadForm loadId={id}/>
+            <RecommendedLoadForm load_id={id}/>
           </Box>
         )}
       </Box>

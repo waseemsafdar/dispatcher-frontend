@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Box, Slider, Grid, Paper, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { TextField, Button, Box, Grid, Paper, Typography, Select, MenuItem, FormControl, InputLabel, IconButton } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { getRecomendedLoads } from '../../../store/loadSlice';
+import { IconEdit, IconEye } from '@tabler/icons-react';
+import { useNavigate } from 'react-router';
 
-const RecommendedLoadForm = ({ onSubmit, loadId }) => {
+const RecommendedLoadForm = ({ onSubmit, load_id }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { RecommendedLoadList } = useSelector((state) => state.load);
+    
     const { register, handleSubmit, control } = useForm({
         defaultValues: {
             pickup_radius: 50,
             time_range_days: 3,
         },
     });
-    
 
     const [loads, setLoads] = useState([]);
 
     const handleFormSubmit = (data) => {
         console.log(data);
-        dispatch(getRecomendedLoads({...data, loadId}))
+        dispatch(getRecomendedLoads({load_id, ...data}));
+
         // Fetch recommended loads based on the criteria
         // This is a placeholder for your load fetching logic
         const fetchedLoads = [
@@ -44,7 +49,7 @@ const RecommendedLoadForm = ({ onSubmit, loadId }) => {
             return true; // Placeholder
         });
 
-        setLoads(filteredLoads);
+        //setLoads(RecommendedLoadList);
     };
 
     return (
@@ -54,16 +59,13 @@ const RecommendedLoadForm = ({ onSubmit, loadId }) => {
                     name="pickup_radius"
                     control={control}
                     render={({ field }) => (
-                        <Box>
-                            <label>Pickup Radius (miles)</label>
-                            <Slider
-                                {...field}
-                                valueLabelDisplay="auto"
-                                step={10}
-                                min={10}
-                                max={200}
-                            />
-                        </Box>
+                        <TextField
+                            {...field}
+                            label="Pickup Radius (miles)"
+                            type="number"
+                            inputProps={{ min: 0, max: 1000 }}
+                            fullWidth
+                        />
                     )}
                 />
                 <FormControl fullWidth variant="outlined">
@@ -90,10 +92,27 @@ const RecommendedLoadForm = ({ onSubmit, loadId }) => {
                     Search Loads
                 </Button>
             </Box>
+
             <Box mt={3}>
-                {loads.length > 0 ? (
-                    loads.map((load, index) => (
-                        <Paper key={index} sx={{ p: 2, mb: 2, background: "#f4f4f4" }}>
+                {RecommendedLoadList?.length > 0 ? (
+                    RecommendedLoadList?.map((load, index) => (
+                        <Paper key={index} sx={{ p: 2, mb: 2, background: "#f4f4f4", position: 'relative' }}>
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 8,
+                                    right: 8,
+                                    display: 'flex',
+                                    gap: 1,
+                                }}
+                            >
+                                <IconButton size="small">
+                                    <IconEdit onClick={() => navigate(`/edit-load/${load.id}`)} />
+                                </IconButton>
+                                <IconButton onClick={() => navigate(`/load-detail/${load.id}`)} size="small">
+                                    <IconEye />
+                                </IconButton>
+                            </Box>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <Typography component="span" sx={{ fontWeight: 'bold' }}>
@@ -131,7 +150,7 @@ const RecommendedLoadForm = ({ onSubmit, loadId }) => {
                                     <Typography component="span" sx={{ fontWeight: 'bold' }}>
                                         Trailer Type:
                                     </Typography>
-                                    <Typography variant="" component="span">
+                                    <Typography component="span">
                                         {' '}{load.trailer_type}
                                     </Typography>
                                 </Grid>
