@@ -130,7 +130,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           placeholder="Origin"
           fullWidth
         />
-        <TextField
+        {/* <TextField
           id="pickup_state"
           label="Origin (State)"
           variant="outlined"
@@ -138,7 +138,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           {...register('pickup_state')}
           placeholder="Origin (State)"
           fullWidth
-        />
+        /> */}
         <TextField
           id="delivery_city"
           label="Delivery (City)"
@@ -148,7 +148,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           placeholder="Delivery"
           fullWidth
         />
-        <TextField
+        {/* <TextField
           id="delivery_state"
           label="Delivery (State)"
           variant="outlined"
@@ -156,7 +156,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           {...register('delivery_state')}
           placeholder="Delivery (State)"
           fullWidth
-        />
+        /> */}
         <FormControl fullWidth variant="outlined">
                     <InputLabel id="expected_dispatcher-label">Planned Dispatcher</InputLabel>
                     <Select
