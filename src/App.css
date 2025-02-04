@@ -6,3 +6,6 @@ body {
     font-size: 10px !important;
 }
  
+.pac-container {
+    z-index: 2000 !important; /* Set a high z-index to ensure it appears above the modal */
+  }

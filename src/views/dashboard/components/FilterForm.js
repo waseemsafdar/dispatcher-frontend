@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { setFilters , setBackFromDetail} from '../../../store/loadSlice';
 import RadiusSearchForm from './RadiusSearchForm';
+import GoogleMapsLoader from './GoogleMapsLoader';
 
 
 const FilterForm = ({ onSubmit, onClear }) => {
@@ -19,19 +20,15 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const [activeFilter, setActiveFilter] = useState(null);
   const [openRadiusSearch, setOpenRadiusSearch] = useState(false);
 
-  const handleRadiusSearchSubmit = (data) => {
-    const { delivery_radius, pickup_radius, radius_city } = data;
+  const handleRadiusSearchSubmit = (data) => {  
+    const { org_latitude, org_longitude, des_latitude, des_longitude, radius } = data;
   
-    // Set the values only if they exist in the data object
-    if (delivery_radius !== undefined) {
-      setValue('delivery_radius', delivery_radius);
-    }
-    if (pickup_radius !== undefined) {
-      setValue('pickup_radius', pickup_radius);
-    }
-    if (radius_city !== undefined && radius_city != "") {
-      setValue('radius_city', radius_city);
-    }
+    // Set values for all destructured properties
+    setValue('org_latitude', org_latitude);
+    setValue('org_longitude', org_longitude);
+    setValue('des_latitude', des_latitude);
+    setValue('des_longitude', des_longitude);
+    setValue('radius', radius);
   
     // Submit the form
     handleSubmit(onSubmit)();
@@ -320,11 +317,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
           Clear Filters
         </Button>
       </Box>
+      {/* <GoogleMapsLoader>  */}
       <RadiusSearchForm
         open={openRadiusSearch}
         onClose={() => setOpenRadiusSearch(false)}
         onSubmit={handleRadiusSearchSubmit}
       />
+      {/* </GoogleMapsLoader> */}
     </Box>
   );
 };
