@@ -153,7 +153,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           />
           <TextField
             id="radius_origin"
-            label="Radius Origin (miles)"
+            label="Radius Around Origin"
             variant="outlined"
             type="number"
             value={radiusOrigin}
@@ -177,7 +177,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           />
           <TextField
             id="radius_dest"
-            label="Radius Destination (miles)"
+            label="Radius Around Destination"
             variant="outlined"
             type="number"
             value={radiusDest}
