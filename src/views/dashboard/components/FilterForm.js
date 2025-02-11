@@ -105,8 +105,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
     const filteredData = { ...data };
 
     // Remove the origin and destination fields
-    delete filteredData.origin;
-    delete filteredData.destination;
+   // delete filteredData.origin;
+    //delete filteredData.destination;
 
     // Call the onSubmit function with the filtered data
     onSubmit(filteredData);

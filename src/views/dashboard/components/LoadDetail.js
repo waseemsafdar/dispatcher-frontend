@@ -45,7 +45,7 @@ const LoadDetail = () => {
         </Button>
         <Tabs value={tabIndex} onChange={handleTabChange} aria-label="Load Tabs">
           <Tab label="Load Details" />
-          <Tab label="Recommend Load" />
+          <Tab label="Recommend Loads" />
         </Tabs>
         {tabIndex === 0 && (
           <Box mt={3}>
@@ -117,11 +117,11 @@ const LoadDetail = () => {
                 <Divider sx={{ my: 2 }} />
 
                 <Typography marginBottom={3} variant="h5" gutterBottom>
-                  Deliveries
+                  Stops
                 </Typography>
                 {loadData?.delivery_ids?.map((delivery, index) => (
                   <Box key={index} mb={2}>
-                    <Typography marginBottom={3} variant="h6">Delivery # {index + 1}</Typography>
+                    <Typography marginBottom={3} variant="h6">Stop # {index + 1}</Typography>
                     <Grid container spacing={2}>
                       <Grid item xs={12} sm={6}>
                         <Typography variant="body1">Type: {delivery?.type}</Typography>
