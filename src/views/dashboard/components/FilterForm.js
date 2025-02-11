@@ -42,6 +42,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
       des_latitude: '',
       des_longitude: '',
       origin: '',
+      odoo_load_stage:'',
       destination: '',
       radius_origin: '',  // Default value for radius_origin
       radius_dest: ''     // Default value for radius_dest
@@ -114,6 +115,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
   const pickupState = watch('pickup_state');
   const deliveryState = watch('delivery_state');
+  const odooLoadStage = watch('odoo_load_stage');
   const trailerTypeValue = watch('trailer_type');
   const loadType = watch('load_type');
   const temperature = watch('temperature');
@@ -216,6 +218,27 @@ const FilterForm = ({ onSubmit, onClear }) => {
               ))}
             </Select>
           </FormControl>
+
+          <FormControl variant="outlined" fullWidth>
+      <InputLabel id="loadstage-label">Load Stage</InputLabel>
+      <Select
+        labelId="loadstage-label"
+        id="odoo_load_stage"
+        value={odooLoadStage || ''}
+        {...register('odoo_load_stage')}
+        onChange={(e) => setValue('odoo_load_stage', e.target.value)}
+        label="Load Stage"
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        <MenuItem value="Planned">Planned</MenuItem>
+        <MenuItem value="Confirmed">Confirmed</MenuItem>
+        <MenuItem value="Invoiced">Invoiced</MenuItem>
+        <MenuItem value="Delivered">Delivered</MenuItem>
+      </Select>
+    </FormControl>
+
           <FormControl variant="outlined" fullWidth>
             <InputLabel id="load-type-label">Load Type</InputLabel>
             <Select

@@ -12,9 +12,9 @@ export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
 
 export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
-  const cleanedFilters = Object.keys(filters).reduce((acc, key) => {
-    if (filters[key] !== null && filters[key] !== '' && filters[key] !== undefined) {
-      acc[key] = filters[key];
+  const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+    if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
+      acc[key] = value;
     }
     return acc;
   }, {});
@@ -26,9 +26,9 @@ export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', as
 
 export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
-  const cleanedFilters = Object.keys(filters).reduce((acc, key) => {
-    if (filters[key] !== null && filters[key] !== '' && filters[key] !== undefined) {
-      acc[key] = filters[key];
+  const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+    if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
+      acc[key] = value;
     }
     return acc;
   }, {});
