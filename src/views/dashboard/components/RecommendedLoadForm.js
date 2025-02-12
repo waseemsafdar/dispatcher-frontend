@@ -116,10 +116,10 @@ const RecommendedLoadForm = ({ onSubmit, load_id }) => {
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                                        Pickup Location:
+                                        Pickup City:
                                     </Typography>
                                     <Typography component="span">
-                                        {' '}{load.pickup_location}
+                                        {' '}{load?.pickup_city}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -127,15 +127,15 @@ const RecommendedLoadForm = ({ onSubmit, load_id }) => {
                                         Pickup Date:
                                     </Typography>
                                     <Typography component="span">
-                                        {' '}{load.pickup_date}
+                                        {' '}{load.planned_start_time}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                                        Delivery Location:
+                                        Delivery City:
                                     </Typography>
                                     <Typography component="span">
-                                        {' '}{load.delivery_location}
+                                        {' '}{load.delivery_city}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -143,17 +143,31 @@ const RecommendedLoadForm = ({ onSubmit, load_id }) => {
                                         Delivery Date:
                                     </Typography>
                                     <Typography component="span">
-                                        {' '}{load.delivery_date}
+                                        {' '}{load.planned_end_time}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                                        Trailer Type:
+                                        Load Type:
                                     </Typography>
                                     <Typography component="span">
-                                        {' '}{load.trailer_type}
+                                        {' '}{load.load_type}
                                     </Typography>
                                 </Grid>
+                                <Grid item xs={12} sm={6}>
+                            <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                                Trailer Type:
+                            </Typography>
+                            <Typography component="span">
+                                {' '}
+                                {load.trailer_type.map((trailer, index) => (
+                                    <span key={trailer.id}>
+                                        {trailer.type}
+                                        {index < load.trailer_type.length - 1 && ', '}
+                                    </span>
+                                ))}
+                            </Typography>
+                            </Grid>
                             </Grid>
                         </Paper>
                     ))
