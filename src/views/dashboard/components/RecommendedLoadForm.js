@@ -6,7 +6,7 @@ import { getRecomendedLoads } from '../../../store/loadSlice';
 import { IconEdit, IconEye } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 
-const RecommendedLoadForm = ({ onSubmit, load_id }) => {
+const RecommendedLoadForm = ({ onSubmit, load_id , setTabIndex}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { RecommendedLoadList } = useSelector((state) => state.load);
@@ -52,6 +52,11 @@ const RecommendedLoadForm = ({ onSubmit, load_id }) => {
         //setLoads(RecommendedLoadList);
     };
 
+    const HandleViewClick = (id) => {
+        setTabIndex(0)
+       navigate(`/load-detail/${id}`)
+
+    }
     return (
         <Box>
             <Box maxWidth={500} component="form" onSubmit={handleSubmit(handleFormSubmit)} display="grid" gap={2} mt={2}>
@@ -106,10 +111,10 @@ const RecommendedLoadForm = ({ onSubmit, load_id }) => {
                                     gap: 1,
                                 }}
                             >
-                                <IconButton size="small">
-                                    <IconEdit onClick={() => navigate(`/edit-load/${load.id}`)} />
+                                <IconButton onClick={() => navigate(`/edit-load/${load.id}`)} size="small">
+                                    <IconEdit  />
                                 </IconButton>
-                                <IconButton onClick={() => navigate(`/load-detail/${load.id}`)} size="small">
+                                <IconButton onClick={()=> HandleViewClick(load?.id)} size="small">
                                     <IconEye />
                                 </IconButton>
                             </Box>

@@ -29,6 +29,7 @@ const LoadDetail = () => {
   };
 
   const handleTabChange = (event, newValue) => {
+    console.log('handleTabChange(0)')
     setTabIndex(newValue);
   };
 
@@ -151,7 +152,7 @@ const LoadDetail = () => {
             <Typography variant="h4" gutterBottom>
               Recommend Load
             </Typography>
-            <RecommendedLoadForm load_id={id}/>
+            <RecommendedLoadForm load_id={id} setTabIndex={setTabIndex}/>
           </Box>
         )}
       </Box>

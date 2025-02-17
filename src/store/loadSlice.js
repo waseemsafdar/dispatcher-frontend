@@ -120,6 +120,7 @@ const loadSlice = createSlice({
       .addCase(fetchloadById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.loadData = action.payload;
+        state.RecommendedLoadList= null
       })
       .addCase(deleteLoadById.fulfilled, (state, action) => {
         state.status = 'succeeded';
