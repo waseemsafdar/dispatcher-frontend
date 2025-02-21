@@ -3,7 +3,7 @@ import { LoadScript } from '@react-google-maps/api';
 
 const GoogleMapsLoader = ({ children }) => {
   return (
-    <LoadScript googleMapsApiKey={'AIzaSyB6AggcYKdKvkwUOdk-SqSWI6uYjCYjFp0'}>
+    <LoadScript googleMapsApiKey={''}>
       {children}
     </LoadScript>
   );

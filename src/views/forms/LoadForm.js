@@ -59,6 +59,7 @@ const LoadForm = () => {
           weight: data?.weight || '',
           length: data?.length || '',
           load_comments: data?.load_comments || '',
+          odoo_load_stage: data?.odoo_load_stage || '',
           owner_operator_rate: data?.owner_operator_rate || 0,
           company_driver_rate: data?.company_driver_rate || 0,
 
@@ -102,6 +103,7 @@ const LoadForm = () => {
       temperature: '',
       weight: '',
       length: '',
+      odoo_load_stage:'',
       load_comments :'',
       company_driver_rate:0,
       owner_operator_rate:0
@@ -431,7 +433,7 @@ const LoadForm = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CustomTextField
+          {/* <CustomTextField
             id="length"
             name="length"
             label="Length (Feet)"
@@ -443,7 +445,29 @@ const LoadForm = () => {
             helperText={formik.touched.length && formik.errors.length}
             fullWidth
             disabled={true}
-          />
+          /> */}
+         
+         <FormControl variant="outlined" fullWidth>
+            <InputLabel id="loadstage-label">Load Stage</InputLabel>
+            <Select
+              labelId="loadstage-label"
+              id="odoo_load_stage"
+              name="odoo_load_stage"
+              value={formik.values.odoo_load_stage || ''}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.odoo_load_stage && Boolean(formik.errors.odoo_load_stage)}
+              label="Load Stage"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="Planned">Planned</MenuItem>
+              <MenuItem value="Confirmed">Confirmed</MenuItem>
+              <MenuItem value="Invoiced">Invoiced</MenuItem>
+              <MenuItem value="Delivered">Delivered</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomTextField
