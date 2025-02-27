@@ -9,7 +9,6 @@ export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
   return response.data;
 });
 
-
 export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
   const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
@@ -37,9 +36,6 @@ export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => 
   const response = await axios.get(`http://18.118.168.39:5000/load?${params}`);
   return response.data;
 });
-
-
-
 
 export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadData }) => {
   const response = await axios.put(`http://18.118.168.39:5000/load/${id}`, JSON.stringify(loadData), {

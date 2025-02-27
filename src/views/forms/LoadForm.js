@@ -9,6 +9,8 @@ import { fetchDispatchers, fetchPartner, fetchTrailer } from '../../store/partne
 import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router';
+import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
+import { Stack } from '@mui/system';
 
 const validationSchema = Yup.object({
   customer_load: Yup.string().required('Required'),
@@ -25,6 +27,9 @@ const LoadForm = () => {
   const dispatch = useDispatch();
   const { tarilerData, partnerData, dispatchersData } = useSelector((state) => state.partners);
   const { loadData } = useSelector((state) => state.load);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+   
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +39,11 @@ const LoadForm = () => {
 
   }, [dispatch]);
 
-
+  const handleResetLoad = () => {
+    console.log('Resetting load...');
+    // Dispatch reset action here
+    // dispatch(resetStatus());
+  }
   useEffect(() => {
     if (id) {
       dispatch(fetchloadById(id)).then((action) => {
@@ -75,6 +84,14 @@ const LoadForm = () => {
     }
   }, [id, dispatch]);
 
+  const handleResetDialogOpen = () => {
+    setResetDialogOpen(true);
+  };
+
+  // Handle reset dialog close
+  const handleResetDialogClose = () => {
+    setResetDialogOpen(false);
+  };
   const [deliveryForms, setDeliveryForms] = useState([{ id: 1, data: {} }]);
   const addDeliveryRow = () => setDeliveryForms([...deliveryForms, { id: deliveryForms.length + 1, data: {} }]);
   const deleteDeliveryRow = (id) => setDeliveryForms(deliveryForms?.filter(form => form.id !== id));
@@ -103,10 +120,10 @@ const LoadForm = () => {
       temperature: '',
       weight: '',
       length: '',
-      odoo_load_stage:'',
-      load_comments :'',
-      company_driver_rate:0,
-      owner_operator_rate:0
+      odoo_load_stage: '',
+      load_comments: '',
+      company_driver_rate: 0,
+      owner_operator_rate: 0
     },
     //validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -138,9 +155,36 @@ const LoadForm = () => {
     },
   });
 
+ 
   return (
     <Box component="form" onSubmit={formik.handleSubmit} noValidate>
-      <Typography marginBottom={3} variant="h2" gutterBottom> Update Load </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" marginBottom={3}>
+        <Typography variant="h2" gutterBottom> Update Load </Typography>
+        <Button
+          variant="contained"  // Change from "outlined" to "contained" for a solid background
+          sx={{
+            backgroundColor: '#FF8C00', // Use an orange color hex code
+            '&:hover': {
+              backgroundColor: '#FF7000', // A slightly darker orange for hover state
+            }
+          }}
+          onClick={handleResetDialogOpen}
+        >
+          Reset Load
+        </Button>
+      </Stack>
+      {/* Reset Load Confirmation Dialog using the reusable component */}
+      <ConfirmationDialog
+        open={resetDialogOpen}
+        onClose={handleResetDialogClose}
+        onConfirm={handleResetLoad}
+        title="Reset Load Confirmation"
+        message="Are you sure you want to reset the dispatcher and truck assigment for this load? This action will make load available for again and can not be undone."
+        cancelButtonText="Cancel"
+        confirmButtonText="Yes, Reset"
+        cancelButtonColor="primary"
+        confirmButtonColor="secondary"
+      />
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <CustomTextField
@@ -275,7 +319,7 @@ const LoadForm = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-           <FormControl fullWidth variant="outlined">
+          <FormControl fullWidth variant="outlined">
             <InputLabel id="expected_dispatcher-label">Planned Dispatcher</InputLabel>
             <Select
               labelId="expected_dispatcher-label"
@@ -286,14 +330,14 @@ const LoadForm = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.expected_dispatcher && Boolean(formik.errors.expected_dispatcher)}
               label="Planned Dispatcher"
-              
+
             >
               {dispatchersData?.map((dispachter) => (
                 <MenuItem key={dispachter?.id} value={dispachter?.name}>{dispachter?.name}</MenuItem>
               ))}
             </Select>
-          </FormControl> 
-          </Grid>
+          </FormControl>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth variant="outlined">
             <InputLabel id="trailerType-label">Trailer Type</InputLabel>
@@ -414,7 +458,7 @@ const LoadForm = () => {
             error={formik.touched.owner_operator_rate && Boolean(formik.errors.owner_operator_rate)}
             helperText={formik.touched.owner_operator_rate && formik.errors.owner_operator_rate}
             fullWidth
-            
+
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -429,7 +473,7 @@ const LoadForm = () => {
             error={formik.touched.company_driver_rate && Boolean(formik.errors.company_driver_rate)}
             helperText={formik.touched.company_driver_rate && formik.errors.company_driver_rate}
             fullWidth
-            
+
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -446,8 +490,8 @@ const LoadForm = () => {
             fullWidth
             disabled={true}
           /> */}
-         
-         <FormControl variant="outlined" fullWidth>
+
+          <FormControl variant="outlined" fullWidth>
             <InputLabel id="loadstage-label">Load Stage</InputLabel>
             <Select
               labelId="loadstage-label"
@@ -483,7 +527,7 @@ const LoadForm = () => {
             fullWidth
             disabled={false}
           />
-          
+
         </Grid>
         <Grid item xs={6}>
           {/* <Button variant="contained" color="primary" onClick={addDeliveryRow}>
