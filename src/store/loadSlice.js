@@ -9,6 +9,15 @@ export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
   return response.data;
 });
 
+export const saveUserFilters = createAsyncThunk('load/saveUserFilters', async (filtersData) => {
+  const response = await axios.post('http://18.118.168.39:5000/create_filter', filtersData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+});
+
 export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', async (filters = {}) => {
   // Clean the filters object to remove any entries with no value
   const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
@@ -46,6 +55,11 @@ export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadD
   return response.data;
 });
 
+export const restLoad = createAsyncThunk('load/resetload', async ({ id }) => {
+  const response = await axios.put(`http://18.118.168.39:5000/reset_load/${id}`);
+  return response.data;
+});
+
 // export const syncData = createAsyncThunk('load/syncData', async (url) => { 
 //   const response = await axios.get(`http://18.118.168.39:5000/${url}`); 
 //   return response.data; 
@@ -58,6 +72,10 @@ export const syncData = createAsyncThunk('load/syncData', async ({ url }) => {
   return response.data;
 });
 
+export const fetchFiltersByUserId = createAsyncThunk('load/fetchFiltersByUserId', async (id) => { 
+  const response = await axios.get(`http://18.118.168.39:5000/user_filter/${id}`); 
+  return response.data; 
+});
 
 export const fetchloadById = createAsyncThunk('load/fetchloadById', async (id) => { 
   const response = await axios.get(`http://18.118.168.39:5000/load/${id}`); 
@@ -65,6 +83,11 @@ export const fetchloadById = createAsyncThunk('load/fetchloadById', async (id) =
 });
 export const deleteLoadById = createAsyncThunk('load/deleteLoadById', async (id) => { 
   const response = await axios.delete(`http://18.118.168.39:5000/load/${id}`); 
+  return response.data; 
+});
+
+export const deleteSavedFilterById = createAsyncThunk('load/deleteSavedFilterById', async (id) => { 
+  const response = await axios.delete(`http://18.118.168.39:5000/remove_filter/${id}`); 
   return response.data; 
 });
 
@@ -79,6 +102,7 @@ const loadSlice = createSlice({
     status: 'idle',
     error: null,
     filters: {},
+    userFilters: {},
     isClearFilter: false,
     isBackFromDetail : false,
   },
@@ -113,14 +137,25 @@ const loadSlice = createSlice({
         state.status = 'succeeded';
        
       })
+      .addCase(restLoad.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+       
+      })
       .addCase(fetchloadById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.loadData = action.payload;
         state.RecommendedLoadList= null
       })
+      .addCase(fetchFiltersByUserId.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.userFilters = action.payload;
+      })
       .addCase(deleteLoadById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         
+      })
+      .addCase(deleteSavedFilterById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
       })
       .addCase(syncData.fulfilled, (state, action) => {
         state.status = 'succeeded';

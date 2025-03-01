@@ -6,7 +6,7 @@ import CustomTextField from '../../components/forms/theme-elements/CustomTextFie
 import DeliveryFormRow from './DeliveryForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDispatchers, fetchPartner, fetchTrailer } from '../../store/partnerSlice';
-import { fetchloadById, resetStatus, saveLoad, updateLoad } from '../../store/loadSlice';
+import { fetchloadById, resetStatus, saveLoad, updateLoad , restLoad} from '../../store/loadSlice';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
@@ -43,6 +43,15 @@ const LoadForm = () => {
     console.log('Resetting load...');
     // Dispatch reset action here
     // dispatch(resetStatus());
+    dispatch(restLoad({id}))
+    .unwrap().then(() => {
+      formik.resetForm();
+      toast.success('Updated successfully!');
+      navigate('/dashboard');
+    }).catch((err) => {
+      toast.error('Failed to update');
+    });
+    setResetDialogOpen(false)
   }
   useEffect(() => {
     if (id) {

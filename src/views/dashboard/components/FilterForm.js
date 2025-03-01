@@ -7,11 +7,15 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { setFilters, setBackFromDetail } from '../../../store/loadSlice';
+import { setFilters, setBackFromDetail, saveUserFilters, fetchFiltersByUserId, deleteSavedFilterById } from '../../../store/loadSlice';
 import RadiusSearchForm from './RadiusSearchForm';
 import { Autocomplete, LoadScript } from '@react-google-maps/api';
 import InputDialog from '../../../components/shared/InputDialog';
 import SavedFilterChip from '../../../components/shared/SavedFilterChip';
+import { toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router';
+
+
 
 const libraries = ['places'];
 
@@ -19,12 +23,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const dispatch = useDispatch();
   const { tarilerData, dispatchersData } = useSelector((state) => state.partners);
   const { isClearFilter } = useSelector((state) => state.load);
-  const { filters, isBackFromDetail } = useSelector((state) => state.load);
+  const { filters, isBackFromDetail, userFilters } = useSelector((state) => state.load);
   const [activeFilter, setActiveFilter] = useState(null);
   const [openRadiusSearch, setOpenRadiusSearch] = useState(false);
   // Replace the saveDialogOpen state with:
   const [saveFilterDialogOpen, setSaveFilterDialogOpen] = useState(false);
-  const [savedFilters, setSavedFilters] = useState([]);
+   const navigate = useNavigate();
+ 
 
   // Dropdown state
   const [anchorEl, setAnchorEl] = useState(null);
@@ -61,8 +66,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
   useEffect(() => {
     dispatch(fetchTrailer());
     dispatch(fetchDispatchers());
-  }, [dispatch]);
+    dispatch(fetchFiltersByUserId(4));
 
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchFiltersByUserId(4));
+  }, [userFilters]);
+  
   useEffect(() => {
     if (isClearFilter) {
       reset();
@@ -90,8 +100,10 @@ const FilterForm = ({ onSubmit, onClear }) => {
     for (const [key, value] of Object.entries(parsedFilters)) {
       setValue(key, value);
     }
+    
   }, [filters]);
 
+  
   useEffect(() => {
     if (isBackFromDetail) {
       handleSubmit(handleFormSubmit)(filters);
@@ -131,7 +143,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = () => { // for cloese of action menu in filter form
     setAnchorEl(null);
   };
 
@@ -139,38 +151,46 @@ const FilterForm = ({ onSubmit, onClear }) => {
     setSaveFilterDialogOpen(true);
     handleClose(); // Close the dropdown
   };
+
   const handleSaveFilterWithTitle = (title) => {
     // Get current form data
-   // const formData = watch();
+    const formData = watch();
     // Dispatch action to save filter with title
     // Close dialog
+    const filterData = {
+      user_id: 4,
+      title: title,
+      filter_data: JSON.stringify(formData)
+    };
+
+    dispatch(saveUserFilters(filterData))
+    .unwrap().then(() => {
+      toast.success('Saved successfully!');
+      navigate('/dashboard');
+    }).catch((err) => {
+      toast.error('Failed to Save');
+    });
     setSaveFilterDialogOpen(false);
   };
 
-   // Handler for applying a saved filter
-   const handleApplySavedFilter = (filter) => {
-    // Reset form with saved filter values
-    for (const [key, value] of Object.entries(filter.filters)) {
-      setValue(key, value);
-    }
-    
+  // Handler for applying a saved filter
+  const handleApplySavedFilter = (filter) => {
+    const filterData = filter.filter_data ? JSON.parse(filter.filter_data) : {};
     // Apply the filters
-    handleSubmit(handleFormSubmit)(filter.filters);
+    onSubmit(filterData);
+
   };
-  
+
   // Handler for deleting a saved filter
   const handleDeleteSavedFilter = (filterId) => {
-    const updatedFilters = savedFilters.filter(filter => filter.id !== filterId);
-    setSavedFilters(updatedFilters);
-    
-    // Save to localStorage (optional)
-    localStorage.setItem('savedFilters', JSON.stringify(updatedFilters));
-    
-    // Dispatch action to delete filter (if using Redux)
-    dispatch({
-      type: 'DELETE_SAVED_FILTER',
-      payload: { id: filterId }
-    });
+    //const updatedFilters = userFilters?.filter(filter => filter.id !== filterId);
+     dispatch(deleteSavedFilterById(filterId))
+        .unwrap().then(() => {
+          toast.success('Deleted successfully!');
+          navigate('/dashboard');
+        }).catch((err) => {
+          toast.error('Failed to delete');
+        });
   };
 
   const pickupState = watch('pickup_state');
@@ -392,7 +412,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
         <Box display="flex" justifyContent="flex-end" mt={2} gap={2} flexWrap="wrap">
           {/* Saved Filter Chips at the beginning of the row */}
           <Box display="flex" flexWrap="wrap" flex={1} alignItems="center">
-            {savedFilters.map((filter) => (
+            {userFilters && userFilters.length > 0 && userFilters.map((filter) => (
               <SavedFilterChip
                 key={filter.id}
                 title={filter.title}
@@ -401,10 +421,10 @@ const FilterForm = ({ onSubmit, onClear }) => {
               />
             ))}
           </Box>
-      </Box>
+        </Box>
 
         <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
-         
+
           <Button
             variant="contained"
             color="primary"
@@ -503,17 +523,17 @@ const FilterForm = ({ onSubmit, onClear }) => {
           onClose={() => setOpenRadiusSearch(false)}
           onSubmit={handleRadiusSearchSubmit}
         /> */}
-      
+
       </Box>
       {/* Replace your custom dialog with the reusable InputDialog component */}
       <InputDialog
-          open={saveFilterDialogOpen}
-          onClose={() => setSaveFilterDialogOpen(false)}
-          onSubmit={handleSaveFilterWithTitle}
-          title="Save Filter"
-          label="Filter Title"
-          submitButtonText="Save"
-        />
+        open={saveFilterDialogOpen}
+        onClose={() => setSaveFilterDialogOpen(false)}
+        onSubmit={handleSaveFilterWithTitle}
+        title="Save Filter"
+        label="Filter Title"
+        submitButtonText="Save"
+      />
     </LoadScript>
   );
 };
