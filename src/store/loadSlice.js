@@ -103,6 +103,7 @@ const loadSlice = createSlice({
     error: null,
     filters: {},
     userFilters: {},
+    isFilterChanges: false,
     isClearFilter: false,
     isBackFromDetail : false,
   },
@@ -146,8 +147,11 @@ const loadSlice = createSlice({
         state.loadData = action.payload;
         state.RecommendedLoadList= null
       })
+      .addCase(fetchFiltersByUserId.pending, (state) => {
+        state.isFilterChanges = false;
+      })
       .addCase(fetchFiltersByUserId.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.isFilterChanges = true;
         state.userFilters = action.payload;
       })
       .addCase(deleteLoadById.fulfilled, (state, action) => {

@@ -23,7 +23,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const dispatch = useDispatch();
   const { tarilerData, dispatchersData } = useSelector((state) => state.partners);
   const { isClearFilter } = useSelector((state) => state.load);
-  const { filters, isBackFromDetail, userFilters } = useSelector((state) => state.load);
+  const { filters, isBackFromDetail, userFilters, isFilterChanges } = useSelector((state) => state.load);
   const [activeFilter, setActiveFilter] = useState(null);
   const [openRadiusSearch, setOpenRadiusSearch] = useState(false);
   // Replace the saveDialogOpen state with:
@@ -66,12 +66,11 @@ const FilterForm = ({ onSubmit, onClear }) => {
   useEffect(() => {
     dispatch(fetchTrailer());
     dispatch(fetchDispatchers());
-    dispatch(fetchFiltersByUserId(4));
+    //dispatch(fetchFiltersByUserId(4));
 
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(fetchFiltersByUserId(4));
-  }, [userFilters]);
+
+ 
   
   useEffect(() => {
     if (isClearFilter) {
@@ -166,7 +165,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
     dispatch(saveUserFilters(filterData))
     .unwrap().then(() => {
       toast.success('Saved successfully!');
-      navigate('/dashboard');
+      dispatch(fetchFiltersByUserId(4));
     }).catch((err) => {
       toast.error('Failed to Save');
     });
@@ -187,7 +186,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
      dispatch(deleteSavedFilterById(filterId))
         .unwrap().then(() => {
           toast.success('Deleted successfully!');
-          navigate('/dashboard');
+          dispatch(fetchFiltersByUserId(4));
+
         }).catch((err) => {
           toast.error('Failed to delete');
         });
