@@ -66,7 +66,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
   useEffect(() => {
     dispatch(fetchTrailer());
     dispatch(fetchDispatchers());
-    //dispatch(fetchFiltersByUserId(4));
+    dispatch(fetchFiltersByUserId(4));
 
   }, [dispatch]);
 
