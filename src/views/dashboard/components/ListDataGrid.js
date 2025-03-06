@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteLoadById, getLoad } from '../../../store/loadSlice';
+
 import {
   IconButton,
   Table,
@@ -12,17 +13,20 @@ import {
   Paper,
   TablePagination,
   TableSortLabel,
-  Box
+  Box,
+  Icon
 } from '@mui/material';
-import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
+import { IconAlertCircle, IconCheck, IconCircleCheckFilled, IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { IconCheckbox } from '@tabler/icons-react';
+import { IconCircleDashed } from '@tabler/icons-react';
 
 const ListDataGrid = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
 
@@ -84,6 +88,44 @@ const ListDataGrid = () => {
     return 0;
   };
 
+  const computePickupStatus = (load) => {
+    const { odoo_load_stage, planned_start_time } = load;
+    console.log(odoo_load_stage,'odoo_load_stage')
+    const relevantPickupStages = ['Planned', 'Pending', 'Confirmed'];
+    const now = new Date();
+
+    if (relevantPickupStages.includes(odoo_load_stage) && new Date(planned_start_time) < now) {
+      return (<div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
+          <IconAlertCircle  style={{ color: 'red' }} />
+          <span style={{ marginLeft: '8px' }}>Late</span>
+    </div>)
+    }
+    return (<div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+          <IconCircleCheckFilled style={{ color: 'green' }} />
+
+      <span style={{ marginLeft: '8px' }}>On Time</span>
+</div>);
+    
+  };
+
+  const computeDeliveryStatus = (load) => {
+    const { odoo_load_stage, planned_end_time } = load;
+    const completedStages = ['Delivered', 'Done', 'Closed'];
+    const now = new Date();
+
+    if (!completedStages.includes(odoo_load_stage) && new Date(planned_end_time) < now) {
+      return  (
+      <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
+        <IconAlertCircle  style={{ color: 'red' }} />
+        <span style={{ marginLeft: '8px' }}>Late</span>
+  </div>);
+    }
+    return (<div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+      <IconCircleCheckFilled style={{ color: 'green' }} />
+  <span style={{ marginLeft: '8px' }}>On Time</span>
+</div>);
+  };
+
   useEffect(() => {
     dispatch(getLoad(filters));
   }, [dispatch]);
@@ -110,11 +152,8 @@ const ListDataGrid = () => {
     load_type: load?.load_type,
     temperature: load?.temperature,
     odoo_load_stage: load?.odoo_load_stage,
-    late_delivery: load?.late_delivery ? <span style={{ color: 'red' }}>Late</span> : <span style={{ color: 'green' }}>On Time</span>,
-    late_pickup: load?.late_pickup ? <span style={{ color: 'red' }}>Late</span> : <span style={{ color: 'green' }}>On Time</span>,
-
-    //weight: load.weight,
-    //length: load.length,
+    pickup_status: computePickupStatus(load),
+    delivery_status: computeDeliveryStatus(load),
   })) || []; // Ensure rows is an empty array if loadList is undefined
 
   const columns = [
@@ -134,8 +173,8 @@ const ListDataGrid = () => {
     { id: 'planned_end_time', label: 'Planned DateTime End', minWidth: 120 },
     { id: 'is_archived', label: 'Status', minWidth: 100 },
     { id: 'load_type', label: 'Load Type', minWidth: 120 },
-    { id: 'late_delivery', label: 'Late Delivery', minWidth: 120 },
-    { id: 'late_pickup', label: 'Late PickUp', minWidth: 120 },
+    { id: 'pickup_status', label: 'Pickup Status', minWidth: 120 },
+    { id: 'delivery_status', label: 'Delivery Status', minWidth: 120 },
     { id: 'odoo_load_stage', label: 'Load Stage', minWidth: 120 },
     //{ id: 'temperature', label: 'Temperature', minWidth: 120 },
    // { id: 'weight', label: 'Weight', minWidth: 120 },
@@ -223,7 +262,7 @@ const ListDataGrid = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 20]}
+        rowsPerPageOptions={[50, 100, 200]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

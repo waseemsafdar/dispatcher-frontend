@@ -11,7 +11,7 @@ import {
 
 /**
  * A reusable confirmation dialog component
- * 
+ *
  * @param {Object} props - Component props
  * @param {boolean} props.open - Whether the dialog is open
  * @param {Function} props.onClose - Function to call when the dialog is closed without confirmation
@@ -40,20 +40,37 @@ const ConfirmationDialog = ({
       onClose={onClose}
       aria-labelledby="confirmation-dialog-title"
       aria-describedby="confirmation-dialog-description"
+      PaperProps={{
+        style: {
+          borderRadius: 16, // Rounded corners
+        },
+      }}
     >
       <DialogTitle id="confirmation-dialog-title">
         {title}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText id="confirmation-dialog-description">
-          {message}
-        </DialogContentText>
+        <DialogContentText
+          id="confirmation-dialog-description"
+          dangerouslySetInnerHTML={{ __html: message }}
+        />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color={cancelButtonColor}>
+        <Button
+          onClick={onClose}
+          color={cancelButtonColor}
+          variant="outlined"
+          sx={{ borderRadius: 8 }} // Rounded button
+        >
           {cancelButtonText}
         </Button>
-        <Button onClick={onConfirm} color={confirmButtonColor} autoFocus>
+        <Button
+          onClick={onConfirm}
+          color={confirmButtonColor}
+          variant="contained"
+          sx={{ borderRadius: 8,  backgroundColor: '#FFA500' }} // Rounded button
+          autoFocus
+        >
           {confirmButtonText}
         </Button>
       </DialogActions>

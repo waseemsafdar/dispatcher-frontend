@@ -179,7 +179,7 @@ const LoadForm = () => {
           }}
           onClick={handleResetDialogOpen}
         >
-          Reset Load
+          Reset Load Assignment
         </Button>
       </Stack>
       {/* Reset Load Confirmation Dialog using the reusable component */}
@@ -188,7 +188,7 @@ const LoadForm = () => {
         onClose={handleResetDialogClose}
         onConfirm={handleResetLoad}
         title="Reset Load Confirmation"
-        message="Are you sure you want to reset the dispatcher and truck assigment for this load? This action will make load available for again and can not be undone."
+        message={`Are you sure you want to reset the dispatcher and truck assigment for this load? <br/>This action will make load available again and can not be undone.`}
         cancelButtonText="Cancel"
         confirmButtonText="Yes, Reset"
         cancelButtonColor="primary"

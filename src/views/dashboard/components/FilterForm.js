@@ -442,70 +442,35 @@ const FilterForm = ({ onSubmit, onClear }) => {
             Covered
           </Button>
           {/* Replace the Apply Filters button with a dropdown */}
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                minWidth: '160px',
-                position: 'relative'
-              }}
-            >
-              <span>Filter Actions</span>
-              <span style={{ marginLeft: '8px', fontSize: '18px' }}>▼</span>
-            </Button>
-            <Menu
-              id="filter-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              sx={{
-                mt: 1, // Margin top
-                '& .MuiPaper-root': {
-                  minWidth: '160px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                  borderRadius: '4px',
-                }
-              }}
-            >
-              <MenuItem
-                onClick={handleApplyFilter}
-                sx={{
-                  py: 1.5,
-                  px: 2,
-                  '&:hover': {
-                    backgroundColor: 'rgba(25, 118, 210, 0.08)'
-                  }
-                }}
-              >
-                Apply Filters
-              </MenuItem>
-              <MenuItem
-                onClick={handleSaveFilter}
-                sx={{
-                  py: 1.5,
-                  px: 2,
-                  '&:hover': {
-                    backgroundColor: 'rgba(25, 118, 210, 0.08)'
-                  }
-                }}
-              >
-                Save Filters
-              </MenuItem>
-            </Menu>
-          </div>
+         
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={handleApplyFilter}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      position: 'relative',
+      marginRight: '8px'
+    }}
+  >
+    Apply Filters
+  </Button>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={handleSaveFilter}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      position: 'relative'
+    }}
+  >
+    Save Filters
+  </Button>
+
           <Button
             variant="outlined"
             color="secondary"
