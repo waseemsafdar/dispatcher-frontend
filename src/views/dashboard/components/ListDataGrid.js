@@ -113,18 +113,32 @@ const ListDataGrid = () => {
     const completedStages = ['Delivered', 'Done', 'Closed'];
     const now = new Date();
 
-    if (!completedStages.includes(odoo_load_stage) && new Date(planned_end_time) < now) {
-      return  (
-      <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
-        <IconAlertCircle  style={{ color: 'red' }} />
-        <span style={{ marginLeft: '8px' }}>Late</span>
-  </div>);
+    // New condition for "Invoiced" stage
+    if (odoo_load_stage === 'Invoiced') {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+          <IconCircleCheckFilled style={{ color: 'green' }} />
+          <span style={{ marginLeft: '8px' }}>Delivered</span>
+        </div>
+      );
     }
-    return (<div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
-      <IconCircleCheckFilled style={{ color: 'green' }} />
-  <span style={{ marginLeft: '8px' }}>On Time</span>
-</div>);
-  };
+    
+    if (!completedStages.includes(odoo_load_stage) && new Date(planned_end_time) < now) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
+          <IconAlertCircle style={{ color: 'red' }} />
+          <span style={{ marginLeft: '8px' }}>Late</span>
+        </div>
+      );
+    }
+    
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+        <IconCircleCheckFilled style={{ color: 'green' }} />
+        <span style={{ marginLeft: '8px' }}>On Time</span>
+      </div>
+    );
+};
 
   useEffect(() => {
     dispatch(getLoad(filters));
