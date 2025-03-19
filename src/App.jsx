@@ -7,6 +7,8 @@ import { baselightTheme } from "./theme/DefaultColors";
 import { store } from './store/store';
 import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+
 
 function App() {
   const routing = useRoutes(Router);

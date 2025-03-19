@@ -90,7 +90,7 @@ const ListDataGrid = () => {
 
   const computePickupStatus = (load) => {
     const { odoo_load_stage, planned_start_time } = load;
-    console.log(odoo_load_stage,'odoo_load_stage')
+    
     const relevantPickupStages = ['Planned', 'Pending', 'Confirmed'];
     const now = new Date();
 
