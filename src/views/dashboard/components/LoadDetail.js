@@ -132,12 +132,7 @@ const LoadDetail = () => {
                     <label className="block text-sm font-medium text-gray-700">Partner</label>
                     <input type="text" value={loadData.partner?.name || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Comments</label>
-                    <div className="mt-1">
-                      <textarea className="w-full rounded-md border-gray-300 shadow-sm" readOnly value={loadData.load_comments || ''} rows="2"></textarea>
-                    </div>
-                  </div>
+                 
                 </div>
               </section>
 
@@ -262,6 +257,12 @@ const LoadDetail = () => {
                       ) : (
                         <span className="text-yellow-600">Awaiting assignment</span>
                       )}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Comments</label>
+                    <div className="mt-1">
+                      <textarea className="w-full rounded-md border-gray-300 shadow-sm" readOnly value={loadData.load_comments || ''} rows="2"></textarea>
                     </div>
                   </div>
                 </div>
