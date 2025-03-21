@@ -231,6 +231,15 @@ const LoadDetail = () => {
                     <label className="block text-sm font-medium text-gray-700">Temperature (°F)</label>
                     <input type="text" value={loadData.temperature || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Rate For Owner Operator</label>
+                    <input type="text" value={`$${loadData.owner_operator_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Rate For Company Driver</label>
+                    <input type="text"  value={`$${loadData.company_driver_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
                 </div>
               </section>
 
