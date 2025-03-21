@@ -116,9 +116,10 @@ const LoadDetail = () => {
                   Basic Load Information
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
+                  
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Customer Load ID</label>
-                    <input type="text" value={loadData.customer_load || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                    <label className="block text-sm font-medium text-gray-700">Partner</label>
+                    <input type="text" value={loadData.partner?.name || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Status</label>
@@ -129,9 +130,10 @@ const LoadDetail = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Partner</label>
-                    <input type="text" value={loadData.partner?.name || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                    <label className="block text-sm font-medium text-gray-700">Customer Load ID</label>
+                    <input type="text" value={loadData.customer_load || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
                   </div>
+                 
                  
                 </div>
               </section>

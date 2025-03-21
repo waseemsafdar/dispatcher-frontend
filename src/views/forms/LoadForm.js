@@ -81,6 +81,8 @@ const LoadForm = () => {
           odoo_load_stage: data?.odoo_load_stage || '',
           owner_operator_rate: data?.owner_operator_rate || 0,
           company_driver_rate: data?.company_driver_rate || 0,
+          status: data?.is_archived ? 'Covered' : 'Open',
+          
         });
         setDeliveryForms(
           data?.delivery_ids?.map((delivery, index) => ({
@@ -239,30 +241,7 @@ const LoadForm = () => {
                   Basic Load Information
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Customer Load Number</label>
-                    <input
-                      type="text"
-                      id="customer_load"
-                      name="customer_load"
-                      disabled
-                      value={formik.values.customer_load}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100"
-                    />
-                    {formik.touched.customer_load && formik.errors.customer_load && (
-                      <p className="mt-1 text-sm text-red-600">{formik.errors.customer_load}</p>
-                    )}
-                  </div>
-                  {/* <div>
-                    <label className="block text-sm font-medium text-gray-700">Status</label>
-                    <div className="mt-1 flex items-center">
-                      <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </div>
-                  </div> */}
+                  
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Partner</label>
                     <input
@@ -279,6 +258,32 @@ const LoadForm = () => {
                       <p className="mt-1 text-sm text-red-600">{formik.errors.partner_name}</p>
                     )}
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Status</label>
+                    <div className="mt-1 flex items-center">
+                    <span className={`px-3 py-1 rounded-full text-sm ${loadData.is_archived ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                        {loadData.is_archived ? 'Covered' : 'Open'}
+                      </span>
+                    
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Customer Load Number</label>
+                    <input
+                      type="text"
+                      id="customer_load"
+                      name="customer_load"
+                      disabled
+                      value={formik.values.customer_load}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100"
+                    />
+                    {formik.touched.customer_load && formik.errors.customer_load && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.customer_load}</p>
+                    )}
+                  </div>
+                 
                   
                 </div>
               </section>
