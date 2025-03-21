@@ -254,9 +254,9 @@ const ListDataGrid = () => {
                       <TableCell key={column.id} sx={{ border: '1px solid #d3d3d3', padding: '5px' }}>
                         {column.id === 'actions' ? (
                           <>
-                            <IconButton onClick={() => handleEdit(row.id)} aria-label="edit">
+                            {/* <IconButton onClick={() => handleEdit(row.id)} aria-label="edit">
                               <IconEdit />
-                            </IconButton>
+                            </IconButton> */}
                             {/* <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
                               <IconTrash />
                             </IconButton> */}

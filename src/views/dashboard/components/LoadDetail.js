@@ -25,6 +25,9 @@ const LoadDetail = () => {
     navigate('/dashboard');
   };
 
+  const handleEdit = (id) => {
+    navigate(`/edit-load/${id}`);
+  };
   const handleTabChange = (newValue) => {
     console.log('handleTabChange(0)')
     setTabIndex(newValue);
@@ -54,6 +57,13 @@ const LoadDetail = () => {
               onClick={handleClick}
             >
               <i className="fa-solid fa-arrow-left mr-2"></i>Back
+            </button>
+            <button 
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              onClick={() => handleEdit(id)}
+            >
+              <i className="fa-solid fa-pen-to-square mr-2 text-white-500"></i> Edit
+
             </button>
             {tabIndex === 0 ? (
               <button 
