@@ -156,8 +156,11 @@ const FilterForm = ({ onSubmit, onClear }) => {
     const formData = watch();
     // Dispatch action to save filter with title
     // Close dialog
+    const user = localStorage.getItem('user');
+    const userId = user ? JSON.parse(user).user.user_id : null;
+    console.log('user_id', userId,user);
     const filterData = {
-      user_id: 4,
+      user_id: userId,
       title: title,
       filter_data: JSON.stringify(formData)
     };

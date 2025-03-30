@@ -70,7 +70,7 @@ const LoadDetail = () => {
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 onClick={() => handleTabChange(1)}
               >
-                <i className="fa-solid fa-thumbs-up mr-2"></i>Recommend Loads
+                <i className="fa-solid fa-thumbs-up mr-2"></i>Recommended Loads
               </button>
             ) : null}
           </div>
@@ -100,7 +100,7 @@ const LoadDetail = () => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Recommend Loads
+              Recommended Loads
             </button>
           </div>
         </div>
@@ -291,7 +291,7 @@ const LoadDetail = () => {
         {tabIndex === 1 && (
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">
-              Recommend Loads
+              Recommended Loads
             </h2>
             <RecommendedLoadForm load_id={id} setTabIndex={setTabIndex} />
           </div>
