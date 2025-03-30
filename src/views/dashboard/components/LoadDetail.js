@@ -70,7 +70,7 @@ const LoadDetail = () => {
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 onClick={() => handleTabChange(1)}
               >
-                <i className="fa-solid fa-thumbs-up mr-2"></i>Recommend Load
+                <i className="fa-solid fa-thumbs-up mr-2"></i>Recommend Loads
               </button>
             ) : null}
           </div>
@@ -181,7 +181,7 @@ const LoadDetail = () => {
                           <span className="text-sm text-gray-500">{delivery.delivery_date}</span>
                         </div>
                         <p className="mt-2 text-gray-700">{delivery.location_id}</p>
-                        <div className="mt-1 text-sm text-gray-500">{delivery.delivery_start_time} - {delivery.delivery_end_time}</div>
+                        {/* <div className="mt-1 text-sm text-gray-500">{delivery.delivery_start_time} - {delivery.delivery_end_time}</div> */}
                       </div>
                     </div>
                   ))}
@@ -191,58 +191,6 @@ const LoadDetail = () => {
 
             {/* Right Column */}
             <div className="space-y-6">
-              {/* Load Specifications */}
-              <section className="bg-white rounded-lg p-6 shadow-sm">
-                <h2 className="text-lg font-semibold mb-4 flex items-center">
-                  <i className="fa-solid fa-box text-blue-600 mr-2"></i>
-                  Load Specifications
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Load Type</label>
-                    <input type="text" value={loadData.load_type || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Trailer Type</label>
-                    <input type="text" value={loadData.trailer_type?.map(type => type.type).join(', ') || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Freight Amount</label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 sm:text-sm">$</span>
-                      </div>
-                      <input type="text" value={loadData.freight_amount || ''} className="pl-7 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">CPM</label>
-                    <input type="text" value={loadData.cpm || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Weight (lbs)</label>
-                    <input type="text" value={loadData.weight || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Length (Feet)</label>
-                    <input type="text" value={loadData.length || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Temperature (°F)</label>
-                    <input type="text" value={loadData.temperature || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Rate For Owner Operator</label>
-                    <input type="text" value={`$${loadData.owner_operator_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Rate For Company Driver</label>
-                    <input type="text"  value={`$${loadData.company_driver_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
-                  </div>
-                </div>
-              </section>
-
               {/* Logistics Planning */}
               <section className="bg-white rounded-lg p-6 shadow-sm">
                 <h2 className="text-lg font-semibold mb-4 flex items-center">
@@ -278,6 +226,64 @@ const LoadDetail = () => {
                   </div>
                 </div>
               </section>
+              {/* Load Specifications */}
+              <section className="bg-white rounded-lg p-6 shadow-sm">
+                <h2 className="text-lg font-semibold mb-4 flex items-center">
+                  <i className="fa-solid fa-box text-blue-600 mr-2"></i>
+                  Load Specifications
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Load Type</label>
+                    <input type="text" value={loadData.load_type || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Trailer Type</label>
+                    <input type="text" value={loadData.trailer_type?.map(type => type.type).join(', ') || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Freight Amount</label>
+                    <div className="mt-1 relative rounded-md shadow-sm">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span className="text-gray-500 sm:text-sm">$</span>
+                      </div>
+                      <input type="text" value={loadData.freight_amount || ''} className="pl-7 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Miles</label>
+                    <input type="text" value={loadData.load_miles || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">CPM</label>
+                    <input type="text" value={loadData.cpm || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Weight (lbs)</label>
+                    <input type="text" value={loadData.weight || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Length (Feet)</label>
+                    <input type="text" value={loadData.length || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Temperature (°F)</label>
+                    <input type="text" value={loadData.temperature || ''} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Rate For Owner Operator</label>
+                    <input type="text" value={`$${loadData.owner_operator_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Rate For Company Driver</label>
+                    <input type="text"  value={`$${loadData.company_driver_rate || ''}`} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" readOnly />
+                  </div>
+                </div>
+              </section>
+
+              
             </div>
           </div>
         )}
@@ -285,7 +291,7 @@ const LoadDetail = () => {
         {tabIndex === 1 && (
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">
-              Recommend Load
+              Recommend Loads
             </h2>
             <RecommendedLoadForm load_id={id} setTabIndex={setTabIndex} />
           </div>

@@ -66,6 +66,7 @@ const LoadForm = () => {
           trailerType: data?.trailer_type.map(t => t.id) || [],
           freight_amount: data?.freight_amount || '',
           cpm: data?.cpm || '',
+          load_miles: data?.load_miles || '',
           expected_vehicle: data?.expected_vehicle || '',
           pickup_city: data?.pickup_city || '',
           pickup_state: data?.pickup_state || '',
@@ -110,6 +111,7 @@ const LoadForm = () => {
       trailerType: [],
       freight_amount: '',
       cpm: '',
+      load_miles: '',
       expected_vehicle: '',
       pickup_city: '',
       pickup_state: '',
@@ -379,9 +381,9 @@ const LoadForm = () => {
                           <span className="text-sm text-gray-500">{form.data.delivery_date || "No date"}</span>
                         </div>
                         <p className="mt-2 text-gray-700">{form.data.location_id || "No location"}</p>
-                        <div className="mt-1 text-sm text-gray-500">
+                        {/* <div className="mt-1 text-sm text-gray-500">
                           {form.data.delivery_start_time || "No start time"} - {form.data.delivery_end_time || "No end time"}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   ))}
@@ -393,6 +395,68 @@ const LoadForm = () => {
 
             {/* Right Column (1/3 width on large screens) */}
             <div className="space-y-6">
+             
+
+              {/* Logistics Planning */}
+              <section className="bg-white rounded-lg p-6 shadow-sm">
+                <h2 className="text-lg font-semibold mb-4 flex items-center">
+                  <i className="fa-solid fa-users text-blue-600 mr-2"></i>
+                  Logistics Planning
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Planned Dispatcher</label>
+                    <select
+                      id="expected_dispatcher"
+                      name="expected_dispatcher"
+                      value={formik.values.expected_dispatcher}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    >
+                      <option value="">Select Dispatcher</option>
+                      {dispatchersData?.map((dispatcher) => (
+                        <option key={dispatcher?.id} value={dispatcher?.name}>{dispatcher?.name}</option>
+                      ))}
+                    </select>
+                    {formik.touched.expected_dispatcher && formik.errors.expected_dispatcher && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.expected_dispatcher}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Planned Vehicle</label>
+                    <input
+                      type="text"
+                      id="expected_vehicle"
+                      name="expected_vehicle"
+                      value={formik.values.expected_vehicle}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    />
+                    {formik.touched.expected_vehicle && formik.errors.expected_vehicle && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.expected_vehicle}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Load Comments</label>
+                    <textarea
+                      id="load_comments"
+                      name="load_comments"
+                      rows="2"
+                      value={formik.values.load_comments}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    ></textarea>
+                    {formik.touched.load_comments && formik.errors.load_comments && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.load_comments}</p>
+                    )}
+                  </div>
+
+                  
+                </div>
+              </section>
               {/* Load Specifications */}
               <section className="bg-white rounded-lg p-6 shadow-sm">
                 <h2 className="text-lg font-semibold mb-4 flex items-center">
@@ -454,6 +518,22 @@ const LoadForm = () => {
                     </div>
                     {formik.touched.freight_amount && formik.errors.freight_amount && (
                       <p className="mt-1 text-sm text-red-600">{formik.errors.freight_amount}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Miles</label>
+                    <input
+                      type="number"
+                      id="load_miles"
+                      name="load_miles"
+                      disabled
+                      value={formik.values.load_miles}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100"
+                    />
+                    {formik.touched.load_miles && formik.errors.load_miles && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.load_miles}</p>
                     )}
                   </div>
                   <div>
@@ -582,68 +662,6 @@ const LoadForm = () => {
                   </div>
                 </div>
               </section>
-
-              {/* Logistics Planning */}
-              <section className="bg-white rounded-lg p-6 shadow-sm">
-                <h2 className="text-lg font-semibold mb-4 flex items-center">
-                  <i className="fa-solid fa-users text-blue-600 mr-2"></i>
-                  Logistics Planning
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Planned Dispatcher</label>
-                    <select
-                      id="expected_dispatcher"
-                      name="expected_dispatcher"
-                      value={formik.values.expected_dispatcher}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    >
-                      <option value="">Select Dispatcher</option>
-                      {dispatchersData?.map((dispatcher) => (
-                        <option key={dispatcher?.id} value={dispatcher?.name}>{dispatcher?.name}</option>
-                      ))}
-                    </select>
-                    {formik.touched.expected_dispatcher && formik.errors.expected_dispatcher && (
-                      <p className="mt-1 text-sm text-red-600">{formik.errors.expected_dispatcher}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Planned Vehicle</label>
-                    <input
-                      type="text"
-                      id="expected_vehicle"
-                      name="expected_vehicle"
-                      value={formik.values.expected_vehicle}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    />
-                    {formik.touched.expected_vehicle && formik.errors.expected_vehicle && (
-                      <p className="mt-1 text-sm text-red-600">{formik.errors.expected_vehicle}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Load Comments</label>
-                    <textarea
-                      id="load_comments"
-                      name="load_comments"
-                      rows="2"
-                      value={formik.values.load_comments}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    ></textarea>
-                    {formik.touched.load_comments && formik.errors.load_comments && (
-                      <p className="mt-1 text-sm text-red-600">{formik.errors.load_comments}</p>
-                    )}
-                  </div>
-
-                  
-                </div>
-              </section>
-
               {/* Submit Button (Mobile Only) */}
               <div className="lg:hidden">
                 <button 
