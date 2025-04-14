@@ -189,11 +189,11 @@ const ListDataGrid = () => {
     { id: 'planned_end_time', label: 'Planned DateTime End', minWidth: 120 },
     { id: 'is_archived', label: 'Status', minWidth: 100 },
     { id: 'load_type', label: 'Load Type', minWidth: 120 },
+    { id: 'load_comments', label: 'Comments', minWidth: 120 },
+    { id: 'sale_agent', label: 'Sale Agent', minWidth: 120 },
     { id: 'pickup_status', label: 'Pickup Status', minWidth: 120 },
     { id: 'delivery_status', label: 'Delivery Status', minWidth: 120 },
     { id: 'odoo_load_stage', label: 'Load Stage', minWidth: 120 },
-    { id: 'load_comments', label: 'Comments', minWidth: 120 },
-    { id: 'sale_agent', label: 'Sale Agent', minWidth: 120 },
 
    // { id: 'weight', label: 'Weight', minWidth: 120 },
     //{ id: 'length', label: 'Length', minWidth: 120 },
