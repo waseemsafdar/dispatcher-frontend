@@ -164,6 +164,8 @@ const ListDataGrid = () => {
     is_archived: load?.is_archived ? 'Covered' : <span style={{ color: "orange" }}>Open</span>,
     trailer_type: load.trailer_type.map(type => type.type).join(', '),
     load_type: load?.load_type,
+    load_comments: load?.load_comments,
+    sale_agent: load?.sale_agent,
     temperature: load?.temperature,
     odoo_load_stage: load?.odoo_load_stage,
     pickup_status: computePickupStatus(load),
@@ -190,7 +192,9 @@ const ListDataGrid = () => {
     { id: 'pickup_status', label: 'Pickup Status', minWidth: 120 },
     { id: 'delivery_status', label: 'Delivery Status', minWidth: 120 },
     { id: 'odoo_load_stage', label: 'Load Stage', minWidth: 120 },
-    //{ id: 'temperature', label: 'Temperature', minWidth: 120 },
+    { id: 'load_comments', label: 'Comments', minWidth: 120 },
+    { id: 'sale_agent', label: 'Sale Agent', minWidth: 120 },
+
    // { id: 'weight', label: 'Weight', minWidth: 120 },
     //{ id: 'length', label: 'Length', minWidth: 120 },
   ];

@@ -172,13 +172,40 @@ const LoadDetail = () => {
                 </h2>
                 <div className="space-y-4">
                   {loadData?.delivery_ids?.map((delivery, index) => (
+                   
                     <div key={index} className={`flex items-start border-l-4 ${delivery.type === 'Pickup' ? 'border-blue-600' : 'border-green-600'} pl-4 pb-6`}>
                       <div className="w-full">
                         <div className="flex items-center justify-between">
                           <span className={`${delivery.type === 'Pickup' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'} text-sm px-3 py-1 rounded-full`}>
                             Stop {index + 1} - {delivery.type}
                           </span>
+                          
+                     
+
                           <span className="text-sm text-gray-500">{delivery.delivery_date}</span>
+                          {delivery.type === 'Pickup' ? (
+  delivery?.delivery_date && new Date(delivery.delivery_date) < new Date() ?
+  <span className="bg-orange-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+      Late
+    </span>
+  : (
+    <span className="bg-green-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+      On Time
+    </span>
+
+  )
+) : (
+  delivery?.delivery_date && new Date(delivery.delivery_date) < new Date() ? 
+  <span className="bg-orange-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+      Late
+    </span>
+  :
+   (
+    <span className="bg-green-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+      On Time
+    </span>
+  )
+)}
                         </div>
                         <p className="mt-2 text-gray-700">{delivery.location_id}</p>
                         {/* <div className="mt-1 text-sm text-gray-500">{delivery.delivery_start_time} - {delivery.delivery_end_time}</div> */}
