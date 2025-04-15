@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { fetchloadById, setBackFromDetail } from '../../../store/loadSlice';
+import { fetchloadById, setBackFromDetail, updateDeliveryStatus} from '../../../store/loadSlice';
 import RecommendedLoadForm from './RecommendedLoadForm';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { toast } from 'react-toastify';
 
 
 const LoadDetail = () => {
@@ -13,16 +14,23 @@ const LoadDetail = () => {
 
   const { loadData, status, error } = useSelector((state) => state.load);
   const [tabIndex, setTabIndex] = useState(0);
-
+console.log(status,'statusstatusstatusstatus')
   useEffect(() => {
-    if (id) {
+    if (id || status == "succeeded") {
       dispatch(fetchloadById(id));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id,status]);
 
   const handleClick = () => {
     dispatch(setBackFromDetail(true));
     navigate('/dashboard');
+  };
+  const setDeliveryStatus = (deliveryId, onTime) => {
+    dispatch(updateDeliveryStatus({deliveryId, onTime})).then(() => {
+      // Reload data after successful update
+      toast('Updated successfully!');
+      //window.location.reload();
+    });
   };
 
   const handleEdit = (id) => {
@@ -184,27 +192,59 @@ const LoadDetail = () => {
 
                           <span className="text-sm text-gray-500">{delivery.delivery_date}</span>
                           {delivery.type === 'Pickup' ? (
-  delivery?.delivery_date && new Date(delivery.delivery_date) < new Date() ?
-  <span className="bg-orange-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
-      Late
-    </span>
-  : (
-    <span className="bg-green-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+  <div className="flex space-x-2 mt-2">
+    <button 
+      onClick={() => {
+        setDeliveryStatus(delivery.id, true);
+      }}
+      className={`text-black-600 text-sm px-3 py-1 rounded-full ${
+        delivery.stop_status === true 
+          ? 'bg-green-300 font-medium' 
+          : 'bg-green-100 hover:bg-green-200'
+      }`}
+    >
       On Time
-    </span>
-
-  )
+    </button>
+    <button
+      onClick={() => {
+        setDeliveryStatus(delivery.id, false);
+      }}
+      className={`text-black-600 text-sm px-3 py-1 rounded-full ${
+        delivery.stop_status === false 
+          ? 'bg-orange-300 font-medium' 
+          : 'bg-orange-100 hover:bg-orange-200'
+      }`}
+    >
+      Late
+    </button>
+  </div>
 ) : (
-  delivery?.delivery_date && new Date(delivery.delivery_date) < new Date() ? 
-  <span className="bg-orange-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
-      Late
-    </span>
-  :
-   (
-    <span className="bg-green-100 text-black-600 text-sm px-3 py-1 rounded-full mt-2 inline-block">
+  <div className="flex space-x-2 mt-2">
+    <button 
+      onClick={() => {
+        setDeliveryStatus(delivery.id, true);
+      }}
+      className={`text-black-600 text-sm px-3 py-1 rounded-full ${
+        delivery.stop_status === true 
+          ? 'bg-green-300 font-medium' 
+          : 'bg-green-100 hover:bg-green-200'
+      }`}
+    >
       On Time
-    </span>
-  )
+    </button>
+    <button
+      onClick={() => {
+        setDeliveryStatus(delivery.id, false);
+      }}
+      className={`text-black-600 text-sm px-3 py-1 rounded-full ${
+        delivery.stop_status === false 
+          ? 'bg-orange-300 font-medium' 
+          : 'bg-orange-100 hover:bg-orange-200'
+      }`}
+    >
+      Late
+    </button>
+  </div>
 )}
                         </div>
                         <p className="mt-2 text-gray-700">{delivery.location_id}</p>

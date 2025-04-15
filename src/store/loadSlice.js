@@ -55,6 +55,22 @@ export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadD
   return response.data;
 });
 
+export const updateDeliveryStatus = createAsyncThunk(
+  'delivery/updateStatus',
+  async ({ deliveryId, onTime }) => {
+    const response = await axios.put(
+      `http://18.118.168.39:5000/delivery_status/${deliveryId}`,
+      JSON.stringify({ stop_status: onTime }),
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    return response.data;
+  }
+);
+
 export const restLoad = createAsyncThunk('load/resetload', async ({ id }) => {
   const response = await axios.put(`http://18.118.168.39:5000/reset_load/${id}`);
   return response.data;
@@ -172,6 +188,13 @@ const loadSlice = createSlice({
       .addCase(getRecomendedLoads.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.RecommendedLoadList = action.payload;
+      })
+      .addCase(updateDeliveryStatus.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(updateDeliveryStatus.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        
       });
   },
 });
