@@ -16,7 +16,7 @@ import {
   Box,
   Icon
 } from '@mui/material';
-import { IconAlertCircle, IconCheck, IconCircleCheckFilled, IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
+import { IconAlertCircle, IconCheck, IconCircleCheckFilled, IconClock, IconEdit, IconEye, IconQuestionMark, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IconCheckbox } from '@tabler/icons-react';
@@ -89,56 +89,84 @@ const ListDataGrid = () => {
   };
 
   const computePickupStatus = (load) => {
-    const { odoo_load_stage, planned_start_time } = load;
+    const { delivery_ids } = load;
     
-    const relevantPickupStages = ['Planned', 'Pending', 'Confirmed'];
-    const now = new Date();
+    // Find the first delivery with type "pick up"
+    const pickupDelivery = delivery_ids?.find(delivery => delivery.type == 'Pickup');
+    console.log('pickupDelivery Record:', pickupDelivery);  
 
-    if (relevantPickupStages.includes(odoo_load_stage) && new Date(planned_start_time) < now) {
-      return (<div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
-          <IconAlertCircle  style={{ color: 'red' }} />
-          <span style={{ marginLeft: '8px' }}>Late</span>
-    </div>)
+    
+    if (!pickupDelivery) {
+      // No pickup delivery found
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'gray' }}>
+          <IconQuestionMark style={{ color: 'gray' }} />
+          <span style={{ marginLeft: '8px' }}>Unknown</span>
+        </div>
+      );
     }
-    return (<div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+  
+    // Use the status of the pickup delivery
+    if (pickupDelivery.stop_status == '1') {
+      return (
+          <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
-
-      <span style={{ marginLeft: '8px' }}>On Time</span>
-</div>);
-    
+          <span style={{ marginLeft: '8px' }}>On Time</span>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
+        <IconAlertCircle style={{ color: 'red' }} />
+        <span style={{ marginLeft: '8px' }}>Late</span>
+      </div>
+      );
+    }
   };
-
+  
   const computeDeliveryStatus = (load) => {
-    const { odoo_load_stage, planned_end_time } = load;
-    const completedStages = ['Delivered', 'Done', 'Closed'];
-    const now = new Date();
-
-    // New condition for "Invoiced" stage
-    if (odoo_load_stage === 'Invoiced') {
+    const { delivery_ids, odoo_load_stage } = load;
+    
+    // Special case for "Invoiced" stage
+    // if (odoo_load_stage === 'Invoiced') {
+    //   return (
+    //     <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
+    //       <IconCircleCheckFilled style={{ color: 'green' }} />
+    //       <span style={{ marginLeft: '8px' }}>Delivered</span>
+    //     </div>
+    //   );
+    // }
+    
+    // Find the first delivery with type "delivery" (or whatever indicates a delivery)
+    const deliveryRecord = delivery_ids?.find(delivery => delivery.type == 'Delivery');
+    console.log('Delivery Record:', deliveryRecord);  
+    if (!deliveryRecord) {
+      // No delivery found
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'gray' }}>
+          <IconQuestionMark style={{ color: 'gray' }} />
+          <span style={{ marginLeft: '8px' }}>Pending</span>
+        </div>
+      );
+    }
+  
+    // Use the status of the delivery
+    if (deliveryRecord.stop_status == '1') {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
           <span style={{ marginLeft: '8px' }}>Delivered</span>
         </div>
       );
-    }
-    
-    if (!completedStages.includes(odoo_load_stage) && new Date(planned_end_time) < now) {
+    } else {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
-          <IconAlertCircle style={{ color: 'red' }} />
+        <div style={{ display: 'flex', alignItems: 'center', color: 'orange' }}>
+          <IconClock style={{ color: 'orange' }} />
           <span style={{ marginLeft: '8px' }}>Late</span>
         </div>
       );
     }
-    
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
-        <IconCircleCheckFilled style={{ color: 'green' }} />
-        <span style={{ marginLeft: '8px' }}>On Time</span>
-      </div>
-    );
-};
+  };
 
   useEffect(() => {
     dispatch(getLoad(filters));
