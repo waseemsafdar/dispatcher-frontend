@@ -107,7 +107,7 @@ const ListDataGrid = () => {
     }
   
     // Use the status of the pickup delivery
-    if (pickupDelivery.stop_status == '1') {
+    if (pickupDelivery.stop_status == 'true') {
       return (
           <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
@@ -115,29 +115,27 @@ const ListDataGrid = () => {
         </div>
       );
     } else {
+      if (pickupDelivery.stop_status == 'false') {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
         <IconAlertCircle style={{ color: 'red' }} />
         <span style={{ marginLeft: '8px' }}>Late</span>
       </div>
-      );
+      );}
+      else {
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', color: 'gray' }}>
+            <span style={{ marginLeft: '8px' }}>-</span>
+          </div>
+        );
+      }
+
     }
   };
   
   const computeDeliveryStatus = (load) => {
     const { delivery_ids, odoo_load_stage } = load;
-    
-    // Special case for "Invoiced" stage
-    // if (odoo_load_stage === 'Invoiced') {
-    //   return (
-    //     <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
-    //       <IconCircleCheckFilled style={{ color: 'green' }} />
-    //       <span style={{ marginLeft: '8px' }}>Delivered</span>
-    //     </div>
-    //   );
-    // }
-    
-    // Find the first delivery with type "delivery" (or whatever indicates a delivery)
+  
     const deliveryRecord = delivery_ids?.find(delivery => delivery.type == 'Delivery');
     console.log('Delivery Record:', deliveryRecord);  
     if (!deliveryRecord) {
@@ -151,7 +149,7 @@ const ListDataGrid = () => {
     }
   
     // Use the status of the delivery
-    if (deliveryRecord.stop_status == '1') {
+    if (deliveryRecord.stop_status == 'true') {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
@@ -159,12 +157,20 @@ const ListDataGrid = () => {
         </div>
       );
     } else {
+    if (deliveryRecord.stop_status == 'false') {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'orange' }}>
           <IconClock style={{ color: 'orange' }} />
           <span style={{ marginLeft: '8px' }}>Late</span>
         </div>
       );
+    } else {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', color: 'gray' }}>
+          <span style={{ marginLeft: '8px' }}>-</span>
+        </div>
+      );
+    }
     }
   };
 
