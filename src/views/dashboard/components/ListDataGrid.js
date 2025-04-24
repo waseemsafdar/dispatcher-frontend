@@ -93,7 +93,7 @@ const ListDataGrid = () => {
     
     // Find the first delivery with type "pick up"
     const pickupDelivery = delivery_ids?.find(delivery => delivery.type == 'Pickup');
-    console.log('pickupDelivery Record:', pickupDelivery);  
+    console.log('pickupDelivery Record:', load);  
 
     
     if (!pickupDelivery) {
@@ -107,7 +107,7 @@ const ListDataGrid = () => {
     }
   
     // Use the status of the pickup delivery
-    if (pickupDelivery.stop_status == 'true') {
+    if (pickupDelivery.stop_status == true) {
       return (
           <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
@@ -115,7 +115,7 @@ const ListDataGrid = () => {
         </div>
       );
     } else {
-      if (pickupDelivery.stop_status == 'false') {
+      if (pickupDelivery.stop_status == false) {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'red' }}>
         <IconAlertCircle style={{ color: 'red' }} />
@@ -149,7 +149,7 @@ const ListDataGrid = () => {
     }
   
     // Use the status of the delivery
-    if (deliveryRecord.stop_status == 'true') {
+    if (deliveryRecord.stop_status == true) {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'green' }}>
           <IconCircleCheckFilled style={{ color: 'green' }} />
@@ -157,7 +157,7 @@ const ListDataGrid = () => {
         </div>
       );
     } else {
-    if (deliveryRecord.stop_status == 'false') {
+    if (deliveryRecord.stop_status == false) {
       return (
         <div style={{ display: 'flex', alignItems: 'center', color: 'orange' }}>
           <IconClock style={{ color: 'orange' }} />
