@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^2.4.0",
     "@svgr/rollup": "^8.1.0",
     "@tabler/icons-react": "^2.35.0",
+    "ag-grid-react": "^33.2.4",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
