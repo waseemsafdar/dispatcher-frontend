@@ -83,7 +83,7 @@ const LoadForm = () => {
           owner_operator_rate: data?.owner_operator_rate || 0,
           company_driver_rate: data?.company_driver_rate || 0,
           status: data?.is_archived ? 'Covered' : 'Open',
-          
+          appointment_type: data?.appointment_type || '', // Added appointment_type field
         });
         setDeliveryForms(
           data?.delivery_ids?.map((delivery, index) => ({
@@ -126,7 +126,8 @@ const LoadForm = () => {
       odoo_load_stage: '',
       load_comments: '',
       company_driver_rate: 0,
-      owner_operator_rate: 0
+      owner_operator_rate: 0,
+      appointment_type: '', // Added appointment_type field with empty default
     },
     //validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -436,6 +437,25 @@ const LoadForm = () => {
                     />
                     {formik.touched.expected_vehicle && formik.errors.expected_vehicle && (
                       <p className="mt-1 text-sm text-red-600">{formik.errors.expected_vehicle}</p>
+                    )}
+                  </div>
+                  {/* Add Appointment Type dropdown here */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Appointment Type</label>
+                    <select
+                      id="appointment_type"
+                      name="appointment_type"
+                      value={formik.values.appointment_type}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    >
+                      <option value="">Select Appointment Type</option>
+                      <option value="First Come, First Served">First Come, First Served</option>
+                      <option value="Appointment">Appointment</option>
+                    </select>
+                    {formik.touched.appointment_type && formik.errors.appointment_type && (
+                      <p className="mt-1 text-sm text-red-600">{formik.errors.appointment_type}</p>
                     )}
                   </div>
                   <div>

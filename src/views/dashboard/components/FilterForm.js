@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextField, MenuItem, Select, InputLabel, FormControl, Button, Box, Menu } from '@mui/material';
+import { 
+  TextField, MenuItem, Select, InputLabel, FormControl, Button, Box, Menu,
+  Switch, FormControlLabel // Add these imports
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDispatchers, fetchTrailer } from '../../../store/partnerSlice';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -59,7 +62,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
       odoo_load_stage: '',
       destination: '',
       radius_origin: '',  // Default value for radius_origin
-      radius_dest: ''     // Default value for radius_dest
+      radius_dest: '',     // Default value for radius_dest
+      internal_load: false  // Add default value for internal_load toggle
     }
   });
 
@@ -82,6 +86,13 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const handleFilterClick = (isArchived) => {
     setValue('is_archived', isArchived);
     setActiveFilter(isArchived ? "Covered" : "Open");
+    handleSubmit(handleFormSubmit)();
+  };
+
+  // Handle internal load toggle change
+  const handleInternalLoadChange = (e) => {
+    setValue('internal_load', e.target.checked);
+    // Auto-submit when the toggle changes
     handleSubmit(handleFormSubmit)();
   };
 
@@ -212,6 +223,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const destination = watch('destination');
   const radiusOrigin = watch('radius_origin');
   const radiusDest = watch('radius_dest');
+  const internalLoad = watch('internal_load');
 
   return (
     <LoadScript googleMapsApiKey={'AIzaSyB6AggcYKdKvkwUOdk-SqSWI6uYjCYjFp0'} libraries={libraries}>
@@ -336,6 +348,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
               <MenuItem value="LTL">LTL</MenuItem>
             </Select>
           </FormControl>
+          
           <TextField
             id="temperature"
             label="Temp"
@@ -426,7 +439,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           </Box>
         </Box>
 
-        <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
+        <Box display="flex" justifyContent="flex-end" mt={2} gap={2} alignItems="center">
 
           <Button
             variant="contained"
@@ -444,6 +457,32 @@ const FilterForm = ({ onSubmit, onClear }) => {
           >
             Covered
           </Button>
+          
+          {/* Internal Load Toggle Switch - now positioned with buttons */}
+          <FormControlLabel
+            control={
+              <Controller
+                name="internal_load"
+                control={control}
+                render={({ field: { value } }) => (
+                  <Switch
+                    checked={Boolean(value)}
+                    onChange={handleInternalLoadChange}
+                    color="primary"
+                  />
+                )}
+              />
+            }
+            label="Internal Load"
+            sx={{ 
+              marginLeft: 1, 
+              marginRight: 1,
+              '& .MuiFormControlLabel-label': {
+                fontWeight: internalLoad ? 'bold' : 'normal',
+              }
+            }}
+          />
+          
           {/* Replace the Apply Filters button with a dropdown */}
          
   <Button
