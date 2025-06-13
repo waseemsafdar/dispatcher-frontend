@@ -63,7 +63,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
       destination: '',
       radius_origin: '',  // Default value for radius_origin
       radius_dest: '',     // Default value for radius_dest
-      internal_load: false  // Add default value for internal_load toggle
+      load_number: ''  // Add default value for load_number 
     }
   });
 
@@ -223,7 +223,8 @@ const FilterForm = ({ onSubmit, onClear }) => {
   const destination = watch('destination');
   const radiusOrigin = watch('radius_origin');
   const radiusDest = watch('radius_dest');
-  const internalLoad = watch('internal_load');
+  const loadNumber = watch('load_number');
+  //const internalLoad = watch('internal_load');
 
   return (
     <LoadScript googleMapsApiKey={'AIzaSyB6AggcYKdKvkwUOdk-SqSWI6uYjCYjFp0'} libraries={libraries}>
@@ -280,6 +281,16 @@ const FilterForm = ({ onSubmit, onClear }) => {
             value={radiusDest}
             {...register('radius_dest')}
             placeholder="Radius from Destination"
+            fullWidth
+          />
+           <TextField
+            id="load_number"
+            label="Load Name"
+            variant="outlined"
+            type="text"
+            value={loadNumber}
+            {...register('load_number')}
+            placeholder="Load Name"
             fullWidth
           />
           <FormControl fullWidth variant="outlined">
@@ -459,7 +470,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           </Button>
           
           {/* Internal Load Toggle Switch - now positioned with buttons */}
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Controller
                 name="internal_load"
@@ -481,7 +492,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
                 fontWeight: internalLoad ? 'bold' : 'normal',
               }
             }}
-          />
+          /> */}
           
           {/* Replace the Apply Filters button with a dropdown */}
          

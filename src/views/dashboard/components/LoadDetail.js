@@ -286,6 +286,12 @@ console.log(status,'statusstatusstatusstatus')
                     </div>
                   </div>
                   <div>
+                    <label className="block text-sm font-medium text-gray-700">Appointment Type</label>
+                    <div className="mt-1">
+                      <textarea className="w-full rounded-md border-gray-300 shadow-sm" readOnly value={loadData.appointment_type || ''} rows="2"></textarea>
+                    </div>
+                  </div>
+                  <div>
                     <label className="block text-sm font-medium text-gray-700">Comments</label>
                     <div className="mt-1">
                       <textarea className="w-full rounded-md border-gray-300 shadow-sm" readOnly value={loadData.load_comments || ''} rows="2"></textarea>
