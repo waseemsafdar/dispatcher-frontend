@@ -253,6 +253,8 @@ const ListDataGrid = () => {
       }
     },
     { headerName: 'Load Stage', field: 'odoo_load_stage', width: 150, sortable: true, filter: true },
+    { headerName: 'Appointment TYpe', field: 'appointment_type', width: 150, sortable: true, filter: true },
+
   ], []);
 
   const defaultColDef = useMemo(() => ({
@@ -315,6 +317,7 @@ const ListDataGrid = () => {
         sale_agent: load?.sale_agent,
         temperature: load?.temperature,
         odoo_load_stage: load?.odoo_load_stage,
+        appointment_type: load?.appointment_type,
         pickup_status: computePickupStatus(load),
         delivery_status: computeDeliveryStatus(load),
       }));

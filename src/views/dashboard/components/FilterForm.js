@@ -285,7 +285,7 @@ const FilterForm = ({ onSubmit, onClear }) => {
           />
            <TextField
             id="load_number"
-            label="Load Name"
+            label="Internal Load"
             variant="outlined"
             type="text"
             value={loadNumber}
