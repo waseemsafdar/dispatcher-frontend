@@ -273,31 +273,11 @@ const gridApiRef = useRef();
   }), []);
 
   // AG Grid onGridReady event handler
-  const fetchLoadData = (page = 1, perPage = 100) => {
-  dispatch(
-    getLoad({
-      filters,      // filters you want to pass
-      perPage,      // page size
-      page          // current page
-    })
-  ).then(({ payload: { data, total, page, per_page } }) => {
-    // Update grid data
-    setRowData(data);
-
-    // Update pagination info
-    setPagination({
-      total,
-      page,
-      perPage: per_page
-    });
-  });
-};
-
   const onGridReady = (params) => {
   gridApiRef.current = params.api;
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
-    fetchLoadData(2, 100); // Fetch initial data with default page and perPage
+    
     // Add the style element for borders and header color
     const styleElement = document.createElement('style');
     styleElement.innerHTML = customStyles;
@@ -332,36 +312,40 @@ const gridApiRef = useRef();
     })
     setIsTableLoading(true);
   }, [dispatch, filters]);
+const mapLoadToRow = (load) => ({
+  id: load.id,
+  cpm: load.cpm,
+  customer_load: load.customer_load,
+  freight_amount: load.freight_amount,
+  expected_dispatcher: load.expected_dispatcher,
+  expected_vehicle: load.expected_vehicle,
+  partner_id: load?.partner?.name,
+  pickup_city: load?.pickup_city,
+  pickup_state: load?.pickup_state,
+  delivery_city: load?.delivery_city,
+  delivery_state: load?.delivery_state,
+  planned_start_time: load?.planned_start_time,
+  planned_end_time: load?.planned_end_time,
+  is_archived: load?.is_archived ? 'Covered' : 'Open',
+  trailer_type: Array.isArray(load.trailer_type)
+    ? load.trailer_type.map(t => t.type).join(', ')
+    : (load.trailer_type ?? ''),
+  load_type: load?.load_type,
+  load_comments: load?.load_comments,
+  sale_agent: load?.sale_agent,
+  temperature: load?.temperature,
+  odoo_load_stage: load?.odoo_load_stage,
+  appointment_type: load?.appointment_type,
+  pickup_status: computePickupStatus(load),
+  delivery_status: computeDeliveryStatus(load),
+});
+
+const normalize = (rows) => rows.map(mapLoadToRow);
 
   useEffect(() => {
     console.log('Load list updated:', loadList);
     if (loadList && loadList.data && loadList.data.length > 0) {
-      const formattedRows = loadList.data.map((load) => ({
-        id: load.id,
-        cpm: load.cpm,
-        customer_load: load.customer_load,
-        freight_amount: load.freight_amount,
-        expected_dispatcher: load.expected_dispatcher,
-        expected_vehicle: load.expected_vehicle,
-        partner_id: load?.partner?.name,
-        pickup_city: load?.pickup_city,
-        pickup_state: load?.pickup_state,
-        delivery_city: load?.delivery_city,
-        delivery_state: load?.delivery_state,
-        planned_start_time: load?.planned_start_time,
-        planned_end_time: load?.planned_end_time,
-        is_archived: load?.is_archived ? 'Covered' : 'Open',
-        trailer_type: load.trailer_type.map(type => type.type).join(', '),
-        load_type: load?.load_type,
-        load_comments: load?.load_comments,
-        sale_agent: load?.sale_agent,
-        temperature: load?.temperature,
-        odoo_load_stage: load?.odoo_load_stage,
-        appointment_type: load?.appointment_type,
-        pickup_status: computePickupStatus(load),
-        delivery_status: computeDeliveryStatus(load),
-      }));
-      setRowData(formattedRows);
+     setRowData(normalize(loadList.data));
       setIsTableLoading(false);
       
       // After data is loaded, size columns
@@ -373,33 +357,32 @@ const gridApiRef = useRef();
     }
   }, [loadList, gridApi, gridColumnApi]);
 
-  function onPaginationChanged() {
-  const newPageSize = gridApiRef.current.paginationGetPageSize();
-  console.log('New page size:', newPageSize);
-}
+  const fetchLoadData = async (page = 1, perPage = pagination.per_page) => {
+  setIsTableLoading(true);
+  const { payload: { data, total, page: currentPage, per_page, total_pages } } =
+    await dispatch(getLoad({ filters, perPage, page }));
+
+      setRowData(normalize(data));
+
+  setPagination({
+    total,
+    page: currentPage,
+    per_page,
+    total_pages
+  });
+  setIsTableLoading(false);
+};
+
+
+
   function OnChangePage(newPerPage) { 
     setPagination(prev => ({
     ...prev,
     per_page: newPerPage,
-    page: 0, // Optionally reset to first page
   }));
-  console.log('Dispatching with:', filters, newPerPage, pagination.page);
-
-    dispatch(getLoad({
-    filters,
-    perPage: newPerPage,
-    page: pagination.page
-  })).then(({ payload: { data, total, page,per_page, total_pages} }) => {
-      console.log('Data loaded:', total,data);
-      setIsTableLoading(false);
-      // Add pagination state
-      setPagination({
-        total,
-        per_page,
-        page,
-        total_pages
-      });
-        });
+  console.log('Dispatching with:', filters, pagination.per_page, pagination.page);
+  fetchLoadData(pagination.page,newPerPage);
+    
   }
   // If still loading and no grid API yet, show loading spinner
   if (status === 'loading' && !gridApi) {
@@ -450,7 +433,7 @@ const gridApiRef = useRef();
         defaultColDef={defaultColDef}
         animateRows={true}
         onGridReady={onGridReady}
-        pagination={true}
+        pagination={false}
         paginationPageSize={100}
         paginationPageSizeSelector={[25,50, 100,300,500,700,1000]}
         suppressCellFocus={true}
@@ -460,18 +443,46 @@ const gridApiRef = useRef();
         domLayout="normal"
         suppressHorizontalScroll={false}
         suppressScrollOnNewData={false}
-        onPaginationChanged={onPaginationChanged}
-        onPaginationPageSizeChanged={onPaginationChanged}
+        // onPaginationChanged={onPaginationChanged}
+        // onPaginationPageSizeChanged={onPaginationChanged}
         onFirstDataRendered={sizeToFit}
       />
-      <div className="custom-grid-footer">
-  <span>Page {pagination.page  + 1} of {pagination.total_pages}</span>
-  <select value={pagination.per_page} onChange={e => OnChangePage(Number(e.target.value))}>
-    {[25, 40, 100, 300, 500, 700, 1000].map(size => (
-      <option key={size} value={size}>{size} per page</option>
-    ))}
-  </select>
+      <div className="custom-grid-footer flex items-center justify-between mt-3 px-2.5 pb-2.5">
+  {/* Page Info + Buttons */}
+  <div className="flex items-center space-x-2">
+    <button
+      className="px-2 py-1 border rounded disabled:opacity-50"
+      disabled={pagination.page <= 1}
+      onClick={() => fetchLoadData(pagination.page - 1, pagination.per_page)}
+    >
+      Prev
+    </button>
+    <span>Page {pagination.page} of {pagination.total_pages}</span>
+    <button
+      className="px-2 py-1 border rounded disabled:opacity-50"
+      disabled={pagination.page >= pagination.total_pages}
+      onClick={() => fetchLoadData(pagination.page + 1, pagination.per_page)}
+    >
+      Next
+    </button>
+  </div>
+
+  {/* Page Size Selector */}
+  <div>
+    <select
+      value={pagination.per_page}
+      onChange={e => OnChangePage(Number(e.target.value))}
+      className="border rounded p-1"
+    >
+      {[25, 40, 100, 300, 500, 700, 1000].map(size => (
+        <option key={size} value={size}>
+          {size} per page
+        </option>
+      ))}
+    </select>
+  </div>
 </div>
+
     </Box>
   );
 };
