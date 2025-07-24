@@ -474,7 +474,7 @@ const normalize = (rows) => rows.map(mapLoadToRow);
       onChange={e => OnChangePage(Number(e.target.value))}
       className="border rounded p-1"
     >
-      {[25, 40, 100, 300, 500, 700, 1000].map(size => (
+      {[50,100,200,300, 400,500, 700, 1000].map(size => (
         <option key={size} value={size}>
           {size} per page
         </option>
