@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteLoadById, getLoad } from '../../../store/loadSlice';
 import { useNavigate } from 'react-router';
@@ -73,6 +73,14 @@ const ListDataGrid = () => {
   const [gridApi, setGridApi] = useState(null);
   const [gridColumnApi, setGridColumnApi] = useState(null);
   const [rowData, setRowData] = useState([]);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    per_page: 100,
+    page: 1,
+    total_pages: 1
+  });
+const gridApiRef = useRef();
+
   const [isTableLoading, setIsTableLoading] = useState(true);
 
   const { loadList, status, error, filters } = useSelector((state) => state.load);
@@ -265,10 +273,31 @@ const ListDataGrid = () => {
   }), []);
 
   // AG Grid onGridReady event handler
+  const fetchLoadData = (page = 1, perPage = 100) => {
+  dispatch(
+    getLoad({
+      filters,      // filters you want to pass
+      perPage,      // page size
+      page          // current page
+    })
+  ).then(({ payload: { data, total, page, per_page } }) => {
+    // Update grid data
+    setRowData(data);
+
+    // Update pagination info
+    setPagination({
+      total,
+      page,
+      perPage: per_page
+    });
+  });
+};
+
   const onGridReady = (params) => {
+  gridApiRef.current = params.api;
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
-    
+    fetchLoadData(2, 100); // Fetch initial data with default page and perPage
     // Add the style element for borders and header color
     const styleElement = document.createElement('style');
     styleElement.innerHTML = customStyles;
@@ -290,7 +319,17 @@ const ListDataGrid = () => {
   };
 
   useEffect(() => {
-    dispatch(getLoad(filters));
+    dispatch(getLoad(filters)).then(({ payload: { data, total, page,per_page, total_pages} }) => {
+      console.log('Data loaded:', total,data);
+      setIsTableLoading(false);
+      // Add pagination state
+      setPagination({
+        total,
+        per_page,
+        page,
+        total_pages
+      });
+    })
     setIsTableLoading(true);
   }, [dispatch, filters]);
 
@@ -334,16 +373,33 @@ const ListDataGrid = () => {
     }
   }, [loadList, gridApi, gridColumnApi]);
 
-  function onPaginationChanged() { 
-   if (gridApi) {
-      const currentPage = gridApi.paginationGetCurrentPage();
-      const pageSize = gridApi.paginationGetPageSize();
-    if (currentPage !== undefined && pageSize !== undefined) {
-      // dispatch(getLoad(filters, currentPage, pageSize));
-    }
+  function onPaginationChanged() {
+  const newPageSize = gridApiRef.current.paginationGetPageSize();
+  console.log('New page size:', newPageSize);
+}
+  function OnChangePage(newPerPage) { 
+    setPagination(prev => ({
+    ...prev,
+    per_page: newPerPage,
+    page: 0, // Optionally reset to first page
+  }));
+  console.log('Dispatching with:', filters, newPerPage, pagination.page);
 
-      console.log(`Current Page: ${currentPage}, Page Size: ${pageSize}`);
-    }
+    dispatch(getLoad({
+    filters,
+    perPage: newPerPage,
+    page: pagination.page
+  })).then(({ payload: { data, total, page,per_page, total_pages} }) => {
+      console.log('Data loaded:', total,data);
+      setIsTableLoading(false);
+      // Add pagination state
+      setPagination({
+        total,
+        per_page,
+        page,
+        total_pages
+      });
+        });
   }
   // If still loading and no grid API yet, show loading spinner
   if (status === 'loading' && !gridApi) {
@@ -408,6 +464,14 @@ const ListDataGrid = () => {
         onPaginationPageSizeChanged={onPaginationChanged}
         onFirstDataRendered={sizeToFit}
       />
+      <div className="custom-grid-footer">
+  <span>Page {pagination.page  + 1} of {pagination.total_pages}</span>
+  <select value={pagination.per_page} onChange={e => OnChangePage(Number(e.target.value))}>
+    {[25, 40, 100, 300, 500, 700, 1000].map(size => (
+      <option key={size} value={size}>{size} per page</option>
+    ))}
+  </select>
+</div>
     </Box>
   );
 };

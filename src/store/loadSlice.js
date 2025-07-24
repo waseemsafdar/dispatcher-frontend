@@ -35,8 +35,9 @@ export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', as
 export const getLoad = createAsyncThunk(
   'load/getLoad',
   // Accept one object as argument
-  async ({ filters = {}, perPage = 25, page = 1 }) => {
+  async ({ filters = {}, perPage = 25, page =1 }) => {
     // Clean the filters object
+    console.log('Per Pagesssssssssssss:', perPage);
     const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
       if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
         acc[key] = value;
