@@ -295,8 +295,9 @@ const ListDataGrid = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    if (loadList) {
-      const formattedRows = loadList.map((load) => ({
+    console.log('Load list updated:', loadList);
+    if (loadList && loadList.data && loadList.data.length > 0) {
+      const formattedRows = loadList.data.map((load) => ({
         id: load.id,
         cpm: load.cpm,
         customer_load: load.customer_load,
@@ -333,6 +334,17 @@ const ListDataGrid = () => {
     }
   }, [loadList, gridApi, gridColumnApi]);
 
+  function onPaginationChanged() { 
+   if (gridApi) {
+      const currentPage = gridApi.paginationGetCurrentPage();
+      const pageSize = gridApi.paginationGetPageSize();
+    if (currentPage !== undefined && pageSize !== undefined) {
+      // dispatch(getLoad(filters, currentPage, pageSize));
+    }
+
+      console.log(`Current Page: ${currentPage}, Page Size: ${pageSize}`);
+    }
+  }
   // If still loading and no grid API yet, show loading spinner
   if (status === 'loading' && !gridApi) {
     return (
@@ -383,8 +395,8 @@ const ListDataGrid = () => {
         animateRows={true}
         onGridReady={onGridReady}
         pagination={true}
-        paginationPageSize={50}
-        paginationPageSizeSelector={[50, 100, 200]}
+        paginationPageSize={100}
+        paginationPageSizeSelector={[25,50, 100,300,500,700,1000]}
         suppressCellFocus={true}
         enableCellTextSelection={true}
         headerHeight={40}
@@ -392,6 +404,8 @@ const ListDataGrid = () => {
         domLayout="normal"
         suppressHorizontalScroll={false}
         suppressScrollOnNewData={false}
+        onPaginationChanged={onPaginationChanged}
+        onPaginationPageSizeChanged={onPaginationChanged}
         onFirstDataRendered={sizeToFit}
       />
     </Box>

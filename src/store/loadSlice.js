@@ -32,19 +32,25 @@ export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', as
   return response.data;
 });
 
-export const getLoad = createAsyncThunk('load/getLoad', async (filters = {}) => {
-  // Clean the filters object to remove any entries with no value
-  const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
-    if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
+export const getLoad = createAsyncThunk(
+  'load/getLoad',
+  // Accept one object as argument
+  async ({ filters = {}, perPage = 25, page = 1 }) => {
+    // Clean the filters object
+    const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+      if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+    cleanedFilters.per_page = perPage;
+    cleanedFilters.page = page;
 
-  const params = new URLSearchParams(cleanedFilters).toString();
-  const response = await axios.get(`http://18.118.168.39:5000/load?${params}`);
-  return response.data;
-});
+    const params = new URLSearchParams(cleanedFilters).toString();
+    const response = await axios.get(`http://18.118.168.39:5000/load?${params}`);
+    return response.data;
+  }
+);
 
 export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadData }) => {
   const response = await axios.put(`http://18.118.168.39:5000/load/${id}`, JSON.stringify(loadData), {
