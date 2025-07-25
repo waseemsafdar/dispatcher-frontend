@@ -355,7 +355,7 @@ const normalize = (rows) => Array.isArray(rows) && rows.length > 0 ? rows.map(ma
 
   useEffect(() => {
     console.log('Load list updated:', loadList);
-     setRowData(normalize(loadList.data));
+     setRowData(Array.isArray(loadList?.data) && loadList.data.length > 0 ? normalize(loadList.data) : []);
       setIsTableLoading(false);
       
       // After data is loaded, size columns
