@@ -351,11 +351,10 @@ const mapLoadToRow = (load) => ({
   delivery_status: computeDeliveryStatus(load),
 });
 
-const normalize = (rows) => rows.map(mapLoadToRow);
+const normalize = (rows) => Array.isArray(rows) && rows.length > 0 ? rows.map(mapLoadToRow) : [];
 
   useEffect(() => {
     console.log('Load list updated:', loadList);
-    if (loadList && loadList.data && loadList.data.length > 0) {
      setRowData(normalize(loadList.data));
       setIsTableLoading(false);
       
@@ -365,7 +364,6 @@ const normalize = (rows) => rows.map(mapLoadToRow);
           sizeToFit();
         }, 100);
       }
-    }
   }, [loadList, gridApi, gridColumnApi]);
 
   const fetchLoadData = async (page = 1, perPage = pagination.per_page) => {
