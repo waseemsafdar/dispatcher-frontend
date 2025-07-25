@@ -142,9 +142,12 @@ const FilterForm = ({ onSubmit, onClear }) => {
 
     // Call the onSubmit function with the filtered data
     onSubmit(filteredData);
+    console.log('Applying saved filter:', filteredData);
+
   };
 
   const handleApplyFilter = () => {
+    
     handleSubmit(handleFormSubmit)();
     handleClose();
   };

@@ -37,7 +37,7 @@ export const getLoad = createAsyncThunk(
   // Accept one object as argument
   async ({ filters = {}, perPage = 50, page =1 }) => {
     // Clean the filters object
-    console.log('Per Pagesssssssssssss:', perPage);
+    console.log('Per Pagesssssssssssss:', filters);
     const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
       if (value != null && value !== '' && key !== 'origin' && key !== 'destination') {
         acc[key] = value;

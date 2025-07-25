@@ -299,7 +299,7 @@ const gridApiRef = useRef();
   };
 
   useEffect(() => {
-    dispatch(getLoad(filters)).then(({ payload: { data, total, page,per_page, total_pages} }) => {
+    dispatch(getLoad({filters})).then(({ payload: { data, total, page,per_page, total_pages} }) => {
       console.log('Data loaded:', total,data);
       setIsTableLoading(false);
       // Add pagination state
