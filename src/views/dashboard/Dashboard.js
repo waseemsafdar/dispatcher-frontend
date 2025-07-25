@@ -14,6 +14,7 @@ const Dashboard = () => {
   const handleClearFilters = () => { 
     dispatch(clearFilters());
     dispatch(getLoad({ filters:{}}));
+    
   };
   const handleFilterSubmit = (filters) => {
     const formattedData = {
