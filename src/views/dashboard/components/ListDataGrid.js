@@ -311,7 +311,18 @@ const gridApiRef = useRef();
       });
     })
     setIsTableLoading(true);
-  }, [dispatch, filters]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(loadList) {
+    setPagination({
+        total: loadList?.total || 0,
+        per_page: loadList?.per_page || 0,
+        page: loadList?.page || 0,
+        total_pages: loadList?.total_pages || 0
+      });
+    }
+  }, [loadList]);
 const mapLoadToRow = (load) => ({
   id: load.id,
   cpm: load.cpm,

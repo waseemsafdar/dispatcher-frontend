@@ -13,7 +13,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const handleClearFilters = () => { 
     dispatch(clearFilters());
-    dispatch(getLoad());
+    dispatch(getLoad({ filters:{}}));
   };
   const handleFilterSubmit = (filters) => {
     const formattedData = {
@@ -26,7 +26,7 @@ const Dashboard = () => {
         : null
     };
     console.log(formattedData);
-    dispatch(getLoad(formattedData));
+    dispatch(getLoad({ filters: formattedData }));
     dispatch(setFilters(formattedData))
     
   };
