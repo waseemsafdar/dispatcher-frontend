@@ -9,11 +9,11 @@ export const fetchPartner = createAsyncThunk('partners/fetchPartner', async (cre
   return response;
 });
 export const fetchPartnerById = createAsyncThunk('partner/fetchById', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/partners/${id}`,{ withCredentials: true }); 
+  const response = await axios.get(`http://18.222.6.154:5000/partners/${id}`,{ withCredentials: true }); 
   return response.data; 
 });
 export const getpartners = createAsyncThunk('partners/getAll', async () => {
-  const response = await axios.get('http://18.118.168.39:5000/partners', {withCredentials: true});
+  const response = await axios.get('http://18.222.6.154:5000/partners', {withCredentials: true});
   return response.data;
 });
 export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (credentials) => {
@@ -22,7 +22,7 @@ export const fetchTrailer = createAsyncThunk('trailer/fetchTrailer', async (cred
 });
 
 export const fetchDispatchers = createAsyncThunk('dispatchers/fetchDispatchers', async () => {
-  const response = await axios.get('http://18.118.168.39:5000/dispatchers',{
+  const response = await axios.get('http://18.222.6.154:5000/dispatchers',{
     headers: {
       'Content-Type': 'application/json',
     }
@@ -38,7 +38,7 @@ export const updatePartnerById = createAsyncThunk(
   async ({ id, values }) => {
     try {
       const response = await axios.put(
-        `http://18.118.168.39:5000/partners/${id}`, // URL with ID
+        `http://18.222.6.154:5000/partners/${id}`, // URL with ID
         JSON.stringify(values), // JSON payload
         {
           headers: {

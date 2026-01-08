@@ -4,17 +4,17 @@ import axios from 'axios';
 
 // Async thunk for saving user data
 export const saveUser = createAsyncThunk('users/saveUser', async (userData) => {
-  const response = await axios.post('http://18.118.168.39:5000/users/', userData);
+  const response = await axios.post('http://18.222.6.154:5000/users/', userData);
   return response.data;
 });
 
 export const getUsers = createAsyncThunk('users/', async () => {
-  const response = await axios.get('http://18.118.168.39:5000/users');
+  const response = await axios.get('http://18.222.6.154:5000/users');
   return response.data;
 });
 
 export const fetchUserById = createAsyncThunk('users/fetchById', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/users/${id}`); 
+  const response = await axios.get(`http://18.222.6.154:5000/users/${id}`); 
   return response.data; 
 });
 
@@ -23,7 +23,7 @@ export const updateUserById = createAsyncThunk(
   async ({ id, values }) => {
     try {
       const response = await axios.put(
-        `http://18.118.168.39:5000/users/${id}`, // URL with ID
+        `http://18.222.6.154:5000/users/${id}`, // URL with ID
         JSON.stringify(values), // JSON payload
         {
           headers: {

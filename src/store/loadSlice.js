@@ -5,12 +5,12 @@ import RecommendedLoadForm from '../views/dashboard/components/RecommendedLoadFo
 
 // Async thunk for saving load data
 export const saveLoad = createAsyncThunk('load/saveLoad', async (loadData) => {
-  const response = await axios.post('http://18.118.168.39:5000/load', loadData);
+  const response = await axios.post('http://18.222.6.154:5000/load', loadData);
   return response.data;
 });
 
 export const saveUserFilters = createAsyncThunk('load/saveUserFilters', async (filtersData) => {
-  const response = await axios.post('http://18.118.168.39:5000/create_filter', filtersData, {
+  const response = await axios.post('http://18.222.6.154:5000/create_filter', filtersData, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -28,7 +28,7 @@ export const getRecomendedLoads = createAsyncThunk('load/getRecomendedLoads', as
   }, {});
 
   const params = new URLSearchParams(cleanedFilters).toString();
-  const response = await axios.get(`http://18.118.168.39:5000/rec_loads?${params}`);
+  const response = await axios.get(`http://18.222.6.154:5000/rec_loads?${params}`);
   return response.data;
 });
 
@@ -48,13 +48,13 @@ export const getLoad = createAsyncThunk(
     cleanedFilters.page = page;
 
     const params = new URLSearchParams(cleanedFilters).toString();
-    const response = await axios.get(`http://18.118.168.39:5000/load?${params}`);
+    const response = await axios.get(`http://18.222.6.154:5000/load?${params}`);
     return response.data;
   }
 );
 
 export const updateLoad = createAsyncThunk('load/updateLoad', async ({ id, loadData }) => {
-  const response = await axios.put(`http://18.118.168.39:5000/load/${id}`, JSON.stringify(loadData), {
+  const response = await axios.put(`http://18.222.6.154:5000/load/${id}`, JSON.stringify(loadData), {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -66,7 +66,7 @@ export const updateDeliveryStatus = createAsyncThunk(
   'delivery/updateStatus',
   async ({ deliveryId, onTime }) => {
     const response = await axios.put(
-      `http://18.118.168.39:5000/delivery_status/${deliveryId}`,
+      `http://18.222.6.154:5000/delivery_status/${deliveryId}`,
       JSON.stringify({ stop_status: onTime }),
       {
         headers: {
@@ -79,38 +79,38 @@ export const updateDeliveryStatus = createAsyncThunk(
 );
 
 export const restLoad = createAsyncThunk('load/resetload', async ({ id }) => {
-  const response = await axios.put(`http://18.118.168.39:5000/reset_load/${id}`);
+  const response = await axios.put(`http://18.222.6.154:5000/reset_load/${id}`);
   return response.data;
 });
 
 // export const syncData = createAsyncThunk('load/syncData', async (url) => { 
-//   const response = await axios.get(`http://18.118.168.39:5000/${url}`); 
+//   const response = await axios.get(`http://18.222.6.154:5000/${url}`); 
 //   return response.data; 
 // });
 
 
 export const syncData = createAsyncThunk('load/syncData', async ({ url }) => {
-  const dynamicUrl = `http://18.118.168.39:5000/${url}`;
+  const dynamicUrl = `http://18.222.6.154:5000/${url}`;
   const response = await axios.get(dynamicUrl);
   return response.data;
 });
 
 export const fetchFiltersByUserId = createAsyncThunk('load/fetchFiltersByUserId', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/user_filter/${id}`); 
+  const response = await axios.get(`http://18.222.6.154:5000/user_filter/${id}`); 
   return response.data; 
 });
 
 export const fetchloadById = createAsyncThunk('load/fetchloadById', async (id) => { 
-  const response = await axios.get(`http://18.118.168.39:5000/load/${id}`); 
+  const response = await axios.get(`http://18.222.6.154:5000/load/${id}`); 
   return response.data; 
 });
 export const deleteLoadById = createAsyncThunk('load/deleteLoadById', async (id) => { 
-  const response = await axios.delete(`http://18.118.168.39:5000/load/${id}`); 
+  const response = await axios.delete(`http://18.222.6.154:5000/load/${id}`); 
   return response.data; 
 });
 
 export const deleteSavedFilterById = createAsyncThunk('load/deleteSavedFilterById', async (id) => { 
-  const response = await axios.delete(`http://18.118.168.39:5000/remove_filter/${id}`); 
+  const response = await axios.delete(`http://18.222.6.154:5000/remove_filter/${id}`); 
   return response.data; 
 });
 
